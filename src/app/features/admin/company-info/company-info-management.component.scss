@@ -1,0 +1,108 @@
+    .company-management-page {
+      background-color: transparent;
+    }
+
+    .page-heading {
+      margin-bottom: 24px;
+
+      h2 {
+        font-size: 1.8rem;
+        color: var(--secondary-color);
+      }
+    }
+
+    .alert {
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background-color: #ecfdf5;
+      color: var(--success-color);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .alert-danger {
+      background-color: #fef2f2;
+      color: var(--danger-color);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* Tabs Layout */
+    .tabs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .tabs-header {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--border-color);
+      overflow-x: auto;
+
+      .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 12px 20px;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+
+        &:hover {
+          color: var(--primary-color);
+        }
+
+        &.active {
+          color: var(--primary-color);
+          border-bottom-color: var(--primary-color);
+        }
+      }
+    }
+
+    .tabs-body {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-top: none;
+      padding: 32px;
+    }
+
+    .tab-pane {
+      h3 {
+        font-size: 1.25rem;
+        color: var(--secondary-color);
+        margin-bottom: 6px;
+      }
+
+      .tab-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+    }
+
+    .actions-bar {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .mt-3 {
+      margin-top: 12px;
+    }
+
+    .mt-4 {
+      margin-top: 24px;
+    }
+
+    .py-5 {
+      padding: 48px 0;
+    }
+  

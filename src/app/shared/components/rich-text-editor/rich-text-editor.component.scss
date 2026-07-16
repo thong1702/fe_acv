@@ -1,0 +1,71 @@
+    .editor-container {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+
+      button {
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: var(--text-main);
+        font-family: var(--font-primary);
+        font-size: 0.9rem;
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-weight: 600;
+
+        &:hover {
+          background: #e2e8f0;
+          color: var(--primary-color);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .separator {
+        width: 1px;
+        height: 20px;
+        background: var(--border-color);
+        margin: 0 4px;
+      }
+    }
+
+    .editor-content {
+      flex: 1;
+      padding: 16px;
+      outline: none;
+      min-height: 200px;
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      overflow-y: auto;
+
+      &:empty:before {
+        content: attr(placeholder);
+        color: var(--text-muted);
+        opacity: 0.6;
+        cursor: text;
+      }
+    }
+  

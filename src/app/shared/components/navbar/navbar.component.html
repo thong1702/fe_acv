@@ -1,0 +1,50 @@
+    <nav class="navbar" [class.scrolled]="scrolled">
+      <div class="navbar-container">
+        <!-- Logo ACV -->
+        <a routerLink="/" class="navbar-logo">
+          <img src="/logo.png" alt="ACV Logo" class="logo-img">
+        </a>
+
+        <!-- Hamburger Icon for Mobile -->
+        <button class="mobile-toggle" (click)="toggleMenu()" aria-label="Toggle navigation">
+          <span class="bar" [class.open]="isMenuOpen"></span>
+          <span class="bar" [class.open]="isMenuOpen"></span>
+          <span class="bar" [class.open]="isMenuOpen"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links" [class.active]="isMenuOpen">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Trang
+            Chủ</a>
+          <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">Giới Thiệu</a>
+          <a routerLink="/posts" routerLinkActive="active" (click)="closeMenu()">Tin Tức & Hoạt Động</a>
+          <a routerLink="/documents" routerLinkActive="active" (click)="closeMenu()">Văn Bản Pháp Luật</a>
+
+          <div class="nav-actions">
+            @if (authService.isLoggedIn()) {
+              <a routerLink="/admin/dashboard" class="nav-btn admin-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                 Admin
+              </a>
+              <button (click)="logout()" class="nav-btn logout-btn">Đăng Xuất</button>
+            } @else {
+              <!-- Login btn styled specifically for light navbar -->
+              <a routerLink="/admin/login" class="nav-btn login-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Đăng Nhập
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    </nav>
+  

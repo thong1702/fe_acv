@@ -1,0 +1,128 @@
+    <footer class="footer">
+      <!-- Top wave decoration -->
+      <div class="footer-top-bar"></div>
+
+      <div class="footer-main">
+        <div class="container">
+          <div class="footer-grid">
+            <!-- Brand Column -->
+            <div class="footer-col brand-col">
+              <a routerLink="/" class="footer-logo">
+                <img src="/logo.png" alt="ACV Logo" class="logo-img">
+              </a>
+              <p class="brand-tagline">Cổng thông tin và quản trị nội dung chính thức của ACV. Tiên phong phát triển bền
+                vững từ năm 2011.</p>
+              <div class="social-links">
+                <a href="#" class="social-btn" title="LinkedIn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                </a>
+                <a href="#" class="social-btn" title="Facebook">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+                <a href="#" class="social-btn" title="YouTube">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95 29 29 0 0 0 .46-5.34 29 29 0 0 0-.46-5.33z"/>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Links Column -->
+            <div class="footer-col">
+              <h4>Liên Kết Nhanh</h4>
+              <ul class="footer-links">
+                <li><a routerLink="/">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  Trang Chủ
+                </a></li>
+                <li><a routerLink="/about">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  Giới Thiệu
+                </a></li>
+                <li><a routerLink="/posts">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  Tin Tức & Hoạt Động
+                </a></li>
+                <li><a routerLink="/documents">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  Văn Bản Pháp Luật
+                </a></li>
+                <li><a routerLink="/admin/login">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  Đăng Nhập Quản Trị
+                </a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Column -->
+            <div class="footer-col">
+              <h4>Thông Tin Liên Hệ</h4>
+                            <div class="contact-html">
+                @if (companyInfo?.contactInfo) {
+                  <div [innerHTML]="companyInfo?.contactInfo"></div>
+                } @else {
+                  <p>📍 <strong>Trụ sở chính:</strong> Tầng 9, Tòa nhà 3D Center, Số 3 Phố Duy Tân, Phường Dịch Vọng Hậu, Quận Cầu Giấy, TP. Hà Nội</p>
+                  <p>📍 <strong>Văn phòng GD:</strong> Tầng 7, Tòa nhà Hoa Đăng, 290 Nguyễn Trãi, Phường Đại Mỗ, Quận Nam Từ Liêm, TP. Hà Nội</p>
+                  <p>📞 <strong>Hotline:</strong> 0986.882.868</p>
+                  <p>✉️ <strong>Email:</strong> acvvaluation&#64;gmail.com | info&#64;acv.vn</p>
+                }
+              </div>
+            </div>
+
+            <!-- Stats Column -->
+            <div class="footer-col">
+              <h4>Con Số Nổi Bật</h4>
+              <div class="footer-stats">
+                <div class="fstat">
+                  <span class="fstat-num">15+</span>
+                  <span class="fstat-label">Năm kinh nghiệm</span>
+                </div>
+                <div class="fstat">
+                  <span class="fstat-num">50+</span>
+                  <span class="fstat-label">Chuyên gia</span>
+                </div>
+                <div class="fstat">
+                  <span class="fstat-num">500+</span>
+                  <span class="fstat-label">Dự án</span>
+                </div>
+                <div class="fstat">
+                  <span class="fstat-num">98%</span>
+                  <span class="fstat-label">Hài lòng KH</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© 2011-{{currentYear}} ACV Corporation. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Chính sách bảo mật</a>
+            <span>·</span>
+            <a href="#">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+

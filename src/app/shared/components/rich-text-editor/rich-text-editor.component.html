@@ -1,0 +1,37 @@
+    <div class="editor-container">
+      <div class="editor-toolbar">
+        <button type="button" (click)="execCommand('bold')" title="Bold"><b>B</b></button>
+        <button type="button" (click)="execCommand('italic')" title="Italic"><i>I</i></button>
+        <button type="button" (click)="execCommand('underline')" title="Underline"><u>U</u></button>
+        <button type="button" (click)="execCommand('strikeThrough')" title="Strike Through">
+          <del>S</del>
+        </button>
+
+        <div class="separator"></div>
+
+        <button type="button" (click)="execCommand('formatBlock', 'h2')" title="Heading 1">H1</button>
+        <button type="button" (click)="execCommand('formatBlock', 'h3')" title="Heading 2">H2</button>
+        <button type="button" (click)="execCommand('formatBlock', 'p')" title="Paragraph">P</button>
+
+        <div class="separator"></div>
+
+        <button type="button" (click)="execCommand('insertOrderedList')" title="Ordered List">1.</button>
+        <button type="button" (click)="execCommand('insertUnorderedList')" title="Bullet List">•</button>
+
+        <div class="separator"></div>
+
+        <button type="button" (click)="addLink()" title="Insert Link">🔗</button>
+        <button type="button" (click)="addImage()" title="Insert Image Link">🖼️</button>
+        <button type="button" (click)="execCommand('removeFormat')" title="Clear Formatting">⌫</button>
+      </div>
+
+      <div
+        #editorContent
+        class="editor-content"
+        contenteditable="true"
+        (input)="onInput()"
+        (blur)="onBlur()"
+        placeholder="Nhập nội dung ở đây...">
+      </div>
+    </div>
+  

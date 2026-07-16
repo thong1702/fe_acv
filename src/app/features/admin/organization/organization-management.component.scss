@@ -1,0 +1,133 @@
+    .organization-page {
+      background-color: transparent;
+    }
+
+    .member-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .member-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(43, 95, 151, 0.15);
+      background-color: #f1f5f9;
+    }
+
+    .member-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .member-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+    }
+
+    .member-order {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .badge-role {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      background-color: var(--primary-light);
+      border: 1px solid rgba(43, 95, 151, 0.12);
+    }
+
+    .parent-reference {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .contact-text {
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Avatar Uploader */
+    .avatar-uploader {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+    }
+
+    .upload-preview {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      background-color: #f1f5f9;
+    }
+
+    .uploader-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-control-file {
+      font-size: 0.85rem;
+    }
+
+    .upload-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .uploading-text {
+      font-size: 0.8rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .flex-1 {
+      flex: 1;
+    }
+
+    .modal-medium {
+      max-width: 650px !important;
+    }
+  

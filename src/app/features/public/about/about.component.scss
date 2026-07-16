@@ -1,0 +1,660 @@
+    .about-page {
+      background-color: transparent;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 40px 0;
+    }
+
+    .page-header h1 {
+      color: white;
+      font-size: 2rem;
+      margin-top: 10px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      font-size: 0.85rem;
+      gap: 8px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .breadcrumbs a {
+      color: white;
+    }
+
+    .breadcrumbs li:not(:last-child)::after {
+      content: '/';
+      margin-left: 8px;
+    }
+
+    .container-narrow { max-width: 800px; }
+    .bg-white { background-color: white; }
+    .bg-light { background-color: var(--bg-main); }
+    .mt-4 { margin-top: 24px; }
+
+    .section-title {
+      font-size: 1.8rem;
+      position: relative;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+      color: var(--secondary-color);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 60px; height: 3px;
+      background-color: var(--primary-color);
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      margin-top: 4px;
+    }
+
+    .rich-content {
+      line-height: 1.85;
+      font-size: 1.02rem;
+      color: #334155;
+    }
+
+    .rich-content p {
+      margin-bottom: 16px;
+      text-align: justify;
+      text-indent: 1.5em;
+    }
+
+    .rich-content ul, .rich-content ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .rich-content li {
+      margin-bottom: 8px;
+    }
+
+    .rich-content h3 {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      margin-bottom: 16px;
+      color: var(--secondary-color);
+    }
+
+    /* ── Org section ── */
+    .org-section {
+      background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+    }
+
+    .org-loading, .org-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 60px 0;
+      color: var(--text-muted);
+    }
+
+    .org-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(43,95,151,0.15);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Structural Tree layout ── */
+    .org-tree-container {
+      width: 100%;
+      overflow: visible;
+      padding: 36px 0;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1024px) {
+      .org-tree-container {
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    }
+
+    .org-tree-container::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .org-tree-container::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+    .org-tree-container::-webkit-scrollbar-thumb {
+      background: rgba(43, 95, 151, 0.2);
+      border-radius: 8px;
+    }
+    .org-tree-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(43, 95, 151, 0.4);
+    }
+
+    .org-structure-root {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 100%;
+      margin: 0;
+    }
+
+    .struct-level {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* ── Card Styling ── */
+    .struct-card {
+      position: relative;
+      background: white;
+      border: 1px solid rgba(43, 95, 151, 0.15);
+      border-radius: 12px;
+      padding: 26px 16px 14px 16px; /* Space for overlapping icon */
+      box-shadow: 0 4px 12px rgba(43, 95, 151, 0.05);
+      width: 240px;
+      min-height: 110px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Overlapping Top Icon */
+    .card-icon {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(43, 95, 151, 0.18);
+      transition: all 0.3s ease;
+    }
+    .card-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .card-body h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+      color: var(--secondary-color);
+      letter-spacing: 0.3px;
+    }
+    .card-body p {
+      font-size: 0.68rem;
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Hover States */
+    .struct-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(43, 95, 151, 0.12);
+      z-index: 100;
+    }
+    .struct-card:hover .card-icon {
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 4px 10px rgba(43, 95, 151, 0.25);
+    }
+
+    /* ── Special Card Types ── */
+    /* Dark card: Hội đồng thành viên */
+    .struct-card.dark-card {
+      background: #0a2540;
+      border-color: #0a2540;
+      color: white;
+    }
+    .struct-card.dark-card h3 {
+      color: white;
+    }
+    .struct-card.dark-card p {
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .struct-card.dark-card .card-icon {
+      background: #081d33;
+    }
+    .struct-card.dark-card:hover {
+      background: #0f345c;
+    }
+
+    /* Primary card: Ban giám đốc */
+    .struct-card.primary-card {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+    .struct-card.primary-card h3 {
+      color: white;
+    }
+    .struct-card.primary-card p {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .struct-card.primary-card .card-icon {
+      background: #1d5082;
+    }
+    .struct-card.primary-card:hover {
+      background: #3677ba;
+    }
+
+    /* Side boards: Ban kiểm soát, Ban cố vấn */
+    .struct-card.side-card {
+      border: 2px solid var(--primary-color);
+      background: white;
+    }
+    .struct-card.side-card .card-icon.outline-icon {
+      background: white;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+    }
+    .struct-card.side-card:hover {
+      border-color: #3677ba;
+    }
+
+    /* Department cards: Level 2 */
+    .struct-card.dept-card {
+      width: 190px;
+      min-height: 120px;
+      padding-top: 24px;
+    }
+    .struct-card.dept-card .card-icon.dept-icon {
+      background: white;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      width: 32px;
+      height: 32px;
+    }
+    .struct-card.dept-card .card-icon.dept-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+    .struct-card.dept-card:hover {
+      border-color: var(--primary-color);
+    }
+
+    /* ── Hover Tooltip CSS ── */
+    .dept-tooltip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(43, 95, 151, 0.15);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(43, 95, 151, 0.15);
+      width: 320px;
+      z-index: 50;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(10px);
+      text-align: left;
+    }
+
+    /* Invisible bridge to prevent mouseleave when moving cursor between card and tooltip */
+    .dept-tooltip::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 24px;
+      top: 100%;
+      background: transparent;
+    }
+
+    /* Position level-0 and level-1 tooltips below the card to prevent top clipping */
+    .level-0 .dept-tooltip,
+    .level-1 .dept-tooltip {
+      bottom: auto;
+      top: calc(100% + 12px);
+      transform: translateX(-50%) translateY(-10px) scale(0.95);
+    }
+    .level-0 .dept-tooltip::after,
+    .level-1 .dept-tooltip::after {
+      top: auto;
+      bottom: 100%;
+    }
+
+    .struct-card:hover .dept-tooltip {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .level-0 .struct-card:hover .dept-tooltip,
+    .level-1 .struct-card:hover .dept-tooltip {
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .tooltip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(43, 95, 151, 0.08);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tooltip-header span {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--secondary-color);
+      letter-spacing: 0.5px;
+    }
+
+    .emp-count-badge {
+      background: rgba(43, 95, 151, 0.08);
+      color: var(--primary-color);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .tooltip-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    
+    .tooltip-content::-webkit-scrollbar {
+      width: 4px;
+    }
+    .tooltip-content::-webkit-scrollbar-thumb {
+      background: rgba(43, 95, 151, 0.15);
+      border-radius: 4px;
+    }
+
+    .empty-employees {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .tooltip-emp-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .tooltip-emp-item:hover {
+      background: rgba(43, 95, 151, 0.04);
+    }
+
+    .tooltip-emp-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(43, 95, 151, 0.15);
+      flex-shrink: 0;
+    }
+
+    .tooltip-emp-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .emp-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .emp-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .emp-position-badge {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      background: rgba(43, 95, 151, 0.06);
+      padding: 1px 6px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .emp-contact-row {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .emp-email, .emp-phone {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* ── Connector Lines ── */
+    .vertical-connector-line {
+      width: 2px;
+      height: 32px;
+      background: rgba(43, 95, 151, 0.2);
+    }
+
+    .level-1-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+    .dashed-connector-line {
+      width: 36px;
+      height: 2px;
+      border-top: 2px dashed rgba(43, 95, 151, 0.4);
+    }
+
+    .level-2-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+      padding-top: 24px;
+      width: 100%;
+    }
+
+    .child-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Vertical line segment going up to meet horizontal line */
+    .child-column::before {
+      content: '';
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      width: 2px;
+      height: 24px;
+      background: rgba(43, 95, 151, 0.2);
+      transform: translateX(-50%);
+    }
+
+    /* Horizontal branch lines connecting the departments */
+    .child-column::after {
+      content: '';
+      position: absolute;
+      top: -24px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(43, 95, 151, 0.2);
+    }
+    .child-column:first-child::after {
+      left: 50%;
+    }
+    .child-column:last-child::after {
+      right: 50%;
+    }
+
+    /* ── Legend box (Ghi chú) ── */
+    .org-legend-box {
+      margin-top: 32px;
+      background: white;
+      border: 1px solid rgba(43, 95, 151, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(43, 95, 151, 0.03);
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .legend-row {
+      display: flex;
+      width: 100%;
+    }
+    .legend-row.lines-row {
+      justify-content: center;
+    }
+    .legend-row.values-row {
+      justify-content: center;
+    }
+
+    .legend-col {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .lines-legend {
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .legend-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--secondary-color);
+      letter-spacing: 0.8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .line-sample {
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+    }
+    .line-sample.solid-sample {
+      background: rgba(43, 95, 151, 0.4);
+    }
+    .line-sample.dashed-sample {
+      border-top: 2px dashed rgba(43, 95, 151, 0.4);
+    }
+
+    .line-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .legend-divider-horizontal {
+      width: 100%;
+      height: 1px;
+      background: rgba(43, 95, 151, 0.08);
+    }
+
+    .values-legend {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .val-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+    }
+
+    .val-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(43, 95, 151, 0.06);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .val-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .val-text h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin: 0 0 2px 0;
+      letter-spacing: 0.3px;
+    }
+    .val-text p {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+  

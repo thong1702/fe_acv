@@ -1,0 +1,89 @@
+    <div class="company-management-page animate-fade">
+      <div class="page-heading">
+        <h2>Quản lý Thông tin Doanh nghiệp</h2>
+        <p class="text-muted">Cập nhật thông tin giới thiệu, lịch sử phát triển, bộ máy tổ chức và liên hệ.</p>
+      </div>
+
+      @if (loading) {
+        <div class="card text-center py-5 text-muted">Đang tải thông tin doanh nghiệp...</div>
+      } @else {
+        <form [formGroup]="infoForm" (ngSubmit)="onSubmit()">
+          @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+          }
+          @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+          }
+
+          <!-- Tabs to switch sections -->
+          <div class="tabs-container">
+            <div class="tabs-header">
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'intro'"
+                (click)="activeTab = 'intro'">
+                🏢 Giới Thiệu Chung
+              </button>
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'history'"
+                (click)="activeTab = 'history'">
+                📜 Lịch Sử Hình Thành
+              </button>
+
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'contact'"
+                (click)="activeTab = 'contact'">
+                📞 Thông Tin Liên Hệ
+              </button>
+            </div>
+
+            <div class="tabs-body card">
+              <!-- Introduction Tab -->
+              <div *ngIf="activeTab === 'intro'" class="tab-pane animate-fade">
+                <h3>Tổng Quan Giới Thiệu</h3>
+                <p class="tab-desc">Nội dung hiển thị tại phần giới thiệu trang chủ và trang chi tiết.</p>
+                <div class="form-group mt-3">
+                  <app-rich-text-editor formControlName="introduction"></app-rich-text-editor>
+                </div>
+              </div>
+
+              <!-- History Tab -->
+              <div *ngIf="activeTab === 'history'" class="tab-pane animate-fade">
+                <h3>Lịch Sử Phát Triển</h3>
+                <p class="tab-desc">Mô tả lịch sử các cột mốc quan trọng của công ty.</p>
+                <div class="form-group mt-3">
+                  <app-rich-text-editor formControlName="history"></app-rich-text-editor>
+                </div>
+              </div>
+
+
+
+              <!-- Contact Info Tab -->
+              <div *ngIf="activeTab === 'contact'" class="tab-pane animate-fade">
+                <h3>Thông Tin Liên Hệ</h3>
+                <p class="tab-desc">Địa chỉ, số điện thoại, email, bản đồ... thông tin hiển thị tại chân trang và trang
+                  liên hệ.</p>
+                <div class="form-group mt-3">
+                  <app-rich-text-editor formControlName="contactInfo"></app-rich-text-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions-bar mt-4">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="infoForm.invalid || saving">
+              {{ saving ? 'Đang Lưu...' : 'Lưu Thay Đổi' }}
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  

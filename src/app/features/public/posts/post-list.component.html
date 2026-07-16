@@ -1,0 +1,83 @@
+    <div class="post-list-page animate-fade">
+      <div class="home-sections-wrapper">
+        <div class="page-header">
+          <div class="container">
+            <ul class="breadcrumbs">
+              <li><a href="/">Trang Chủ</a></li>
+              <li>Tin Tức & Hoạt Động</li>
+            </ul>
+            <h1>Tin Tức & Hoạt Động</h1>
+          </div>
+        </div>
+        <div class="container section-padding">
+          <div class="list-layout">
+            <!-- Filters sidebar -->
+            <div class="filter-sidebar">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tìm kiếm bài viết..."
+                  [(ngModel)]="searchQuery"
+                  (keyup.enter)="onSearch()">
+                <button class="btn btn-primary search-btn" (click)="onSearch()">🔍</button>
+              </div>
+
+              <div class="categories-filter card">
+                <h3>Danh Mục</h3>
+                <ul class="category-list">
+                  <li [class.active]="!selectedCategoryId">
+                    <a (click)="filterByCategory(undefined)">Tất Cả Tin Tức</a>
+                  </li>
+                  @for (cat of categories; track cat.id) {
+                    <li [class.active]="selectedCategoryId === cat.id">
+                      <a (click)="filterByCategory(cat.id)">{{ cat.name }}</a>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+
+            <!-- Posts list grid -->
+            <div class="posts-main">
+              @if (loading) {
+                <div class="text-center py-5 text-muted">Đang tải danh sách bài viết...</div>
+              } @else {
+                <div class="posts-list-grid">
+                  @for (post of posts; track post.id) {
+                    <div class="news-card">
+                      <div class="news-thumbnail">
+                        <img [src]="post.thumbnail || 'https://picsum.photos/seed/default/600/400'" [alt]="post.title">
+                        <span class="news-cat-badge">{{ post.category?.name }}</span>
+                      </div>
+                      <div class="news-body">
+                        <h3 class="news-title"><a [routerLink]="['/posts', post.slug]">{{ post.title }}</a></h3>
+                        <p class="news-summary">{{ post.summary }}</p>
+                        <div class="news-meta">
+                          <span class="meta-views">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle
+                              cx="12" cy="12" r="3"/></svg>
+                            {{ post.viewCount || 0 }}
+                          </span>
+                          <span class="meta-date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  } @empty {
+                    <div class="text-center w-full py-5 text-muted">Chưa có bài viết nào...</div>
+                  }
+                </div>
+
+                <app-pagination
+                  [currentPage]="page"
+                  [totalPages]="totalPages"
+                  (pageChange)="onPageChange($event)">
+                </app-pagination>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  

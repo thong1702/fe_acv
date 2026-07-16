@@ -1,0 +1,231 @@
+    <div class="dashboard animate-fade">
+      <!-- Page Header -->
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">Tổng Quan Hệ Thống</h1>
+          <p class="dash-sub">Chào mừng trở lại, <strong>Nguyễn Admin</strong> 👋 Đây là tóm tắt hoạt động hôm nay.</p>
+        </div>
+        <div class="dash-header-actions">
+          <a routerLink="/admin/posts" class="btn-create">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Tạo bài viết
+          </a>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card" style="--accent: #6366f1; --accent-light: #eef2ff;">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">{{ catCount }}</div>
+            <div class="stat-label">Danh Mục</div>
+          </div>
+          <div class="stat-chart">
+            <div class="mini-bar" style="height:40%"></div>
+            <div class="mini-bar" style="height:60%"></div>
+            <div class="mini-bar" style="height:55%"></div>
+            <div class="mini-bar" style="height:80%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="--accent: #0ea5e9; --accent-light: #f0f9ff;">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">{{ postCount }}</div>
+            <div class="stat-label">Bài Viết</div>
+          </div>
+          <div class="stat-chart">
+            <div class="mini-bar" style="height:50%"></div>
+            <div class="mini-bar" style="height:70%"></div>
+            <div class="mini-bar" style="height:45%"></div>
+            <div class="mini-bar" style="height:90%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="--accent: #10b981; --accent-light: #ecfdf5;">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">{{ docCount }}</div>
+            <div class="stat-label">Văn Bản</div>
+          </div>
+          <div class="stat-chart">
+            <div class="mini-bar" style="height:65%"></div>
+            <div class="mini-bar" style="height:40%"></div>
+            <div class="mini-bar" style="height:80%"></div>
+            <div class="mini-bar" style="height:60%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="--accent: #f59e0b; --accent-light: #fffbeb;">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">{{ userCount }}</div>
+            <div class="stat-label">Người Dùng</div>
+          </div>
+          <div class="stat-chart">
+            <div class="mini-bar" style="height:100%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+            <div class="mini-bar" style="height:80%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+            <div class="mini-bar" style="height:100%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grid -->
+      <div class="dash-grid">
+        <!-- Recent Posts -->
+        <div class="dash-card">
+          <div class="card-head">
+            <div class="card-head-left">
+              <div class="card-icon" style="background: #eef2ff; color: #6366f1;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                </svg>
+              </div>
+              <h3>Bài Viết Mới Nhất</h3>
+            </div>
+            <a routerLink="/admin/posts" class="card-link">Xem tất cả →</a>
+          </div>
+          <div class="post-list">
+            @for (post of recentPosts; track post.id) {
+              <div class="post-row">
+                <div class="post-avatar" [style.background]="getAvatarColor(post.category?.name || '')">
+                  {{ (post.category?.name || 'X')[0] }}
+                </div>
+                <div class="post-meta">
+                  <div class="post-name">{{ post.title }}</div>
+                  <div class="post-info">
+                    <span class="post-cat">{{ post.category?.name }}</span>
+                    <span class="post-views">👁 {{ post.viewCount | number }}</span>
+                  </div>
+                </div>
+                <span class="status-pill" [class.published]="post.status === 'PUBLISHED'"
+                      [class.draft]="post.status === 'DRAFT'">
+                  {{ post.status === 'PUBLISHED' ? 'Đã đăng' : 'Nháp' }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Recent Docs -->
+        <div class="dash-card">
+          <div class="card-head">
+            <div class="card-head-left">
+              <div class="card-icon" style="background: #ecfdf5; color: #10b981;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                </svg>
+              </div>
+              <h3>Văn Bản Mới Tải Lên</h3>
+            </div>
+            <a routerLink="/admin/documents" class="card-link">Xem tất cả →</a>
+          </div>
+          <div class="doc-list">
+            @for (doc of recentDocs; track doc.id) {
+              <div class="doc-row">
+                <div class="doc-type-badge" [class.pdf]="doc.fileType === 'PDF'" [class.docx]="doc.fileType === 'DOCX'">
+                  {{ doc.fileType }}
+                </div>
+                <div class="doc-meta">
+                  <div class="doc-number">{{ doc.docNumber }}</div>
+                  <div class="doc-title">{{ doc.title }}</div>
+                  <div class="doc-size">{{ formatBytes(doc.fileSize) }}</div>
+                </div>
+                <div class="doc-date">{{ doc.createdAt | date:'dd/MM' }}</div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Quick Actions & Notepad -->
+        <div class="dash-card widget-card">
+          <!-- Quick Actions -->
+          <div class="widget-section">
+            <div class="card-head" style="border-bottom: none; padding: 0 0 14px 0;">
+              <div class="card-head-left">
+                <div class="card-icon" style="background: #e0f2fe; color: #0284c7;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                </div>
+                <h3>Lối Tắt Thao Tác</h3>
+              </div>
+            </div>
+            <div class="quick-actions-grid">
+              <a routerLink="/admin/posts" class="action-btn">
+                <span class="action-icon">✍️</span>
+                <span class="action-label">Viết bài mới</span>
+              </a>
+              <a routerLink="/admin/documents" class="action-btn">
+                <span class="action-icon">📄</span>
+                <span class="action-label">Đăng văn bản</span>
+              </a>
+              <a routerLink="/admin/categories" class="action-btn">
+                <span class="action-icon">📂</span>
+                <span class="action-label">Thêm danh mục</span>
+              </a>
+              <a routerLink="/admin/organization" class="action-btn">
+                <span class="action-icon">👥</span>
+                <span class="action-label">Thêm nhân sự</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="widget-divider"></div>
+
+          <!-- Notepad -->
+          <div class="widget-section">
+            <div class="card-head" style="border-bottom: none; padding: 0 0 14px 0;">
+              <div class="card-head-left">
+                <div class="card-icon" style="background: #fef9c3; color: #ca8a04;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3z"/>
+                    <polyline points="14 3 14 9 20 9"/>
+                  </svg>
+                </div>
+                <h3>Ghi Chú Nhắc Việc</h3>
+              </div>
+            </div>
+            <div class="notepad-container">
+              <textarea
+                class="notepad-input"
+                placeholder="Nhập nội dung nhắc việc hoặc lưu ý tại đây... (Tự động lưu lại khi gõ)"
+                [value]="adminNote"
+                (input)="saveNote($event)">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  

@@ -1,0 +1,303 @@
+    <div class="about-page animate-fade">
+      <div class="home-sections-wrapper">
+        <div class="page-header">
+          <div class="container">
+            <ul class="breadcrumbs">
+              <li><a href="/">Trang Chủ</a></li>
+              <li>Giới Thiệu Doanh Nghiệp</li>
+            </ul>
+            <h1>Giới Thiệu Doanh Nghiệp</h1>
+          </div>
+        </div>
+
+        @if (companyInfo) {
+          <!-- Introduction -->
+          <section class="section-padding intro-section bg-white">
+            <div class="container">
+              <h2 class="section-title">Tổng Quan Doanh Nghiệp</h2>
+              <div class="rich-content mt-4" [innerHTML]="companyInfo.introduction"></div>
+            </div>
+          </section>
+
+          <!-- History -->
+          <section class="section-padding bg-light">
+            <div class="container">
+              <h2 class="section-title">Lịch Sử Hình Thành &amp; Phát triển</h2>
+              <div class="rich-content mt-4" [innerHTML]="companyInfo.history"></div>
+            </div>
+          </section>
+        }
+
+        <!-- Organization Tree -->
+        <section class="section-padding bg-white org-section">
+          <div class="container">
+            <h2 class="section-title">Sơ Đồ Cơ Cấu Tổ Chức</h2>
+            <p class="section-sub">Hệ thống quản lý và vận hành chuyên nghiệp được phân cấp rõ ràng</p>
+
+            <div class="org-tree-container">
+                <div class="org-structure-root">
+                  
+                  <!-- LEVEL 0: Hội đồng thành viên -->
+                  @if (getRootNode(); as root) {
+                    <div class="struct-level level-0">
+                      <div class="struct-card dark-card">
+                        <div class="card-icon">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                          </svg>
+                        </div>
+                        <div class="card-body">
+                          <h3>{{ root.name }}</h3>
+                          <p>{{ root.position }}</p>
+                        </div>
+                        <ng-container *ngTemplateOutlet="deptTooltipTemplate; context: { deptId: root.deptId }"></ng-container>
+                      </div>
+                    </div>
+                  }
+
+                  <div class="vertical-connector-line"></div>
+
+                  <!-- LEVEL 1: Ban kiểm soát, Ban giám đốc, Ban cố vấn -->
+                  <div class="struct-level level-1">
+                    <div class="level-1-row">
+                      
+                      <!-- Left: Ban kiểm soát chất lượng -->
+                      @for (node of getSideNodesLeft(); track node.id) {
+                        <div class="struct-card side-card left-side">
+                          <div class="card-icon outline-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                              <polyline points="9 11 11 13 15 9"/>
+                            </svg>
+                          </div>
+                          <div class="card-body">
+                            <h3>{{ node.name }}</h3>
+                            <p>{{ node.position }}</p>
+                          </div>
+                          <ng-container *ngTemplateOutlet="deptTooltipTemplate; context: { deptId: node.deptId }"></ng-container>
+                        </div>
+                      }
+
+                      <div class="dashed-connector-line"></div>
+
+                      <!-- Center: Ban giám đốc -->
+                      @if (getPrimaryNode(); as primary) {
+                        <div class="struct-card primary-card center-card">
+                          <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                              <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                          </div>
+                          <div class="card-body">
+                            <h3>{{ primary.name }}</h3>
+                            <p>{{ primary.position }}</p>
+                          </div>
+                          <ng-container *ngTemplateOutlet="deptTooltipTemplate; context: { deptId: primary.deptId }"></ng-container>
+                        </div>
+                      }
+
+                      <div class="dashed-connector-line"></div>
+
+                      <!-- Right: Ban cố vấn -->
+                      @for (node of getSideNodesRight(); track node.id) {
+                        <div class="struct-card side-card right-side">
+                          <div class="card-icon outline-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                              <circle cx="9" cy="7" r="4"/>
+                              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                          </div>
+                          <div class="card-body">
+                            <h3>{{ node.name }}</h3>
+                            <p>{{ node.position }}</p>
+                          </div>
+                          <ng-container *ngTemplateOutlet="deptTooltipTemplate; context: { deptId: node.deptId }"></ng-container>
+                        </div>
+                      }
+
+                    </div>
+                  </div>
+
+                  <div class="vertical-connector-line"></div>
+
+                  <!-- LEVEL 2: Departments -->
+                  <div class="struct-level level-2">
+                    <div class="level-2-row">
+                      
+                      @for (node of getDeptNodes(); track node.id) {
+                        <div class="child-column">
+                          <div class="struct-card dept-card">
+                            <div class="card-icon dept-icon">
+                              @if (node.id === 'PHONG_KE_TOAN') {
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <line x1="18" y1="20" x2="18" y2="10"/>
+                                  <line x1="12" y1="20" x2="12" y2="4"/>
+                                  <line x1="6" y1="20" x2="6" y2="14"/>
+                                </svg>
+                              } @else if (node.id === 'PHONG_THAM_DINH_GIA_1') {
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                  <polyline points="14 2 14 8 20 8"/>
+                                  <line x1="16" y1="13" x2="8" y2="13"/>
+                                  <line x1="16" y1="17" x2="8" y2="17"/>
+                                </svg>
+                              } @else if (node.id === 'PHONG_THAM_DINH_GIA_2') {
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                  <polyline points="14 2 14 8 20 8"/>
+                                  <circle cx="11.5" cy="14.5" r="2.5"/>
+                                  <line x1="16" y1="19" x2="13.25" y2="16.25"/>
+                                </svg>
+                              } @else if (node.id === 'PHONG_HANH_CHINH_TONG_HOP') {
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                  <circle cx="9" cy="7" r="4"/>
+                                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                              } @else {
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                                  <line x1="9" y1="22" x2="9" y2="16"/>
+                                  <line x1="15" y1="22" x2="15" y2="16"/>
+                                  <line x1="9" y1="16" x2="15" y2="16"/>
+                                </svg>
+                              }
+                            </div>
+                            <div class="card-body">
+                              <h3>{{ node.name }}</h3>
+                              <p>{{ node.position }}</p>
+                            </div>
+                            <ng-container *ngTemplateOutlet="deptTooltipTemplate; context: { deptId: node.deptId }"></ng-container>
+                          </div>
+                        </div>
+                      }
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- LEGEND SECTION OUTSIDE THE SCROLLBAR CONTAINER -->
+              <div class="org-legend-box">
+                <div class="legend-row lines-row">
+                  <div class="legend-col lines-legend">
+                    <span class="legend-title">GHI CHÚ:</span>
+                    <div class="legend-item">
+                      <span class="line-sample solid-sample"></span>
+                      <span class="line-label">Quan hệ chỉ đạo</span>
+                    </div>
+                    <div class="legend-item">
+                      <span class="line-sample dashed-sample"></span>
+                      <span class="line-label">Quan hệ phối hợp / hỗ trợ</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="legend-divider-horizontal"></div>
+
+                <div class="legend-row values-row">
+                  <div class="legend-col values-legend">
+                    
+                    <div class="val-item">
+                      <div class="val-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <circle cx="12" cy="12" r="6"/>
+                          <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                      </div>
+                      <div class="val-text">
+                        <h4>CHUYÊN NGHIỆP</h4>
+                        <p>Hiệu quả trong mọi quy trình</p>
+                      </div>
+                    </div>
+
+                    <div class="val-item">
+                      <div class="val-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                      </div>
+                      <div class="val-text">
+                        <h4>ĐỘC LẬP</h4>
+                        <p>Khách quan trong mọi đánh giá</p>
+                      </div>
+                    </div>
+
+                    <div class="val-item">
+                      <div class="val-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                          <circle cx="8.5" cy="7" r="4"/>
+                          <polyline points="17 11 19 13 23 9"/>
+                        </svg>
+                      </div>
+                      <div class="val-text">
+                        <h4>UY TÍN</h4>
+                        <p>Cam kết chất lượng và bảo mật</p>
+                      </div>
+                    </div>
+
+                    <div class="val-item">
+                      <div class="val-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M23 6l-9.5 9.5-5-5L1 18"/>
+                          <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                      </div>
+                      <div class="val-text">
+                        <h4>HIỆU QUẢ</h4>
+                        <p>Mang lại giá trị bền vững</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- Tooltip Template for Department Personnel List on Hover -->
+            <ng-template #deptTooltipTemplate let-deptId="deptId">
+              <div class="dept-tooltip">
+                <div class="tooltip-header">
+                  <span>NHÂN SỰ BỘ PHẬN</span>
+                  <span class="emp-count-badge">{{ getEmployeesByDept(deptId).length }} nhân sự</span>
+                </div>
+                <div class="tooltip-content">
+                  @if (getEmployeesByDept(deptId).length === 0) {
+                    <div class="empty-employees">Chưa có nhân sự trong bộ phận này</div>
+                  } @else {
+                    @for (emp of getEmployeesByDept(deptId); track emp.id) {
+                      <div class="tooltip-emp-item">
+                        <img [src]="emp.avatarUrl || defaultAvatar" (error)="onAvatarError($event)" class="tooltip-emp-avatar">
+                        <div class="tooltip-emp-info">
+                          <div class="emp-name-row">
+                            <span class="emp-name" [title]="emp.name">{{ emp.name }}</span>
+                            <span class="emp-position-badge">{{ emp.position }}</span>
+                          </div>
+                          @if (emp.email || emp.phone) {
+                            <div class="emp-contact-row">
+                              @if (emp.email) {
+                                <span class="emp-email" [title]="emp.email">{{ emp.email }}</span>
+                              }
+                              @if (emp.email && emp.phone) {
+                                <span> • </span>
+                              }
+                              @if (emp.phone) {
+                                <span class="emp-phone">{{ emp.phone }}</span>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            </ng-template>
+  

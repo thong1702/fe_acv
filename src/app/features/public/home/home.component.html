@@ -1,0 +1,220 @@
+    <div class="home-page animate-fade">
+      <!-- Hero Banner -->
+      <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles">
+          <div class="particle p1"></div>
+          <div class="particle p2"></div>
+          <div class="particle p3"></div>
+          <div class="particle p4"></div>
+        </div>
+        <div class="hero-content container">
+          <span class="hero-badge">
+            <span class="badge-dot"></span>
+            Chào mừng đến với Thẩm định giá ACV
+          </span>
+          <h1>Dịch Vụ Tư Vấn<br><span class="hero-highlight">Thẩm Định Giá</span><br>Chuyên Nghiệp & Tin Cậy</h1>
+          <p>Cung cấp kết quả định giá độc lập, khách quan, chính xác phục vụ thế chấp, liên doanh, mua bán sáp nhập và
+            cổ phần hóa.</p>
+          <div class="hero-stats">
+            <div class="hero-stat"><span class="stat-num">15+</span><span class="stat-label">Năm kinh nghiệm</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="hero-stat"><span class="stat-num">50+</span><span class="stat-label">Chuyên gia</span></div>
+            <div class="stat-divider"></div>
+            <div class="hero-stat"><span class="stat-num">1.200+</span><span class="stat-label">Dự án hoàn thành</span>
+            </div>
+          </div>
+          <div class="hero-buttons">
+            <a routerLink="/about" class="btn-hero-primary">Tìm Hiểu Ngay</a>
+            <a routerLink="/posts" class="btn-hero-outline">Xem Tin Tức</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content sections wrapped in a single container for repeating watermark background -->
+      <div class="home-sections-wrapper">
+        <!-- Company Intro -->
+        @if (companyInfo) {
+          <section class="section-padding intro-section bg-white">
+            <div class="container">
+              <div class="intro-grid">
+                <div class="intro-text">
+                  <span class="sub-title">GIỚI THIỆU CHUNG</span>
+                  <h2>Công ty TNHH Tư vấn và Định giá ACV</h2>
+                  <div class="rich-content" [innerHTML]="companyInfo.introduction"></div>
+                  <a routerLink="/about" class="read-more-link">Xem thêm về chúng tôi →</a>
+                </div>
+                <div class="intro-image-container">
+                  <div class="intro-stats-card">
+                    <div class="isc-item">
+                      <span class="isc-num">15+</span>
+                      <span class="isc-label">Năm phát triển</span>
+                    </div>
+                    <div class="isc-item">
+                      <span class="isc-num">50+</span>
+                      <span class="isc-label">Chuyên gia</span>
+                    </div>
+                    <div class="isc-item">
+                      <span class="isc-num">500+</span>
+                      <span class="isc-label">Dự án</span>
+                    </div>
+                    <div class="isc-item">
+                      <span class="isc-num">98%</span>
+                      <span class="isc-label">Hài lòng KH</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- Business Sectors -->
+        <section class="section-padding sectors-section">
+          <div class="container">
+            <div class="text-center section-header">
+              <span class="sub-title">LĨNH VỰC HOẠT ĐỘNG</span>
+              <h2>Ngành Nghề Kinh Doanh</h2>
+              <p class="section-desc">Các dịch vụ chuyên ngành của ACV đem lại giải pháp toàn diện và tối ưu cho doanh nghiệp</p>
+            </div>
+
+            <div class="special-services-list">
+              @for (service of specializedServices; track service.title; let idx = $index) {
+                <div class="service-row-card" [style.--animation-delay]="idx * 120 + 'ms'">
+                  <!-- Left: Circular Badge -->
+                  <div class="service-circle-badge" [style.background]="service.gradient">
+                    <div class="badge-ring"></div>
+                    <span class="badge-icon">{{ service.icon }}</span>
+                    <h3 class="badge-title">{{ service.title }}</h3>
+                  </div>
+
+                  <!-- Right: Sub-services List -->
+                  <div class="service-items-wrapper">
+                    <ul class="service-items-list">
+                      @for (item of service.items; track item) {
+                        <li class="service-item">
+                          <span class="item-bullet">›</span>
+                          <span class="item-text">{{ item }}</span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- News -->
+        <section class="section-padding news-section bg-white">
+          <div class="container">
+            <div class="flex-between">
+              <div>
+                <span class="sub-title">TIN TỨC MỚI NHẤT</span>
+                <h2>Hoạt Động & Sự Kiện</h2>
+              </div>
+              <a routerLink="/posts" class="btn-outline-primary">Xem Tất Cả</a>
+            </div>
+            <div class="news-grid mt-4">
+              @for (post of latestPosts; track post.id) {
+                <div class="news-card">
+                  <div class="news-thumbnail">
+                    <img [src]="post.thumbnail || 'https://picsum.photos/seed/default/600/400'" [alt]="post.title">
+                    <span class="news-cat-badge">{{ post.category?.name }}</span>
+                  </div>
+                  <div class="news-body">
+                    <h3 class="news-title"><a [routerLink]="['/posts', post.slug]">{{ post.title }}</a></h3>
+                    <p class="news-summary">{{ post.summary }}</p>
+                    <div class="news-meta">
+                      <span class="meta-views">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12"
+                                                                                                              cy="12"
+                                                                                                              r="3"/></svg>
+                        {{ post.viewCount || 0 }}
+                      </span>
+                      <span class="meta-date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                  </div>
+                </div>
+              } @empty {
+                <div class="text-center w-full col-span-3 text-muted">Chưa có tin tức nào...</div>
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- Latest Documents -->
+        <section class="section-padding docs-section">
+          <div class="container">
+            <div class="flex-between">
+              <div>
+                <span class="sub-title">VĂN BẢN MỚI</span>
+                <h2>Văn Bản Pháp Luật</h2>
+              </div>
+              <a routerLink="/documents" class="btn-outline-primary">Tất Cả Văn Bản</a>
+            </div>
+            <div class="docs-table-wrap mt-4">
+              <table class="docs-table">
+                <thead>
+                <tr>
+                  <th style="width: 18%">Số Hiệu</th>
+                  <th>Tiêu Đề</th>
+                  <th style="width: 15%">Ngày Ban Hành</th>
+                  <th style="width: 10%; text-align:center">Loại</th>
+                  <th style="width: 12%; text-align:center">Xem</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (doc of latestDocuments; track doc.id) {
+                    <tr>
+                      <td><span class="doc-number-badge">{{ doc.docNumber }}</span></td>
+                      <td>
+                        <div class="doc-title-text">{{ doc.title }}</div>
+                        @if (doc.description) {
+                          <small class="doc-desc">{{ doc.description }}</small>
+                        }
+                      </td>
+                      <td class="doc-date">{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
+                      <td class="text-center">
+                        <span class="doc-type-badge" [class.pdf]="doc.fileType === 'PDF'"
+                              [class.docx]="doc.fileType === 'DOCX'">
+                          {{ doc.fileType }}
+                        </span>
+                      </td>
+                      <td class="text-center">
+                        <button (click)="previewDocument(doc)" class="btn-view-icon" title="Xem chi tiết">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="5" class="text-center text-muted" style="padding:32px 0">Chưa có văn bản nào...</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Document Preview Modal Overlay -->
+        <div class="preview-modal-overlay" *ngIf="previewUrl" (click)="closePreview()">
+          <div class="preview-modal-container" (click)="$event.stopPropagation()">
+            <div class="preview-modal-header">
+              <h3>{{ previewDocTitle }}</h3>
+              <button class="close-btn" (click)="closePreview()">×</button>
+            </div>
+            <div class="preview-modal-body">
+              <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  

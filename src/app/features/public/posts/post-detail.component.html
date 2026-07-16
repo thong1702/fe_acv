@@ -1,0 +1,52 @@
+    <div class="post-detail-page animate-fade" *ngIf="post">
+      <div class="home-sections-wrapper">
+        <div class="page-header">
+          <div class="container">
+            <ul class="breadcrumbs">
+              <li><a href="/">Trang Chủ</a></li>
+              <li><a href="/posts">Tin Tức & Hoạt Động</a></li>
+              <li>Chi Tiết Bài Viết</li>
+            </ul>
+            <span class="badge badge-primary">{{ post.category?.name }}</span>
+            <h1>{{ post.title }}</h1>
+            <div class="post-meta-header">
+              <span>📅 Đăng ngày: {{ post.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+              <span>👁️ {{ post.viewCount || 0 }} lượt xem</span>
+              <span *ngIf="post.user">👤 Tác giả: {{ post.user.username }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="container section-padding container-narrow">
+          <div class="post-wrapper">
+            <div class="post-thumbnail" *ngIf="post.thumbnail">
+              <img [src]="post.thumbnail" [alt]="post.title">
+            </div>
+
+            <div class="post-summary-box">
+              <p><strong>Tóm tắt:</strong> {{ post.summary }}</p>
+            </div>
+
+            <div class="post-content rich-content" [innerHTML]="post.content"></div>
+
+            <div class="post-footer">
+              <button class="btn btn-secondary btn-sm" (click)="goBack()">← Quay Lại</button>
+              <div class="share-box">
+                <span>Chia sẻ bài viết:</span>
+                <a href="#" class="share-btn">📘 Facebook</a>
+                <a href="#" class="share-btn">🐦 Twitter</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-5 text-center" *ngIf="loading">
+      <div class="text-muted">Đang tải bài viết...</div>
+    </div>
+
+    <div class="container py-5 text-center" *ngIf="!loading && !post">
+      <div class="text-muted">Bài viết không tồn tại hoặc đã bị xóa.</div>
+      <a routerLink="/posts" class="btn btn-primary mt-3">Quay lại danh sách</a>
+    </div>
+  

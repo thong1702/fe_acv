@@ -1,0 +1,27 @@
+    @if (totalPages > 1) {
+      <div class="pagination">
+        <button
+          class="page-btn"
+          [disabled]="currentPage === 0"
+          (click)="onPageChange(currentPage - 1)">
+          ‹ Trước
+        </button>
+
+        @for (page of getPageArray(); track page) {
+          <button
+            class="page-btn"
+            [class.active]="page === currentPage"
+            (click)="onPageChange(page)">
+            {{ page + 1 }}
+          </button>
+        }
+
+        <button
+          class="page-btn"
+          [disabled]="currentPage === totalPages - 1"
+          (click)="onPageChange(currentPage + 1)">
+          Sau ›
+        </button>
+      </div>
+    }
+  

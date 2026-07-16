@@ -1,0 +1,260 @@
+    <div class="document-page animate-fade">
+      <div class="cms-page-header">
+        <div class="page-header-left">
+          <div class="page-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Quản lý Văn Bản Pháp Luật</h1>
+            <p class="page-sub">Tải lên tài liệu PDF/DOCX/XLSX và quản lý siêu dữ liệu ban hành.</p>
+          </div>
+        </div>
+        <button class="btn-add" (click)="openModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Tải lên văn bản mới
+        </button>
+      </div>
+
+      <!-- Filters & Search -->
+      <div class="filter-bar">
+        <div class="filter-left">
+          <div class="search-wrap">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Tìm theo số hiệu, tiêu đề..."
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="loadDocuments()">
+          </div>
+        </div>
+
+        <button class="btn-filter-primary" (click)="loadDocuments()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Tìm kiếm
+        </button>
+      </div>
+
+      <!-- Document Table -->
+      @if (loading) {
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Đang tải dữ liệu...</p>
+        </div>
+      } @else {
+        <div class="data-table-wrap mt-4">
+          <table class="data-table">
+            <thead>
+            <tr>
+              <th style="width: 70px; text-align: center">STT</th>
+              <th style="width: 15%">Số Hiệu</th>
+              <th style="width: 25%">Tiêu Đề</th>
+              <th style="width: 25%">Mô Tả</th>
+              <th style="width: 150px">Ngày Ban Hành</th>
+              <th style="width: 90px">Loại</th>
+              <th style="width: 95px">Dung Lượng</th>
+              <th style="width: 120px; text-align: center">Thao Tác</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (doc of documents; track doc.id; let idx = $index) {
+                <tr>
+                  <td style="text-align: center" class="id-cell">{{ page * size + idx + 1 }}</td>
+                  <td><strong>{{ doc.docNumber }}</strong></td>
+                  <td>
+                    <div class="post-text">
+                      <strong class="post-title-text">{{ doc.title }}</strong>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="text-muted" style="font-size: 0.85rem;">{{ doc.description || 'Không có mô tả' }}</span>
+                  </td>
+                  <td>{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
+                  <td><span class="badge badge-primary">{{ doc.fileType }}</span></td>
+                  <td>{{ formatBytes(doc.fileSize) }}</td>
+                  <td class="actions-cell">
+                    <div class="actions-wrap">
+                      <button class="act-btn view" (click)="previewDocument(doc)" title="Xem trực tuyến">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                      </button>
+                      <button class="act-btn edit" (click)="openEditModal(doc)" title="Sửa văn bản">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                      <button class="act-btn delete" (click)="deleteDocument(doc)" title="Xóa tài liệu">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="empty-state">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5">
+                      <circle cx="11" cy="11" r="8"/>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <p>Chưa có văn bản pháp luật nào</p>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <app-pagination
+          [currentPage]="page"
+          [totalPages]="totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+
+        <!-- Document Preview Modal Overlay -->
+        <div class="preview-modal-overlay" *ngIf="previewUrl" (click)="closePreview()">
+          <div class="preview-modal-container" (click)="$event.stopPropagation()">
+            <div class="preview-modal-header">
+              <h3>{{ previewDocTitle }}</h3>
+              <button class="close-btn" (click)="closePreview()">×</button>
+            </div>
+            <div class="preview-modal-body">
+              <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
+                <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+              </ng-container>
+              <ng-template #docxPreview>
+                <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
+                  <div class="docx-wrapper" style="width: 100%; height: 100%; overflow: auto; background: #f8fafc; padding: 20px; box-sizing: border-box;">
+                    <div *ngIf="docxLoading" class="docx-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+                      <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;"></div>
+                      <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị văn bản Word...</p>
+                    </div>
+                    <div id="docx-container" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; padding: 40px; min-height: 100%; box-sizing: border-box; max-width: 800px; margin: 0 auto;"></div>
+                  </div>
+                </ng-container>
+              </ng-template>
+              <ng-template #noPreview>
+                <div class="no-preview-container">
+                  <div class="no-preview-icon">
+                    <ng-container *ngIf="previewDocType === 'DOC' || previewDocType === 'DOCX'; else checkExcel">
+                      📝
+                    </ng-container>
+                    <ng-template #checkExcel>
+                      <ng-container *ngIf="previewDocType === 'XLS' || previewDocType === 'XLSX'; else checkDefault">
+                        📊
+                      </ng-container>
+                      <ng-template #checkDefault>
+                        📁
+                      </ng-template>
+                    </ng-template>
+                  </div>
+                  <h4 *ngIf="previewDocType === 'DOC'">Không hỗ trợ xem trực tuyến định dạng Word cũ (.DOC)</h4>
+                  <h4 *ngIf="previewDocType !== 'DOC'">Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
+                  
+                  <p *ngIf="previewDocType === 'DOC'">
+                    Tài liệu này sử dụng định dạng Word cũ. Vui lòng chuyển đổi sang định dạng <strong>.DOCX</strong> mới hoặc <strong>.PDF</strong> khi đăng tải để có thể xem trực tuyến trực tiếp trên trình duyệt!
+                  </p>
+                  <p *ngIf="previewDocType !== 'DOC'">
+                    Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.
+                  </p>
+                  
+                  <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
+                    📥 Tải xuống tài liệu ({{ previewDocType }})
+                  </a>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Upload Modal Dialog -->
+      @if (showModal) {
+        <div class="modal-backdrop" (click)="closeModal()">
+          <div class="modal-card modal-medium" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <h3>{{ isEditMode ? 'Cập Nhật Văn Bản' : 'Tải Lên Văn Bản Mới' }}</h3>
+              <button class="close-btn" (click)="closeModal()">×</button>
+            </div>
+
+            <form [formGroup]="docForm" (ngSubmit)="uploadDocument()" class="modal-body">
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="docNumber">Số Hiệu Văn Bản <span class="required">*</span></label>
+                  <input type="text" id="docNumber" formControlName="docNumber" class="form-control"
+                         placeholder="Ví dụ: 12/2026/QĐ-UBND">
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="publishDate">Ngày Ban Hành <span class="required">*</span></label>
+                  <input type="date" id="publishDate" formControlName="publishDate" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="title">Tiêu Đề / Trích Yếu <span class="required">*</span></label>
+                <input type="text" id="title" formControlName="title" class="form-control"
+                       placeholder="Nhập trích yếu tiêu đề văn bản...">
+              </div>
+
+              <div class="form-group">
+                <label for="description">Mô Tả Chi Tiết</label>
+                <textarea id="description" formControlName="description" class="form-control"
+                          rows="3" placeholder="Mô tả tóm tắt nội dung văn bản..."></textarea>
+              </div>
+
+              <!-- File attachment field -->
+              <div class="form-group">
+                <label for="file">
+                  Tệp đính kèm (PDF/DOCX/XLSX) 
+                  @if (!isEditMode) { <span class="required">*</span> }
+                  @else { <span class="text-muted" style="font-weight: normal; font-size: 0.8rem;">(Để trống nếu giữ file cũ)</span> }
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  (change)="onFileSelect($event)"
+                  class="form-control"
+                  accept=".pdf,.docx,.xlsx,.doc,.xls">
+                @if (fileError) {
+                  <small class="error-text">{{ fileError }}</small>
+                }
+              </div>
+
+              <div class="modal-footer mt-4">
+                <button type="button" class="btn-cancel-modal" (click)="closeModal()">Hủy bỏ</button>
+                <button
+                  type="submit"
+                  class="btn-save-modal"
+                  [disabled]="docForm.invalid || (!isEditMode && !selectedFile) || uploading">
+                  {{ uploading ? 'Đang Lưu...' : (isEditMode ? 'Cập Nhật' : 'Tải Lên') }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      }
+    </div>
+  

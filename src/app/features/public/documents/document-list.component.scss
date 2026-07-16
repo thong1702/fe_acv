@@ -1,0 +1,81 @@
+    .document-list-page {
+      background-color: transparent;
+    }
+
+    .page-header {
+      background: radial-gradient(at 0% 0%, #f0f5ff 0px, transparent 50%),
+      radial-gradient(at 100% 100%, #eff6ff 0px, transparent 50%),
+      #ffffff;
+      color: var(--secondary-color);
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border-color);
+
+      h1 {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        margin-top: 10px;
+      }
+    }
+
+    .breadcrumbs {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      font-size: 0.85rem;
+      gap: 8px;
+      color: #94a3b8;
+
+      a {
+        color: var(--accent-color);
+      }
+
+      li:not(:last-child)::after {
+        content: '/';
+        margin-left: 8px;
+      }
+    }
+
+    .cms-filters {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+      width: 400px;
+      max-width: 100%;
+    }
+
+    .input-search {
+      flex: 1;
+    }
+
+    .doc-title {
+      font-weight: 600;
+      color: var(--secondary-color);
+      font-size: 1rem;
+    }
+
+    .doc-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-download {
+      font-weight: 600;
+    }
+
+    .py-5 {
+      padding: 48px 0;
+    }
+  

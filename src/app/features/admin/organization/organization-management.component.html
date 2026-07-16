@@ -1,0 +1,265 @@
+    <div class="organization-page animate-fade">
+      <!-- Page Header -->
+      <div class="cms-page-header">
+        <div class="page-header-left">
+          <div class="page-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <h2>Quản lý Cơ cấu Tổ chức</h2>
+            <p class="text-muted">Quản lý sơ đồ cấp bậc, nhân sự lãnh đạo và phòng ban công ty.</p>
+          </div>
+        </div>
+        <button class="btn-add" (click)="openAddModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Thêm nhân sự mới
+        </button>
+      </div>
+
+      <!-- Filters horizontal bar -->
+      <div class="filter-bar">
+        <div class="filter-left">
+          <!-- Search box -->
+          <div class="search-wrap">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Tìm theo họ tên, chức vụ..."
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="filterNodes()">
+          </div>
+
+          <!-- Department filter -->
+          <div class="filter-select-wrap">
+            <select class="filter-select" [(ngModel)]="filterParentId" (change)="filterNodes()">
+              <option value="">-- Tất cả bộ phận / phòng ban --</option>
+              @for (dept of departments; track dept.id) {
+                <option [value]="dept.deptId">{{ dept.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-filter-primary" (click)="filterNodes()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Tìm kiếm
+        </button>
+      </div>
+
+      <!-- Table Section -->
+      @if (loading) {
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Đang tải danh sách cơ cấu tổ chức...</p>
+        </div>
+      } @else {
+        <div class="data-table-wrap mt-4">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 70px; text-align: center">STT</th>
+                <th>Họ và Tên</th>
+                <th style="width: 180px">Chức vụ cụ thể</th>
+                <th style="width: 200px">Mô tả</th>
+                <th style="width: 180px">Bộ phận / Phòng ban</th>
+                <th style="width: 220px">Liên hệ</th>
+                <th style="width: 120px; text-align: center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (node of paginatedNodes; track node.id; let idx = $index) {
+                <tr>
+                  <td style="text-align: center" class="id-cell">{{ page * size + idx + 1 }}</td>
+                  <td>
+                    <div class="member-profile">
+                      <img 
+                        [src]="node.avatarUrl || defaultAvatar" 
+                        (error)="onAvatarError($event)"
+                        class="member-avatar" 
+                        alt="Avatar">
+                      <div class="member-meta">
+                        <span class="member-name">{{ node.name }}</span>
+                        <span class="member-order">Ưu tiên hiển thị: {{ node.orderIndex }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge-role">{{ node.position }}</span>
+                  </td>
+                  <td>
+                    <div class="contact-text" [title]="node.description || ''">
+                      {{ node.description || '-' }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="parent-reference">
+                      <span class="parent-name">{{ getDepartmentName(node.parentId) }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="contact-details">
+                      @if (node.email) {
+                        <span class="contact-item" [title]="node.email">
+                          ✉️ <span class="contact-text">{{ node.email }}</span>
+                        </span>
+                      }
+                      @if (node.phone) {
+                        <span class="contact-item" [title]="node.phone">
+                          📞 <span class="contact-text">{{ node.phone }}</span>
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  <td class="actions-cell">
+                    <div class="actions-wrap">
+                      <button class="act-btn edit" (click)="openEditModal(node)" title="Chỉnh sửa">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                      <button class="act-btn delete" (click)="deleteNode(node)" title="Xóa">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-5">
+                    Không tìm thấy nhân sự nào khớp với điều kiện lọc.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <app-pagination
+          [currentPage]="page"
+          [totalPages]="totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      }
+
+      <!-- Add/Edit Modal -->
+      @if (showModal) {
+        <div class="modal-backdrop" (click)="closeModal()">
+          <div class="modal-card modal-medium" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <h3>{{ isEditMode ? 'Cập Nhật Nhân Sự' : 'Thêm Nhân Sự Mới' }}</h3>
+              <button class="close-btn" (click)="closeModal()">×</button>
+            </div>
+
+            <form [formGroup]="nodeForm" (ngSubmit)="onSubmit()" class="modal-body">
+              <!-- Name & Position -->
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="name">Họ và Tên <span class="required">*</span></label>
+                  <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ví dụ: Trần Quốc Huy">
+                </div>
+                <div class="form-group flex-1">
+                  <label for="position">Chức vụ / Phòng ban <span class="required">*</span></label>
+                  <input type="text" id="position" formControlName="position" class="form-control" placeholder="Ví dụ: Tổng Giám Đốc">
+                </div>
+              </div>
+
+              <!-- Email & Phone -->
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" formControlName="email" class="form-control" placeholder="example@acv.vn">
+                </div>
+                <div class="form-group flex-1">
+                  <label for="phone">Số điện thoại</label>
+                  <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="Ví dụ: 0986.882.868">
+                </div>
+              </div>
+
+              <!-- Order Index & Department Selection -->
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="orderIndex">Thứ tự hiển thị ưu tiên</label>
+                  <input type="number" id="orderIndex" formControlName="orderIndex" class="form-control" placeholder="Số nhỏ hiển thị trước">
+                </div>
+                <div class="form-group flex-1">
+                  <label for="parentId">Bộ phận / Phòng ban <span class="required">*</span></label>
+                  <select id="parentId" formControlName="parentId" class="form-control">
+                    <option value="">-- Chọn Bộ Phận / Phòng Ban --</option>
+                    @for (dept of departments; track dept.id) {
+                      <option [value]="dept.deptId">{{ dept.name }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="description">Mô tả / Giới thiệu</label>
+                <textarea 
+                  id="description" 
+                  formControlName="description" 
+                  class="form-control" 
+                  rows="2" 
+                  placeholder="Ví dụ: Phụ trách quản lý, kiểm toán thực hành tại chi nhánh miền Nam..."></textarea>
+              </div>
+
+              <!-- Avatar Selection & Preview -->
+              <div class="form-group">
+                <label>Ảnh đại diện</label>
+                <div class="avatar-uploader">
+                  <img 
+                    [src]="avatarPreview || defaultAvatar" 
+                    (error)="onAvatarError($event)"
+                    class="upload-preview" 
+                    alt="Preview">
+                  <div class="uploader-controls">
+                    <input 
+                      type="file" 
+                      id="avatarFile" 
+                      (change)="onAvatarSelect($event)" 
+                      accept="image/*" 
+                      class="form-control-file">
+                    <span class="upload-hint">Chấp nhận JPG, PNG. Dung lượng tối đa 5MB.</span>
+                    @if (uploadingAvatar) {
+                      <span class="uploading-text">⌛ Đang tải lên ảnh...</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer mt-4">
+                <button type="button" class="btn-cancel-modal" (click)="closeModal()">Hủy bỏ</button>
+                <button 
+                  type="submit" 
+                  class="btn-save-modal" 
+                  [disabled]="nodeForm.invalid || saving || uploadingAvatar">
+                  {{ saving ? 'Đang Lưu...' : (isEditMode ? 'Cập Nhật' : 'Tạo Mới') }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      }
+    </div>
+  

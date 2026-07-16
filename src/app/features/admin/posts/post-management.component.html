@@ -1,0 +1,250 @@
+    <div class="posts-page animate-fade">
+      @if (!showForm) {
+        <!-- ===== LIST VIEW ===== -->
+        <div class="cms-page-header">
+          <div class="page-header-left">
+            <div class="page-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <div>
+              <h1>Quản lý Bài Viết</h1>
+              <p class="page-sub">Đăng, sửa đổi tin tức doanh nghiệp và bài viết mô tả lĩnh vực hoạt động.</p>
+            </div>
+          </div>
+          <button class="btn-add" (click)="openForm()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Tạo bài viết mới
+          </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="filter-left">
+            <div class="search-wrap">
+              <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Tìm kiếm bài viết..."
+                [(ngModel)]="searchQuery"
+                (keyup.enter)="loadPosts()">
+            </div>
+
+            <select class="filter-select" [(ngModel)]="filterCategoryId" (change)="loadPosts()">
+              <option value="">Tất cả danh mục</option>
+              @for (cat of categories; track cat.id) {
+                <option [value]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+
+            <select class="filter-select" [(ngModel)]="filterStatus" (change)="loadPosts()">
+              <option value="">Tất cả trạng thái</option>
+              <option value="DRAFT">Bản nháp</option>
+              <option value="PUBLISHED">Đã xuất bản</option>
+            </select>
+          </div>
+
+          <button class="btn-filter-primary" (click)="loadPosts()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Tìm kiếm
+          </button>
+        </div>
+
+        <!-- Table -->
+        @if (loading) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+          </div>
+        } @else {
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+              <tr>
+                <th style="width: 70px; text-align: center">STT</th>
+                <th>Tiêu Đề & Slug</th>
+                <th style="width: 160px">Danh Mục</th>
+                <th style="width: 120px">Trạng Thái</th>
+                <th style="width: 100px">Lượt Xem</th>
+                <th style="width: 130px; text-align: center">Thao Tác</th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (post of posts; track post.id; let idx = $index) {
+                  <tr>
+                    <td style="text-align: center" class="id-cell">{{ page * size + idx + 1 }}</td>
+                    <td>
+                      <div class="post-title-cell">
+                        @if (post.thumbnail) {
+                          <div class="post-thumb" [style.background-image]="'url(' + post.thumbnail + ')'"></div>
+                        }
+                        <div class="post-text">
+                          <strong class="post-title-text">{{ post.title }}</strong>
+                          <code class="post-slug">{{ post.slug }}</code>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="cat-tag">{{ post.category?.name }}</span>
+                    </td>
+                    <td>
+                      <span class="status-tag" [class.published]="post.status === 'PUBLISHED'"
+                            [class.draft]="post.status === 'DRAFT'">
+                        <span class="status-dot"></span>
+                        {{ post.status === 'PUBLISHED' ? 'Đã đăng' : 'Nháp' }}
+                      </span>
+                    </td>
+                    <td class="views-cell">
+                      <div class="views-wrap">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" style="opacity:0.5">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <span>{{ post.viewCount | number }}</span>
+                      </div>
+                    </td>
+                    <td class="actions-cell">
+                      <div class="actions-wrap">
+                        <button class="act-btn edit" (click)="openForm(post)" title="Sửa">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                               stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                          </svg>
+                        </button>
+                        <button class="act-btn delete" (click)="deletePost(post)" title="Xóa">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                               stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                            <path d="M10 11v6"/>
+                            <path d="M14 11v6"/>
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                      </svg>
+                      <p>Không tìm thấy bài viết nào</p>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <app-pagination
+            [currentPage]="page"
+            [totalPages]="totalPages"
+            (pageChange)="onPageChange($event)">
+          </app-pagination>
+        }
+      } @else {
+        <!-- ===== FORM VIEW ===== -->
+        <div class="page-header">
+          <div class="page-header-left">
+            <button class="back-btn" (click)="closeForm()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+            </button>
+            <div>
+              <h1>{{ editPostId ? 'Cập Nhật Bài Viết' : 'Tạo Bài Viết Mới' }}</h1>
+              <p class="page-sub">Soạn thảo nội dung, tải ảnh đại diện và đặt trạng thái xuất bản.</p>
+            </div>
+          </div>
+        </div>
+
+        <form [formGroup]="postForm" (ngSubmit)="savePost()" class="post-form">
+          <div class="form-grid">
+            <div class="form-main">
+              <div class="form-card">
+                <div class="form-card-title">Thông tin cơ bản</div>
+                <div class="form-group">
+                  <label for="title">Tiêu Đề Bài Viết *</label>
+                  <input type="text" id="title" formControlName="title" class="form-control"
+                         placeholder="Nhập tiêu đề bài viết..." (input)="onTitleChange()">
+                </div>
+                <div class="form-group">
+                  <label for="slug">SEO Slug * <span class="label-hint">Tự động sinh từ tiêu đề</span></label>
+                  <input type="text" id="slug" formControlName="slug" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="summary">Tóm Tắt Ngắn *</label>
+                  <textarea id="summary" formControlName="summary" class="form-control"
+                            placeholder="Mô tả ngắn hiển thị trên trang danh sách tin tức..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Nội Dung Bài Viết *</label>
+                  <app-rich-text-editor formControlName="content"></app-rich-text-editor>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-sidebar">
+              <div class="form-card">
+                <div class="form-card-title">Xuất Bản</div>
+                <div class="form-group">
+                  <label for="status">Trạng Thái</label>
+                  <select id="status" formControlName="status" class="form-control">
+                    <option value="DRAFT">📝 Bản Nháp</option>
+                    <option value="PUBLISHED">✅ Xuất Bản</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="categoryId">Danh Mục *</label>
+                  <select id="categoryId" formControlName="categoryId" class="form-control">
+                    <option value="">-- Chọn danh mục --</option>
+                    @for (cat of categories; track cat.id) {
+                      <option [value]="cat.id">{{ cat.name }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="thumbnailFile">Ảnh Đại Diện</label>
+                  <input type="file" id="thumbnailFile" (change)="onThumbnailSelected($event)" class="form-control" accept="image/*">
+                  @if (uploadingImage) {
+                    <small class="text-muted">Đang tải ảnh lên...</small>
+                  }
+                  @if (postForm.value.thumbnail) {
+                    <div class="thumb-preview" [style.background-image]="'url(' + postForm.value.thumbnail + ')'" style="margin-top: 10px; width: 100%; height: 150px; background-size: cover; background-position: center; border-radius: 8px; border: 1px solid var(--border-color);"></div>
+                  }
+                </div>
+              </div>
+
+              <div class="form-actions-sticky" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; width: 100%;">
+                <button type="button" class="btn-cancel-modal" (click)="closeForm()">Hủy</button>
+                <button type="submit" class="btn-save-modal" [disabled]="postForm.invalid || uploadingImage">
+                  {{ editPostId ? 'Cập nhật' : 'Tạo bài viết' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      }
+    </div>
+  
