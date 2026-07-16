@@ -1,6 +1,7 @@
 services:
-  - type: static
+  - type: web
     name: fe-acv
+    runtime: static
     buildCommand: npm run build
     publishDir: dist/fe_acv/browser
     routes:
