@@ -1,10 +1,9 @@
 services:
-  - type: web
+  - type: static
     name: fe-acv
-    runtime: static
     buildCommand: npm run build
-    publishPath: dist/fe_acv/browser
+    publishDir: dist/fe_acv/browser
     routes:
       - type: rewrite
-        path: /*
+        source: /*
         destination: /index.html
