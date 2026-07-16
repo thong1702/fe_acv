@@ -47,6 +47,7 @@ export interface DocumentInfo {
   filePath: string;
   fileType: string;
   fileSize: number;
+  originalFileName?: string;
   createdAt?: string;
 }
 

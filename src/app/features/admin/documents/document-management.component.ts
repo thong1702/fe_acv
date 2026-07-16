@@ -49,10 +49,12 @@ export class DocumentManagementComponent implements OnInit {
   uploading = false;
   selectedFile: File | null = null;
   fileError = '';
+  existingFilePath: string | null = null;
+  existingFileName: string | null = null;
 
   docForm = this.fb.group({
     docNumber: ['', Validators.required],
-    publishDate: ['', Validators.required],
+    publishDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/)]],
     title: ['', Validators.required],
     description: ['']
   });
@@ -110,6 +112,8 @@ export class DocumentManagementComponent implements OnInit {
     this.showModal = true;
     this.selectedFile = null;
     this.fileError = '';
+    this.existingFilePath = null;
+    this.existingFileName = null;
     this.docForm.reset({
       docNumber: '',
       publishDate: '',
@@ -124,13 +128,23 @@ export class DocumentManagementComponent implements OnInit {
     this.showModal = true;
     this.selectedFile = null;
     this.fileError = '';
+    this.existingFilePath = doc.filePath || null;
+    this.existingFileName = doc.originalFileName || this.getFileName(doc.filePath, doc.fileType);
     
-    // Format publishDate to yyyy-MM-dd if it exists
+    // Format publishDate from yyyy-MM-dd to dd/MM/yyyy if it exists
     let formattedDate = '';
     if (doc.publishDate) {
-      const dateObj = new Date(doc.publishDate);
-      if (!isNaN(dateObj.getTime())) {
-        formattedDate = dateObj.toISOString().split('T')[0];
+      const parts = doc.publishDate.split('-');
+      if (parts.length === 3) {
+        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      } else {
+        const dateObj = new Date(doc.publishDate);
+        if (!isNaN(dateObj.getTime())) {
+          const day = String(dateObj.getDate()).padStart(2, '0');
+          const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+          const year = dateObj.getFullYear();
+          formattedDate = `${day}/${month}/${year}`;
+        }
       }
     }
     
@@ -147,6 +161,8 @@ export class DocumentManagementComponent implements OnInit {
     this.selectedFile = null;
     this.isEditMode = false;
     this.selectedDocumentId = null;
+    this.existingFilePath = null;
+    this.existingFileName = null;
   }
 
   onFileSelect(event: any): void {
@@ -161,8 +177,8 @@ export class DocumentManagementComponent implements OnInit {
         return;
       }
 
-      if (file.size > 100 * 1024 * 1024) {
-        this.fileError = 'Kích thước file không được vượt quá 100MB.';
+      if (file.size > 10 * 1024 * 1024) {
+        this.fileError = 'Kích thước file không được vượt quá 10MB (giới hạn của Cloudinary).';
         this.selectedFile = null;
         return;
       }
@@ -170,6 +186,23 @@ export class DocumentManagementComponent implements OnInit {
       this.fileError = '';
       this.selectedFile = file;
     }
+  }
+
+  getFileName(path: string | null, fileType?: string): string {
+    if (!path) return '';
+    const parts = path.split('/');
+    let lastPart = parts[parts.length - 1];
+    try {
+      lastPart = decodeURIComponent(lastPart);
+    } catch {
+      // ignore
+    }
+    
+    if (lastPart && !lastPart.includes('.') && fileType) {
+      lastPart = `${lastPart}.${fileType.toLowerCase()}`;
+    }
+    
+    return lastPart;
   }
 
   uploadDocument(): void {
@@ -183,7 +216,18 @@ export class DocumentManagementComponent implements OnInit {
       formData.append('file', this.selectedFile);
     }
     formData.append('docNumber', this.docForm.value.docNumber!);
-    formData.append('publishDate', this.docForm.value.publishDate!);
+    
+    // Convert dd/MM/yyyy to yyyy-MM-dd for Backend compatibility
+    let publishDateVal = this.docForm.value.publishDate || '';
+    let apiPublishDate = '';
+    const dateParts = publishDateVal.split('/');
+    if (dateParts.length === 3) {
+      apiPublishDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    } else {
+      apiPublishDate = publishDateVal;
+    }
+    formData.append('publishDate', apiPublishDate);
+    
     formData.append('title', this.docForm.value.title!);
     formData.append('description', this.docForm.value.description || '');
 
