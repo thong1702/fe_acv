@@ -8,6 +8,7 @@ import {PostService} from '../../../core/services/post.service';
 import {DocumentService} from '../../../core/services/document.service';
 import {Category, CompanyInfo, DocumentInfo, Post} from '../../../core/models/models';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {environment} from '../../../core/constants/environment';
 
 @Component({
   selector: 'app-home',
@@ -109,7 +110,7 @@ export class HomeComponent implements OnInit {
   previewDocument(doc: DocumentInfo): void {
     if (!doc.id) return;
     this.previewDocTitle = doc.title;
-    const rawUrl = `http://localhost:8080/api/documents/download/${doc.id}?inline=true#toolbar=0`;
+    const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0`;
     this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
   }
 

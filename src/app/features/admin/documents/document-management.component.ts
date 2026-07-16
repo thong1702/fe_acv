@@ -8,6 +8,7 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import {AdminCountService} from '../../../core/services/admin-count.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {environment} from '../../../core/constants/environment';
 
 @Component({
   selector: 'app-document-management',
@@ -212,14 +213,14 @@ export class DocumentManagementComponent implements OnInit {
     this.previewDocTitle = doc.title;
     this.previewDocType = doc.fileType ? doc.fileType.toUpperCase() : 'PDF';
     this.previewDocId = doc.id;
-    const rawUrl = `http://localhost:8080/api/documents/download/${doc.id}?inline=true#toolbar=0`;
+    const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0`;
     this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
 
     if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
       this.docxLoading = true;
       this.docxRenderError = false;
 
-      const downloadUrl = `http://localhost:8080/api/documents/download/${doc.id}`;
+      const downloadUrl = `${environment.apiHost}/api/documents/download/${doc.id}`;
       this.http.get(downloadUrl, { responseType: 'blob' }).subscribe({
         next: (blob) => {
           setTimeout(() => {
