@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {catchError, forkJoin, map, of} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {CompanyInfoService} from '../../../core/services/company-info.service';
 import {CategoryService} from '../../../core/services/category.service';
 import {PostService} from '../../../core/services/post.service';
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
   private postService = inject(PostService);
   private docService = inject(DocumentService);
   private sanitizer = inject(DomSanitizer);
+  private http = inject(HttpClient);
 
   companyInfo: CompanyInfo | null = null;
   businessSectors: Category[] = [];
@@ -83,6 +85,10 @@ export class HomeComponent implements OnInit {
 
   previewUrl: SafeResourceUrl | null = null;
   previewDocTitle = '';
+  previewDocType = '';
+  previewDocId: number | null = null;
+  docxLoading = false;
+  docxRenderError = false;
 
   ngOnInit(): void {
     forkJoin({
@@ -110,13 +116,60 @@ export class HomeComponent implements OnInit {
   previewDocument(doc: DocumentInfo): void {
     if (!doc.id) return;
     this.previewDocTitle = doc.title;
+    this.previewDocType = doc.fileType ? doc.fileType.toUpperCase() : 'PDF';
+    this.previewDocId = doc.id;
     const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0`;
     this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
+
+    if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
+      this.docxLoading = true;
+      this.docxRenderError = false;
+
+      const downloadUrl = `${environment.apiHost}/api/documents/download/${doc.id}`;
+      this.http.get(downloadUrl, { responseType: 'blob' }).subscribe({
+        next: (blob) => {
+          setTimeout(() => {
+            const container = document.getElementById('docx-container');
+            if (container) {
+              container.innerHTML = '';
+              import('docx-preview').then(docx => {
+                docx.renderAsync(blob, container)
+                  .then(() => {
+                    this.docxLoading = false;
+                  })
+                  .catch(err => {
+                    console.error('docx-preview rendering error:', err);
+                    this.docxLoading = false;
+                    this.docxRenderError = true;
+                  });
+              }).catch(err => {
+                console.error('docx-preview import error:', err);
+                this.docxLoading = false;
+                this.docxRenderError = true;
+              });
+            } else {
+              console.error('docx-container not found in DOM');
+              this.docxLoading = false;
+              this.docxRenderError = true;
+            }
+          }, 50);
+        },
+        error: (err) => {
+          console.error('Failed to download document blob:', err);
+          this.docxLoading = false;
+          this.docxRenderError = true;
+        }
+      });
+    }
   }
 
   closePreview(): void {
     this.previewUrl = null;
     this.previewDocTitle = '';
+    this.previewDocType = '';
+    this.previewDocId = null;
+    this.docxLoading = false;
+    this.docxRenderError = false;
   }
 
   getDownloadUrl(id: number): string {

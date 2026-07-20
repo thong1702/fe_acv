@@ -56,8 +56,8 @@
                         </span>
                       </td>
                       <td class="text-center">
-                        <button (click)="previewDocument(doc)" class="btn-view-icon" title="Xem chi tiết">
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <button (click)="previewDocument(doc)" class="act-btn view" title="Xem trực tuyến">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                             <circle cx="12" cy="12" r="3"/>
                           </svg>
@@ -79,62 +79,58 @@
               (pageChange)="onPageChange($event)">
             </app-pagination>
 
-            <!-- Document Preview Modal Overlay -->
-            <div class="preview-modal-overlay" *ngIf="previewUrl" (click)="closePreview()">
-              <div class="preview-modal-container" (click)="$event.stopPropagation()">
-                <div class="preview-modal-header">
-                  <h3>{{ previewDocTitle }}</h3>
-                  <button class="close-btn" (click)="closePreview()">×</button>
-                </div>
-                <div class="preview-modal-body">
-                  <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
-                    <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
-                  </ng-container>
-                  <ng-template #docxPreview>
-                    <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
-                      <div class="docx-wrapper" style="width: 100%; height: 100%; overflow: auto; background: #f8fafc; padding: 20px; box-sizing: border-box;">
-                        <div *ngIf="docxLoading" class="docx-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
-                          <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: #2b5f97; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;"></div>
-                          <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị văn bản Word...</p>
-                        </div>
-                        <div id="docx-container" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; padding: 40px; min-height: 100%; box-sizing: border-box; max-width: 800px; margin: 0 auto;"></div>
-                      </div>
-                    </ng-container>
-                  </ng-template>
-                  <ng-template #noPreview>
-                    <div class="no-preview-container">
-                      <div class="no-preview-icon">
-                        <ng-container *ngIf="previewDocType === 'DOC' || previewDocType === 'DOCX'; else checkExcel">
-                          📝
-                        </ng-container>
-                        <ng-template #checkExcel>
-                          <ng-container *ngIf="previewDocType === 'XLS' || previewDocType === 'XLSX'; else checkDefault">
-                            📊
-                          </ng-container>
-                          <ng-template #checkDefault>
-                            📁
-                          </ng-template>
-                        </ng-template>
-                      </div>
-                      <h4 *ngIf="previewDocType === 'DOC'">Không hỗ trợ xem trực tuyến định dạng Word cũ (.DOC)</h4>
-                      <h4 *ngIf="previewDocType !== 'DOC'">Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
-                      
-                      <p *ngIf="previewDocType === 'DOC'">
-                        Tài liệu này sử dụng định dạng Word cũ. Vui lòng chuyển đổi sang định dạng <strong>.DOCX</strong> mới hoặc <strong>.PDF</strong> khi đăng tải để có thể xem trực tuyến trực tiếp trên trình duyệt!
-                      </p>
-                      <p *ngIf="previewDocType !== 'DOC'">
-                        Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.
-                      </p>
-                      
-                      <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
-                        📥 Tải xuống tài liệu ({{ previewDocType }})
-                      </a>
-                    </div>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
           }
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Preview Modal Overlay (Fixed Viewport Center) -->
+    <div class="modal-backdrop" *ngIf="previewUrl" (click)="closePreview()">
+      <div class="modal-card modal-large" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <div class="modal-icon">
+              @if (previewDocType === 'PDF') { 📑 } @else { 📝 }
+            </div>
+            <h3>Xem Trước: {{ previewDocTitle }}</h3>
+          </div>
+          <button class="close-btn" (click)="closePreview()">×</button>
+        </div>
+        <div class="modal-body">
+          <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
+            <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+          </ng-container>
+          <ng-template #docxPreview>
+            <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
+              <div class="docx-render-wrapper" style="width: 100%; height: 100%; overflow: auto; background: #f8fafc; padding: 20px; box-sizing: border-box; flex: 1;">
+                <div *ngIf="docxLoading" class="docx-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+                  <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: #2b5f97; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;"></div>
+                  <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị văn bản Word...</p>
+                </div>
+                <div id="docx-container"></div>
+              </div>
+            </ng-container>
+          </ng-template>
+          <ng-template #noPreview>
+            <div class="no-preview-container">
+              <div class="no-preview-icon">
+                @if (previewDocType === 'DOC') { 📝 }
+                @else if (previewDocType === 'XLS' || previewDocType === 'XLSX') { 📊 }
+                @else { 📁 }
+              </div>
+              @if (previewDocType === 'DOC') {
+                <h4>Không hỗ trợ xem trực tuyến định dạng Word cũ (.DOC)</h4>
+                <p>Tài liệu này sử dụng định dạng Word cũ. Vui lòng chuyển đổi sang định dạng <strong>.DOCX</strong> mới hoặc <strong>.PDF</strong> khi đăng tải để có thể xem trực tuyến trực tiếp trên trình duyệt!</p>
+              } @else {
+                <h4>Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
+                <p>Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.</p>
+              }
+              
+              <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
+                📥 Tải xuống tài liệu ({{ previewDocType }})
+              </a>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

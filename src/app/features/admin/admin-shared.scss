@@ -470,7 +470,7 @@
 /* ===== MODAL ===== */
 .modal-backdrop {
   position: fixed;
-  top: 60px; /* Bắt đầu bên dưới header để không bị che khuất */
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -479,19 +479,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 100000;
   padding: 20px;
 }
 
 .modal-card {
   width: 100%;
   max-width: 550px;
-  max-height: calc(100vh - 100px); /* Bớt 60px header + 40px padding */
+  max-height: calc(100vh - 60px);
   background: white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 24px 64px rgba(15, 23, 42, 0.2);
+  margin: auto;
 
   &.modal-medium {
     max-width: 650px !important;
@@ -499,7 +500,8 @@
 
   &.modal-large {
     max-width: 1000px !important;
-    height: calc(100vh - 100px) !important;
+    height: 85vh !important;
+    max-height: 85vh !important;
   }
 }
 
