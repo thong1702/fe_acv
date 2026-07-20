@@ -467,32 +467,42 @@
   }
 }
 
+/* Fix Stacking Context cho Admin Layout khi mở Modal */
+.admin-shell:has(.modal-backdrop) .admin-main {
+  z-index: 999999 !important;
+}
+
 /* ===== MODAL ===== */
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100000;
-  padding: 20px;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(6px) !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 40px 16px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
 }
 
 .modal-card {
   width: 100%;
   max-width: 550px;
-  max-height: calc(100vh - 60px);
+  max-height: calc(100vh - 80px) !important;
   background: white;
   border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.2);
-  margin: auto;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.3);
+  overflow: hidden !important;
+  margin: 0 auto !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
 
   &.modal-medium {
     max-width: 650px !important;
@@ -500,8 +510,8 @@
 
   &.modal-large {
     max-width: 1000px !important;
-    height: 85vh !important;
-    max-height: 85vh !important;
+    height: calc(100vh - 80px) !important;
+    max-height: calc(100vh - 80px) !important;
   }
 }
 
@@ -509,10 +519,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 16px 24px;
   border-bottom: 1px solid #f1f5f9;
   background: var(--primary-light);
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
 }
 
 .modal-title-group {
@@ -557,9 +567,17 @@
 }
 
 .modal-body {
-  padding: 24px;
-  overflow-y: auto;
-  flex: 1;
+  padding: 24px !important;
+  overflow-y: auto !important;
+  flex: 1 1 auto;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+/* Chỉ dành riêng cho Preview Document Modal */
+.modal-card.modal-large .modal-body,
+.preview-modal-body {
+  padding: 0 !important;
 }
 
 .form-group {
@@ -590,6 +608,7 @@
   color: #0f172a;
   background: #fafbff;
   transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .form-control:focus {
@@ -611,7 +630,7 @@ textarea.form-control {
   border-top: 1px solid #f1f5f9;
   padding: 16px 24px;
   background: #fafbff;
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
 }
 
 .btn-cancel-modal {

@@ -1155,12 +1155,13 @@
   background: rgba(15, 23, 42, 0.45) !important;
   backdrop-filter: blur(6px) !important;
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   justify-content: center !important;
   z-index: 999999 !important;
-  padding: 20px !important;
+  padding: 40px 16px !important;
   box-sizing: border-box !important;
   margin: 0 !important;
+  overflow-y: auto !important;
   animation: fadeIn 0.25s ease-out;
 }
 
@@ -1168,16 +1169,17 @@
 .preview-modal-container {
   width: 100%;
   max-width: 550px;
-  max-height: calc(100vh - 60px);
+  max-height: calc(100vh - 80px) !important;
   background: white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.3);
   overflow: hidden;
-  margin: auto !important;
+  margin: 0 auto !important;
   position: relative !important;
   z-index: 1000000 !important;
+  flex-shrink: 0 !important;
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   &.modal-medium {
@@ -1186,8 +1188,8 @@
 
   &.modal-large {
     max-width: 1000px !important;
-    height: 85vh !important;
-    max-height: 85vh !important;
+    height: calc(100vh - 80px) !important;
+    max-height: calc(100vh - 80px) !important;
   }
 }
 
@@ -1255,9 +1257,9 @@
   }
 }
 
-.modal-body,
+.modal-card.modal-large .modal-body,
 .preview-modal-body {
-  padding: 0;
+  padding: 0 !important;
   background: #f8fafc;
   overflow: hidden;
   display: flex;
