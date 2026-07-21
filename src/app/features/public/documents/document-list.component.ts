@@ -1,13 +1,13 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {Meta, Title, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {HttpClient} from '@angular/common/http';
-import {DocumentService} from '../../../core/services/document.service';
-import {DocumentInfo} from '../../../core/models/models';
-import {PaginationComponent} from '../../../shared/components/pagination/pagination.component';
-import {environment} from '../../../core/constants/environment';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Meta, Title, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
+import { DocumentService } from '../../../core/services/document.service';
+import { DocumentInfo } from '../../../core/models/models';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { environment } from '../../../core/constants/environment';
 
 @Component({
   selector: 'app-document-list',
@@ -43,10 +43,10 @@ export class DocumentListComponent implements OnInit {
   totalElements = 0;
 
   ngOnInit(): void {
-    this.titleService.setTitle('Văn bản pháp luật | Corporate Portal');
+    this.titleService.setTitle('Công ty TNHH Tư vấn và Định giá ACV');
     this.metaService.updateTag({
       name: 'description',
-      content: 'Tra cứu hệ thống văn bản pháp luật, văn bản điều hành, thông báo chính thức ban hành của doanh nghiệp.'
+      content: 'Văn Bản Pháp Luật & Thẩm Định Giá | Công ty TNHH Tư vấn và Định giá ACV.'
     });
 
     // Watch query params

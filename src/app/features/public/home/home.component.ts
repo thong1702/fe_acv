@@ -8,7 +8,7 @@ import {CategoryService} from '../../../core/services/category.service';
 import {PostService} from '../../../core/services/post.service';
 import {DocumentService} from '../../../core/services/document.service';
 import {Category, CompanyInfo, DocumentInfo, Post} from '../../../core/models/models';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Title, Meta, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {environment} from '../../../core/constants/environment';
 
 @Component({
@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
   private docService = inject(DocumentService);
   private sanitizer = inject(DomSanitizer);
   private http = inject(HttpClient);
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
 
   companyInfo: CompanyInfo | null = null;
   businessSectors: Category[] = [];
@@ -91,6 +93,12 @@ export class HomeComponent implements OnInit {
   docxRenderError = false;
 
   ngOnInit(): void {
+    this.titleService.setTitle('Hồ Sơ Năng Lực Thẩm Định Giá | Công ty TNHH Tư vấn và Định giá ACV');
+    this.metaService.updateTag({
+      name: 'description',
+      content: 'Công ty TNHH Tư vấn và Định giá ACV - Đơn vị tư vấn, thẩm định giá tài sản, doanh nghiệp, bất động sản uy tín với hơn 14 năm kinh nghiệm.'
+    });
+
     forkJoin({
       company: this.companyService.getCompanyInfo().pipe(catchError(() => of(null))),
       sectors: this.categoryService.getCategoriesByType('BUSINESS').pipe(map(res => res.content), catchError(() => of([]))),
