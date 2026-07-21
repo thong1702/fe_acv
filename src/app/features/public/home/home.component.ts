@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
   docxRenderError = false;
 
   ngOnInit(): void {
-    this.titleService.setTitle('Hồ Sơ Năng Lực Thẩm Định Giá | Công ty TNHH Tư vấn và Định giá ACV');
+    this.titleService.setTitle('Công ty TNHH Tư vấn và Định giá ACV');
     this.metaService.updateTag({
       name: 'description',
       content: 'Công ty TNHH Tư vấn và Định giá ACV - Đơn vị tư vấn, thẩm định giá tài sản, doanh nghiệp, bất động sản uy tín với hơn 14 năm kinh nghiệm.'
