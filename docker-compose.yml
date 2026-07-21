@@ -1,0 +1,14 @@
+services:
+  fe_acv:
+    build: .
+    container_name: fe_acv
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - acv-network
+
+networks:
+  acv-network:
+    external: true
+    name: acv-network
