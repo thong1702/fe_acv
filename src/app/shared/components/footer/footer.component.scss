@@ -64,21 +64,54 @@
     }
 
     .social-btn {
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 9px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(255, 255, 255, 0.6);
-      transition: all 0.2s;
+      font-weight: 800;
+      font-size: 0.75rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
 
-      &:hover {
-        background: var(--primary-color);
-        color: white;
-        border-color: var(--primary-hover);
+      &.linkedin {
+        color: #ffffff;
+        background: #0a66c2;
+        box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
+        &:hover {
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 20px rgba(10, 102, 194, 0.6);
+        }
+      }
+
+      &.facebook {
+        color: #ffffff;
+        background: #1877f2;
+        box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+        &:hover {
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 20px rgba(24, 119, 242, 0.6);
+        }
+      }
+
+      &.zalo {
+        color: #ffffff;
+        background: #0068ff;
+        box-shadow: 0 4px 12px rgba(0, 104, 255, 0.4);
+        font-family: system-ui, -apple-system, sans-serif;
+        font-weight: 800;
+
+        .zalo-icon-text {
+          font-size: 0.75rem;
+          letter-spacing: -0.3px;
+        }
+
+        &:hover {
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 20px rgba(0, 104, 255, 0.6);
+        }
       }
     }
 

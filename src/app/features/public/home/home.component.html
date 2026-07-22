@@ -1,258 +1,286 @@
-    <div class="home-page animate-fade">
-      <!-- Hero Banner -->
-      <section class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-particles">
-          <div class="particle p1"></div>
-          <div class="particle p2"></div>
-          <div class="particle p3"></div>
-          <div class="particle p4"></div>
+<div class="home-page animate-fade">
+  <!-- Hero Banner -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-particles">
+      <div class="particle p1"></div>
+      <div class="particle p2"></div>
+      <div class="particle p3"></div>
+      <div class="particle p4"></div>
+    </div>
+    <div class="hero-content container">
+      <span class="hero-badge">
+        <span class="badge-dot"></span>
+        Chào mừng đến với Thẩm định giá ACV
+      </span>
+      <h1>Dịch Vụ Tư Vấn<br><span class="hero-highlight">Thẩm Định Giá</span><br>Chuyên Nghiệp & Tin Cậy</h1>
+      <p>Cung cấp kết quả định giá độc lập, khách quan, chính xác phục vụ thế chấp, liên doanh, mua bán sáp nhập và
+        cổ phần hóa.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-num" [appCountUp]="15" suffix="+">15+</span><span
+            class="stat-label">Năm kinh nghiệm</span>
         </div>
-        <div class="hero-content container">
-          <span class="hero-badge">
-            <span class="badge-dot"></span>
-            Chào mừng đến với Thẩm định giá ACV
-          </span>
-          <h1>Dịch Vụ Tư Vấn<br><span class="hero-highlight">Thẩm Định Giá</span><br>Chuyên Nghiệp & Tin Cậy</h1>
-          <p>Cung cấp kết quả định giá độc lập, khách quan, chính xác phục vụ thế chấp, liên doanh, mua bán sáp nhập và
-            cổ phần hóa.</p>
-          <div class="hero-stats">
-            <div class="hero-stat"><span class="stat-num">15+</span><span class="stat-label">Năm kinh nghiệm</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="hero-stat"><span class="stat-num">50+</span><span class="stat-label">Chuyên gia</span></div>
-            <div class="stat-divider"></div>
-            <div class="hero-stat"><span class="stat-num">1.200+</span><span class="stat-label">Dự án hoàn thành</span>
-            </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat"><span class="stat-num" [appCountUp]="50" suffix="+">50+</span><span
+            class="stat-label">Chuyên gia</span></div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat"><span class="stat-num" [appCountUp]="500" suffix="+">500+</span><span
+            class="stat-label">Dự án hoàn thành</span>
+        </div>
+      </div>
+      <div class="hero-buttons">
+        <a routerLink="/about" class="btn-hero-primary">Tìm Hiểu Ngay</a>
+        <a routerLink="/posts" class="btn-hero-outline">Xem Tin Tức</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content sections wrapped in a single container for repeating watermark background -->
+  <div class="home-sections-wrapper">
+    <!-- Company Intro -->
+    @if (companyInfo) {
+    <section class="section-padding intro-section bg-white">
+      <div class="container">
+        <div class="intro-grid">
+          <div class="intro-text">
+            <span class="sub-title">GIỚI THIỆU CHUNG</span>
+            <h2>Công ty TNHH Tư vấn và Định giá ACV</h2>
+            <div class="rich-content" [innerHTML]="companyInfo.introduction"></div>
+            <a routerLink="/about" class="read-more-link">Xem thêm về chúng tôi →</a>
           </div>
-          <div class="hero-buttons">
-            <a routerLink="/about" class="btn-hero-primary">Tìm Hiểu Ngay</a>
-            <a routerLink="/posts" class="btn-hero-outline">Xem Tin Tức</a>
+          <div class="intro-image-container">
+            <div class="intro-stats-card">
+              <div class="isc-item">
+                <span class="isc-num" [appCountUp]="15" suffix="+">15+</span>
+                <span class="isc-label">Năm phát triển</span>
+              </div>
+              <div class="isc-item">
+                <span class="isc-num" [appCountUp]="50" suffix="+">50+</span>
+                <span class="isc-label">Chuyên gia</span>
+              </div>
+              <div class="isc-item">
+                <span class="isc-num" [appCountUp]="500" suffix="+">500+</span>
+                <span class="isc-label">Dự án</span>
+              </div>
+              <div class="isc-item">
+                <span class="isc-num" [appCountUp]="98" suffix="%">98%</span>
+                <span class="isc-label">Hài lòng KH</span>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+    }
 
-      <!-- Content sections wrapped in a single container for repeating watermark background -->
-      <div class="home-sections-wrapper">
-        <!-- Company Intro -->
-        @if (companyInfo) {
-          <section class="section-padding intro-section bg-white">
-            <div class="container">
-              <div class="intro-grid">
-                <div class="intro-text">
-                  <span class="sub-title">GIỚI THIỆU CHUNG</span>
-                  <h2>Công ty TNHH Tư vấn và Định giá ACV</h2>
-                  <div class="rich-content" [innerHTML]="companyInfo.introduction"></div>
-                  <a routerLink="/about" class="read-more-link">Xem thêm về chúng tôi →</a>
-                </div>
-                <div class="intro-image-container">
-                  <div class="intro-stats-card">
-                    <div class="isc-item">
-                      <span class="isc-num">15+</span>
-                      <span class="isc-label">Năm phát triển</span>
-                    </div>
-                    <div class="isc-item">
-                      <span class="isc-num">50+</span>
-                      <span class="isc-label">Chuyên gia</span>
-                    </div>
-                    <div class="isc-item">
-                      <span class="isc-num">500+</span>
-                      <span class="isc-label">Dự án</span>
-                    </div>
-                    <div class="isc-item">
-                      <span class="isc-num">98%</span>
-                      <span class="isc-label">Hài lòng KH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        }
+    <!-- Business Sectors -->
+    <section class="section-padding sectors-section">
+      <div class="container">
+        <div class="text-center section-header">
+          <span class="sub-title">LĨNH VỰC HOẠT ĐỘNG</span>
+          <h2>Ngành Nghề Kinh Doanh</h2>
+          <p class="section-desc">Các dịch vụ chuyên ngành của ACV đem lại giải pháp toàn diện và tối ưu cho doanh
+            nghiệp</p>
+        </div>
 
-        <!-- Business Sectors -->
-        <section class="section-padding sectors-section">
-          <div class="container">
-            <div class="text-center section-header">
-              <span class="sub-title">LĨNH VỰC HOẠT ĐỘNG</span>
-              <h2>Ngành Nghề Kinh Doanh</h2>
-              <p class="section-desc">Các dịch vụ chuyên ngành của ACV đem lại giải pháp toàn diện và tối ưu cho doanh nghiệp</p>
+        <div class="special-services-list">
+          @for (service of specializedServices; track service.title; let idx = $index) {
+          <div class="service-row-card" [style.--animation-delay]="idx * 120 + 'ms'">
+            <!-- Left: Circular Badge -->
+            <div class="service-circle-badge" [style.background]="service.gradient">
+              <div class="badge-ring"></div>
+              <span class="badge-icon">{{ service.icon }}</span>
+              <h3 class="badge-title">{{ service.title }}</h3>
             </div>
 
-            <div class="special-services-list">
-              @for (service of specializedServices; track service.title; let idx = $index) {
-                <div class="service-row-card" [style.--animation-delay]="idx * 120 + 'ms'">
-                  <!-- Left: Circular Badge -->
-                  <div class="service-circle-badge" [style.background]="service.gradient">
-                    <div class="badge-ring"></div>
-                    <span class="badge-icon">{{ service.icon }}</span>
-                    <h3 class="badge-title">{{ service.title }}</h3>
-                  </div>
-
-                  <!-- Right: Sub-services List -->
-                  <div class="service-items-wrapper">
-                    <ul class="service-items-list">
-                      @for (item of service.items; track item) {
-                        <li class="service-item">
-                          <span class="item-bullet">›</span>
-                          <span class="item-text">{{ item }}</span>
-                        </li>
-                      }
-                    </ul>
-                  </div>
-                </div>
-              }
+            <!-- Right: Sub-services List -->
+            <div class="service-items-wrapper">
+              <ul class="service-items-list">
+                @for (item of service.items; track item) {
+                <li class="service-item">
+                  <span class="item-bullet">›</span>
+                  <span class="item-text">{{ item }}</span>
+                </li>
+                }
+              </ul>
             </div>
           </div>
-        </section>
+          }
+        </div>
+      </div>
+    </section>
 
-        <!-- News -->
-        <section class="section-padding news-section bg-white">
-          <div class="container">
-            <div class="flex-between">
-              <div>
-                <span class="sub-title">TIN TỨC MỚI NHẤT</span>
-                <h2>Hoạt Động & Sự Kiện</h2>
-              </div>
-              <a routerLink="/posts" class="btn-outline-primary">Xem Tất Cả</a>
+    <!-- News -->
+    <section class="section-padding news-section bg-white">
+      <div class="container">
+        <div class="flex-between">
+          <div>
+            <span class="sub-title">TIN TỨC MỚI NHẤT</span>
+            <h2>Hoạt Động & Sự Kiện</h2>
+          </div>
+          <a routerLink="/posts" class="btn-outline-primary">Xem Tất Cả</a>
+        </div>
+        <div class="news-grid mt-4">
+          @for (post of latestPosts; track post.id) {
+          <div class="news-card">
+            <div class="news-thumbnail">
+              <img [src]="post.thumbnail || 'https://picsum.photos/seed/default/600/400'" [alt]="post.title">
+              <span class="news-cat-badge">{{ post.category?.name }}</span>
             </div>
-            <div class="news-grid mt-4">
-              @for (post of latestPosts; track post.id) {
-                <div class="news-card">
-                  <div class="news-thumbnail">
-                    <img [src]="post.thumbnail || 'https://picsum.photos/seed/default/600/400'" [alt]="post.title">
-                    <span class="news-cat-badge">{{ post.category?.name }}</span>
-                  </div>
-                  <div class="news-body">
-                    <h3 class="news-title"><a [routerLink]="['/posts', post.slug]">{{ post.title }}</a></h3>
-                    <p class="news-summary">{{ post.summary }}</p>
-                    <div class="news-meta">
-                      <span class="meta-views">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12"
-                                                                                                              cy="12"
-                                                                                                              r="3"/></svg>
-                        {{ post.viewCount || 0 }}
-                      </span>
-                      <span class="meta-date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
-                    </div>
-                  </div>
-                </div>
-              } @empty {
-                <div class="text-center w-full col-span-3 text-muted">Chưa có tin tức nào...</div>
-              }
+            <div class="news-body">
+              <h3 class="news-title"><a [routerLink]="['/posts', post.slug]">{{ post.title }}</a></h3>
+              <p class="news-summary">{{ post.summary }}</p>
+              <div class="news-meta">
+                <span class="meta-views">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  {{ post.viewCount || 0 }}
+                </span>
+                <span class="meta-date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
+              </div>
             </div>
           </div>
-        </section>
+          } @empty {
+          <div class="text-center w-full col-span-3 text-muted">Chưa có tin tức nào...</div>
+          }
+        </div>
+      </div>
+    </section>
 
-        <!-- Latest Documents -->
-        <section class="section-padding docs-section">
-          <div class="container">
-            <div class="flex-between">
-              <div>
-                <span class="sub-title">VĂN BẢN MỚI</span>
-                <h2>Văn Bản Pháp Luật</h2>
-              </div>
-              <a routerLink="/documents" class="btn-outline-primary">Tất Cả Văn Bản</a>
-            </div>
-            <div class="docs-table-wrap mt-4">
-              <table class="docs-table">
-                <thead>
-                <tr>
-                  <th style="width: 18%">Số Hiệu</th>
-                  <th>Tiêu Đề</th>
-                  <th style="width: 15%">Ngày Ban Hành</th>
-                  <th style="width: 10%; text-align:center">Loại</th>
-                  <th style="width: 12%; text-align:center">Xem</th>
-                </tr>
-                </thead>
-                <tbody>
-                  @for (doc of latestDocuments; track doc.id) {
-                    <tr>
-                      <td><span class="doc-number-badge">{{ doc.docNumber }}</span></td>
-                      <td>
-                        <div class="doc-title-text">{{ doc.title }}</div>
-                        @if (doc.description) {
-                          <small class="doc-desc">{{ doc.description }}</small>
-                        }
-                      </td>
-                      <td class="doc-date">{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
-                      <td class="text-center">
-                        <span class="doc-type-badge" [class.pdf]="doc.fileType === 'PDF'"
-                              [class.docx]="doc.fileType === 'DOCX'">
-                          {{ doc.fileType }}
-                        </span>
-                      </td>
-                      <td class="text-center">
-                        <button (click)="previewDocument(doc)" class="act-btn view" title="Xem trực tuyến">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                            <circle cx="12" cy="12" r="3"/>
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  } @empty {
-                    <tr>
-                      <td colspan="5" class="text-center text-muted" style="padding:32px 0">Chưa có văn bản nào...</td>
-                    </tr>
+    <!-- Latest Documents -->
+    <section class="section-padding docs-section">
+      <div class="container">
+        <div class="flex-between">
+          <div>
+            <span class="sub-title">VĂN BẢN MỚI</span>
+            <h2>Văn Bản Pháp Luật</h2>
+          </div>
+          <a routerLink="/documents" class="btn-outline-primary">Tất Cả Văn Bản</a>
+        </div>
+        <div class="docs-table-wrap mt-4">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th style="width: 18%">Số Hiệu</th>
+                <th>Tiêu Đề</th>
+                <th style="width: 15%">Ngày Ban Hành</th>
+                <th style="width: 10%; text-align:center">Loại</th>
+                <th style="width: 12%; text-align:center">Xem</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (doc of latestDocuments; track doc.id) {
+              <tr>
+                <td><span class="doc-number-badge">{{ doc.docNumber }}</span></td>
+                <td>
+                  <div class="doc-title-text">{{ doc.title }}</div>
+                  @if (doc.description) {
+                  <small class="doc-desc">{{ doc.description }}</small>
                   }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- Document Preview Modal Overlay (Fixed Viewport Center) -->
-    <div class="modal-backdrop" *ngIf="previewUrl" (click)="closePreview()">
-      <div class="modal-card modal-large" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <div class="modal-icon">
-              @if (previewDocType === 'PDF') { 📑 } @else { 📝 }
-            </div>
-            <h3>Xem Trước: {{ previewDocTitle }}</h3>
-          </div>
-          <button class="close-btn" (click)="closePreview()">×</button>
-        </div>
-        <div class="modal-body">
-          <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
-            <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
-          </ng-container>
-          <ng-template #docxPreview>
-            <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
-              <div class="docx-render-wrapper" style="width: 100%; height: 100%; overflow: auto; background: #f8fafc; padding: 20px; box-sizing: border-box; flex: 1;">
-                <div *ngIf="docxLoading" class="docx-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
-                  <div class="spinner" style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: #2b5f97; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;"></div>
-                  <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị văn bản Word...</p>
-                </div>
-                <div id="docx-container"></div>
-              </div>
-            </ng-container>
-          </ng-template>
-          <ng-template #noPreview>
-            <div class="no-preview-container">
-              <div class="no-preview-icon">
-                @if (previewDocType === 'DOC') { 📝 }
-                @else if (previewDocType === 'XLS' || previewDocType === 'XLSX') { 📊 }
-                @else { 📁 }
-              </div>
-              @if (previewDocType === 'DOC') {
-                <h4>Không hỗ trợ xem trực tuyến định dạng Word cũ (.DOC)</h4>
-                <p>Tài liệu này sử dụng định dạng Word cũ. Vui lòng chuyển đổi sang định dạng <strong>.DOCX</strong> mới hoặc <strong>.PDF</strong> khi đăng tải để có thể xem trực tuyến trực tiếp trên trình duyệt!</p>
-              } @else {
-                <h4>Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
-                <p>Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.</p>
+                </td>
+                <td class="doc-date">{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
+                <td class="text-center">
+                  <span class="doc-type-badge" [class.pdf]="doc.fileType === 'PDF'"
+                    [class.docx]="doc.fileType === 'DOCX'">
+                    {{ doc.fileType }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <button (click)="previewDocument(doc)" class="act-btn view" title="Xem trực tuyến">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="5" class="text-center text-muted" style="padding:32px 0">Chưa có văn bản nào...</td>
+              </tr>
               }
-              
-              <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
-                📥 Tải xuống tài liệu ({{ previewDocType }})
-              </a>
-            </div>
-          </ng-template>
+            </tbody>
+          </table>
         </div>
       </div>
+    </section>
+  </div>
+</div>
+
+<!-- Document Preview Modal Overlay (Fixed Viewport Center) -->
+<div class="modal-backdrop" *ngIf="previewUrl" (click)="closePreview()">
+  <div class="modal-card modal-large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <div class="modal-icon">
+          @if (previewDocType === 'PDF') {
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          } @else {
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          }
+        </div>
+        <h3>Xem Trước: {{ previewDocTitle }}</h3>
+      </div>
+      <button class="close-btn" (click)="closePreview()">×</button>
     </div>
-  
+    <div class="modal-body">
+      <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
+        <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+      </ng-container>
+      <ng-template #docxPreview>
+        <ng-container
+          *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
+          <div class="docx-render-wrapper"
+            style="width: 100%; height: 100%; overflow: auto; background: #f8fafc; padding: 20px; box-sizing: border-box; flex: 1;">
+            <div *ngIf="docxLoading" class="docx-loading"
+              style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+              <div class="spinner"
+                style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: #2b5f97; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;">
+              </div>
+              <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị văn bản Word...</p>
+            </div>
+            <div id="docx-container"></div>
+          </div>
+        </ng-container>
+      </ng-template>
+      <ng-template #noPreview>
+        <div class="no-preview-container">
+          <div class="no-preview-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          @if (previewDocType === 'DOC') {
+          <h4>Không hỗ trợ xem trực tuyến định dạng Word cũ (.DOC)</h4>
+          <p>Tài liệu này sử dụng định dạng Word cũ. Vui lòng chuyển đổi sang định dạng <strong>.DOCX</strong> mới hoặc
+            <strong>.PDF</strong> khi đăng tải để có thể xem trực tuyến trực tiếp trên trình duyệt!
+          </p>
+          } @else {
+          <h4>Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
+          <p>Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.</p>
+          }
+
+          <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              style="display:inline-block; vertical-align:-2px; margin-right:4px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg> Tải xuống tài liệu ({{ previewDocType }})
+          </a>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -7,14 +7,15 @@ import {CompanyInfoService} from '../../../core/services/company-info.service';
 import {CategoryService} from '../../../core/services/category.service';
 import {PostService} from '../../../core/services/post.service';
 import {DocumentService} from '../../../core/services/document.service';
-import {Category, CompanyInfo, DocumentInfo, Post} from '../../../core/models/models';
-import {Title, Meta, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {environment} from '../../../core/constants/environment';
+import { Category, CompanyInfo, DocumentInfo, Post } from '../../../core/models/models';
+import { Title, Meta, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from '../../../core/constants/environment';
+import { CountUpDirective } from '../../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CountUpDirective],
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {

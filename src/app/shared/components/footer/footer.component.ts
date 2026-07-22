@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {CompanyInfoService} from '../../../core/services/company-info.service';
 import {CompanyInfo} from '../../../core/models/models';
 import {catchError, of} from 'rxjs';
@@ -14,7 +15,9 @@ import {catchError, of} from 'rxjs';
 })
 export class FooterComponent implements OnInit {
   private companyService = inject(CompanyInfoService);
+  private sanitizer = inject(DomSanitizer);
   companyInfo: CompanyInfo | null = null;
+  safeContactInfo: SafeHtml | null = null;
   currentYear = new Date().getFullYear();
 
 ngOnInit(): void {
@@ -23,6 +26,9 @@ ngOnInit(): void {
     ).subscribe({
       next: (info) => {
         this.companyInfo = info;
+        if (info?.contactInfo) {
+          this.safeContactInfo = this.sanitizer.bypassSecurityTrustHtml(info.contactInfo);
+        }
       },
       error: (err) => {
         console.error('Lỗi khi tải thông tin footer:', err);
