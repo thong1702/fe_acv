@@ -85,7 +85,14 @@
                     <span class="text-muted" style="font-size: 0.85rem;">{{ doc.description || 'Không có mô tả' }}</span>
                   </td>
                   <td>{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
-                  <td><span class="badge badge-primary">{{ doc.fileType }}</span></td>
+                  <td>
+                    <span class="doc-type-badge"
+                          [class.pdf]="doc.fileType === 'PDF'"
+                          [class.docx]="doc.fileType === 'DOCX' || doc.fileType === 'DOC'"
+                          [class.xlsx]="doc.fileType === 'XLSX' || doc.fileType === 'XLS'">
+                      {{ doc.fileType }}
+                    </span>
+                  </td>
                   <td>{{ formatBytes(doc.fileSize) }}</td>
                   <td class="actions-cell">
                     <div class="actions-wrap">

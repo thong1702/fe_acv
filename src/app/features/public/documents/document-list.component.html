@@ -50,8 +50,10 @@
                       </td>
                       <td class="doc-date">{{ doc.publishDate | date:'dd/MM/yyyy' }}</td>
                       <td class="text-center">
-                        <span class="doc-type-badge" [class.pdf]="doc.fileType === 'PDF'"
-                              [class.docx]="doc.fileType === 'DOCX'">
+                        <span class="doc-type-badge"
+                              [class.pdf]="doc.fileType === 'PDF'"
+                              [class.docx]="doc.fileType === 'DOCX' || doc.fileType === 'DOC'"
+                              [class.xlsx]="doc.fileType === 'XLSX' || doc.fileType === 'XLS'">
                           {{ doc.fileType }}
                         </span>
                       </td>
