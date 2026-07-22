@@ -1,12 +1,12 @@
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap');
 @import './app/features/admin/admin-shared.scss';
 @import './app/features/public/public-shared.scss';
 
 /* CSS variables for Design System */
 :root {
-  --font-primary: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-primary: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-display: 'Roboto', system-ui, -apple-system, sans-serif;
 
   /* Color Palette (Corporate Blue from Storage Teca Web) */
   --primary-color: #2b5f97; /* Steel blue – sidebar/header */

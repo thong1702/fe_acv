@@ -31,8 +31,10 @@ export class DocumentManagementComponent implements OnInit {
   previewDocTitle = '';
   previewDocType = '';
   previewDocId: number | null = null;
+  previewIsImage = false;
   docxLoading = false;
   docxRenderError = false;
+  showPreviewModal = false;
 
   // Filters & Page settings
   searchQuery = '';
@@ -254,9 +256,60 @@ export class DocumentManagementComponent implements OnInit {
 
   previewDocument(doc: DocumentInfo): void {
     if (!doc.id) return;
+    this.showPreviewModal = true;
     this.previewDocTitle = doc.title;
     this.previewDocType = doc.fileType ? doc.fileType.toUpperCase() : 'PDF';
     this.previewDocId = doc.id;
+
+    const filePath = doc.filePath || '';
+    const isDirectUrl = filePath.startsWith('http://') || filePath.startsWith('https://');
+
+    this.previewIsImage = false;
+    if (isDirectUrl) {
+      // File trên Cloudinary/external → dùng URL trực tiếp, không gọi backend
+      if (this.previewDocType === 'PDF') {
+        if (filePath.includes('res.cloudinary.com')) {
+          // Cloudinary PDF bị 401, chuyển sang .jpg để xem
+          const jpgUrl = filePath.replace(/\.pdf$/i, '.jpg');
+          this.previewIsImage = true;
+          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(jpgUrl);
+        } else {
+          const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(filePath)}&embedded=true`;
+          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(googleDocsUrl);
+        }
+      } else if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
+        this.docxLoading = true;
+        this.docxRenderError = false;
+        this.previewUrl = null;
+        fetch(filePath)
+          .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.blob();
+          })
+          .then(blob => {
+            setTimeout(() => {
+              const container = document.getElementById('docx-container');
+              if (container) {
+                container.innerHTML = '';
+                import('docx-preview').then(docx => {
+                  docx.renderAsync(blob, container)
+                    .then(() => { this.docxLoading = false; })
+                    .catch(() => { this.docxLoading = false; this.docxRenderError = true; });
+                }).catch(() => { this.docxLoading = false; this.docxRenderError = true; });
+              } else {
+                this.docxLoading = false;
+                this.docxRenderError = true;
+              }
+            }, 50);
+          })
+          .catch(() => { this.docxLoading = false; this.docxRenderError = true; });
+      } else {
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+      }
+      return;
+    }
+
+    // File local trên server → gọi backend download API
     const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0`;
     this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
 
@@ -273,28 +326,16 @@ export class DocumentManagementComponent implements OnInit {
               container.innerHTML = '';
               import('docx-preview').then(docx => {
                 docx.renderAsync(blob, container)
-                  .then(() => {
-                    this.docxLoading = false;
-                  })
-                  .catch(err => {
-                    console.error('docx-preview rendering error:', err);
-                    this.docxLoading = false;
-                    this.docxRenderError = true;
-                  });
-              }).catch(err => {
-                console.error('docx-preview import error:', err);
-                this.docxLoading = false;
-                this.docxRenderError = true;
-              });
+                  .then(() => { this.docxLoading = false; })
+                  .catch(() => { this.docxLoading = false; this.docxRenderError = true; });
+              }).catch(() => { this.docxLoading = false; this.docxRenderError = true; });
             } else {
-              console.error('docx-container not found in DOM');
               this.docxLoading = false;
               this.docxRenderError = true;
             }
           }, 50);
         },
-        error: (err) => {
-          console.error('Failed to download document blob:', err);
+        error: () => {
           this.docxLoading = false;
           this.docxRenderError = true;
         }
@@ -303,10 +344,12 @@ export class DocumentManagementComponent implements OnInit {
   }
 
   closePreview(): void {
+    this.showPreviewModal = false;
     this.previewUrl = null;
     this.previewDocTitle = '';
     this.previewDocType = '';
     this.previewDocId = null;
+    this.previewIsImage = false;
     this.docxLoading = false;
     this.docxRenderError = false;
   }

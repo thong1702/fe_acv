@@ -134,7 +134,7 @@
         </app-pagination>
 
         <!-- Document Preview Modal Overlay -->
-        @if (previewUrl) {
+        @if (showPreviewModal) {
           <div class="modal-backdrop" (click)="closePreview()">
             <div class="modal-card modal-large" (click)="$event.stopPropagation()">
               <div class="modal-header">
@@ -148,7 +148,14 @@
               </div>
               <div class="modal-body" style="padding: 0; background: #f8fafc; overflow: hidden; display: flex; flex-direction: column;">
                 <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
-                  <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()" style="width: 100%; height: 100%; border: none; flex: 1;"></iframe>
+                  <ng-container *ngIf="previewIsImage; else iframePreview">
+                    <div style="width: 100%; flex: 1; overflow: auto; display: flex; justify-content: center; padding: 20px; background: #f1f5f9; box-sizing: border-box;">
+                      <img [src]="previewUrl" style="width: 100%; max-width: 850px; height: auto; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: block; align-self: flex-start;" alt="PDF Preview" />
+                    </div>
+                  </ng-container>
+                  <ng-template #iframePreview>
+                    <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()" style="width: 100%; height: 100%; border: none; flex: 1;"></iframe>
+                  </ng-template>
                 </ng-container>
                 <ng-template #docxPreview>
                   <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">

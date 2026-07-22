@@ -85,7 +85,7 @@
     </div>
 
     <!-- Document Preview Modal Overlay (Fixed Viewport Center) -->
-    <div class="modal-backdrop" *ngIf="previewUrl" (click)="closePreview()">
+    <div class="modal-backdrop" *ngIf="showPreviewModal" (click)="closePreview()">
       <div class="modal-card modal-large" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <div class="modal-title-group">
@@ -98,7 +98,14 @@
         </div>
         <div class="modal-body">
           <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
-            <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+            <ng-container *ngIf="previewIsImage; else iframePreview">
+              <div style="width: 100%; flex: 1; overflow: auto; display: flex; justify-content: center; padding: 20px; background: #f1f5f9; box-sizing: border-box;">
+                <img [src]="previewUrl" style="width: 100%; max-width: 850px; height: auto; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: block; align-self: flex-start;" alt="PDF Preview" />
+              </div>
+            </ng-container>
+            <ng-template #iframePreview>
+              <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
+            </ng-template>
           </ng-container>
           <ng-template #docxPreview>
             <ng-container *ngIf="(previewDocType === 'DOC' || previewDocType === 'DOCX') && !docxRenderError; else noPreview">
