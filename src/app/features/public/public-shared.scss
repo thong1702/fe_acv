@@ -407,7 +407,213 @@
   position: sticky;
   top: 90px;
   align-self: start;
-  margin-top: 75px;
+  margin-top: 0;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+/* ===== CORE VALUES SIDE CARD ===== */
+.core-values-side-card {
+  margin-top: 24px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(30, 58, 138, 0.12);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.06);
+
+  .cvc-header {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #e2e8f0;
+  }
+
+  .cvc-subtitle {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #ea580c;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .cvc-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .cvc-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cvc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateX(4px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 16px rgba(30, 58, 138, 0.08);
+
+      .cvc-icon-badge {
+        transform: scale(1.1);
+        background: #eff6ff;
+      }
+
+      h4 {
+        color: #1e3a8a;
+      }
+    }
+
+    .cvc-icon-badge {
+      font-size: 1.25rem;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      background: #f8fafc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .cvc-info {
+      h4 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 3px 0;
+        transition: color 0.3s ease;
+      }
+
+      p {
+        font-size: 0.82rem;
+        color: #64748b;
+        line-height: 1.45;
+        margin: 0;
+        text-indent: 0 !important;
+        text-align: left !important;
+      }
+    }
+  }
+}
+
+/* ===== PROCESS SIDE CARD (OPTION 3) ===== */
+.process-side-card {
+  margin-top: 24px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(30, 58, 138, 0.12);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.06);
+
+  .psc-header {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #e2e8f0;
+  }
+
+  .psc-subtitle {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .psc-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .psc-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .psc-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #ffffff;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateX(4px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 16px rgba(30, 58, 138, 0.08);
+
+      .psc-step-num {
+        background: #1e3a8a;
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(30, 58, 138, 0.4);
+      }
+
+      h4 {
+        color: #1e3a8a;
+      }
+    }
+
+    .psc-step-num {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: #eff6ff;
+      border: 2px solid #1e3a8a;
+      color: #1e3a8a;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .psc-step-info {
+      h4 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 3px 0;
+        transition: color 0.3s ease;
+      }
+
+      p {
+        font-size: 0.82rem;
+        color: #64748b;
+        line-height: 1.45;
+        margin: 0;
+        text-indent: 0 !important;
+        text-align: left !important;
+      }
+    }
+  }
 }
 
 @media (max-width: 991px) {

@@ -48,22 +48,102 @@
             <a routerLink="/about" class="read-more-link">Xem thêm về chúng tôi →</a>
           </div>
           <div class="intro-image-container">
-            <div class="intro-stats-card">
-              <div class="isc-item">
-                <span class="isc-num" [appCountUp]="15" suffix="+">15+</span>
-                <span class="isc-label">Năm phát triển</span>
+            <!-- Khối Thành Tựu Nổi Bật đồng bộ thiết kế -->
+            <div class="core-values-side-card mt-0">
+              <div class="cvc-header">
+                <h3 class="cvc-title">THÀNH TỰU NỔI BẬT</h3>
               </div>
-              <div class="isc-item">
-                <span class="isc-num" [appCountUp]="50" suffix="+">50+</span>
-                <span class="isc-label">Chuyên gia</span>
+              <div class="intro-stats-card">
+                <div class="isc-item">
+                  <span class="isc-num" [appCountUp]="15" suffix="+">15+</span>
+                  <span class="isc-label">Năm phát triển</span>
+                </div>
+                <div class="isc-item">
+                  <span class="isc-num" [appCountUp]="50" suffix="+">50+</span>
+                  <span class="isc-label">Chuyên gia</span>
+                </div>
+                <div class="isc-item">
+                  <span class="isc-num" [appCountUp]="500" suffix="+">500+</span>
+                  <span class="isc-label">Dự án</span>
+                </div>
+                <div class="isc-item">
+                  <span class="isc-num" [appCountUp]="98" suffix="%">98%</span>
+                  <span class="isc-label">Hài lòng KH</span>
+                </div>
               </div>
-              <div class="isc-item">
-                <span class="isc-num" [appCountUp]="500" suffix="+">500+</span>
-                <span class="isc-label">Dự án</span>
+            </div>
+
+            <!-- Khối Giá Trị Cốt Lõi & Cam Kết lấp đầy khoảng trống bên phải -->
+            <div class="core-values-side-card">
+              <div class="cvc-header">
+                <h3 class="cvc-title">CAM KẾT CHẤT LƯỢNG</h3>
               </div>
-              <div class="isc-item">
-                <span class="isc-num" [appCountUp]="98" suffix="%">98%</span>
-                <span class="isc-label">Hài lòng KH</span>
+              <div class="cvc-grid">
+                <div class="cvc-item">
+                  <div class="cvc-icon-badge">🛡️</div>
+                  <div class="cvc-info">
+                    <h4>Chuyên Nghiệp</h4>
+                    <p>Đội ngũ chuyên gia được cấp chứng chỉ Thẩm định giá Bộ Tài Chính.</p>
+                  </div>
+                </div>
+                <div class="cvc-item">
+                  <div class="cvc-icon-badge">⚖️</div>
+                  <div class="cvc-info">
+                    <h4>Độc Lập & Khách Quan</h4>
+                    <p>Tuân thủ Tiêu chuẩn Thẩm định giá Việt Nam & Quốc tế.</p>
+                  </div>
+                </div>
+                <div class="cvc-item">
+                  <div class="cvc-icon-badge">🔍</div>
+                  <div class="cvc-info">
+                    <h4>Minh Bạch & Chính Xác</h4>
+                    <p>Số liệu trung thực, quy trình thẩm định thẩm định 2 cấp.</p>
+                  </div>
+                </div>
+                <div class="cvc-item">
+                  <div class="cvc-icon-badge">🔒</div>
+                  <div class="cvc-info">
+                    <h4>Bảo Mật Tuyệt Đối</h4>
+                    <p>Cam kết bảo mật 100% hồ sơ & dữ liệu tài sản của khách hàng.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phương án 3: Quy Trình Thẩm Định 4 Bước -->
+            <div class="process-side-card">
+              <div class="psc-header">
+                <h3 class="psc-title">QUY TRÌNH LÀM VIỆC NHANH CHÓNG</h3>
+              </div>
+              <div class="psc-timeline">
+                <div class="psc-step">
+                  <div class="psc-step-num">01</div>
+                  <div class="psc-step-info">
+                    <h4>Tiếp Nhận & Tư Vấn</h4>
+                    <p>Tiếp nhận hồ sơ, tư vấn sơ bộ và ký kết hợp đồng dịch vụ.</p>
+                  </div>
+                </div>
+                <div class="psc-step">
+                  <div class="psc-step-num">02</div>
+                  <div class="psc-step-info">
+                    <h4>Khảo Sát Thực Địa</h4>
+                    <p>Chuyên viên khảo sát hiện trường tài sản trong vòng 24 giờ.</p>
+                  </div>
+                </div>
+                <div class="psc-step">
+                  <div class="psc-step-num">03</div>
+                  <div class="psc-step-info">
+                    <h4>Phân Tích & Lập Báo Cáo</h4>
+                    <p>Phân tích thị trường, thu thập dữ liệu và thẩm định 2 cấp.</p>
+                  </div>
+                </div>
+                <div class="psc-step">
+                  <div class="psc-step-num">04</div>
+                  <div class="psc-step-info">
+                    <h4>Phát Hành Chứng Thư</h4>
+                    <p>Bàn giao báo cáo & chứng thư thẩm định giá chính thức.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -72,7 +152,7 @@
     </section>
     }
 
-    <!-- Specialized Fields Section (Chuyển sang trang chủ thay thế Ngành nghề kinh doanh) -->
+    <!-- area of expertise -->
     <section class="section-padding bg-light expertise-section">
       <div class="container">
         <div class="text-center section-header">
