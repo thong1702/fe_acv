@@ -11,7 +11,7 @@
       </button>
       <a routerLink="/admin/dashboard" class="navbar-logo">
         <img src="/logo.png" alt="ACV Logo" class="logo-img">
-        <span class="admin-pill">Admin</span>
+        <span class="admin-pill">{{ (authService.currentUser$ | async)?.role === 'ADMIN' ? 'Admin' : 'Editor' }}</span>
       </a>
     </div>
     <div class="header-right">
@@ -162,14 +162,16 @@
       </nav>
 
       <div class="sidebar-footer">
+        @if (authService.currentUser$ | async; as user) {
         <div class="sidebar-user-card">
-          <div class="su-avatar">NA</div>
+          <div class="su-avatar">{{ (user.fullName || user.username || 'AD').substring(0, 2).toUpperCase() }}</div>
           <div class="su-info">
-            <div class="su-name">Nguyễn Admin</div>
-            <div class="su-role">ADMINISTRATOR</div>
+            <div class="su-name">{{ user.fullName || user.username }}</div>
+            <div class="su-role">{{ user.role === 'ADMIN' ? 'ADMINISTRATOR' : 'EDITOR' }}</div>
           </div>
           <div class="su-dot online"></div>
         </div>
+        }
       </div>
     </aside>
 

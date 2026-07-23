@@ -1,13 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 import {forkJoin, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {CategoryService} from '../../../core/services/category.service';
 import {PostService} from '../../../core/services/post.service';
 import {DocumentService} from '../../../core/services/document.service';
-import {UserService} from '../../../core/services/user.service';
+import {AuthService} from '../../../core/services/auth.service';
 import {DocumentInfo, Post} from '../../../core/models/models';
+import {environment} from '../../../core/constants/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,15 +19,16 @@ import {DocumentInfo, Post} from '../../../core/models/models';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  authService = inject(AuthService);
   private categoryService = inject(CategoryService);
   private postService = inject(PostService);
   private docService = inject(DocumentService);
-  private userService = inject(UserService);
+  private http = inject(HttpClient);
 
   catCount = 0;
   postCount = 0;
   docCount = 0;
-  userCount = 0;
+  contactCount = 0;
 
   recentPosts: Post[] = [];
   recentDocs: DocumentInfo[] = [];
@@ -57,13 +60,13 @@ export class DashboardComponent implements OnInit {
         totalElements: 0,
         totalPages: 1
       }))),
-      users: this.userService.getUsers({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 })))
+      contacts: this.http.get<any>(`${environment.apiHost}/api/contact?page=0&size=1`).pipe(catchError(() => of({ totalElements: 0 })))
     }).subscribe({
       next: (res) => {
         this.catCount = res.cats.totalElements || 0;
         this.postCount = res.posts.totalElements || 0;
         this.docCount = res.docs.totalElements || 0;
-        this.userCount = res.users.totalElements || 0;
+        this.contactCount = res.contacts.totalElements || 0;
         this.recentPosts = res.posts.content || [];
         this.recentDocs = res.docs.content || [];
       }

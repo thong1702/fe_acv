@@ -3,7 +3,7 @@
       <div class="dash-header">
         <div>
           <h1 class="dash-title">Tổng Quan Hệ Thống</h1>
-          <p class="dash-sub">Chào mừng trở lại, <strong>Nguyễn Admin</strong> 👋 Đây là tóm tắt hoạt động hôm nay.</p>
+          <p class="dash-sub">Chào mừng trở lại, <strong>{{ (authService.currentUser$ | async)?.fullName || (authService.currentUser$ | async)?.username || 'Quản trị viên' }}</strong> 👋 Đây là tóm tắt hoạt động hôm nay.</p>
         </div>
         <div class="dash-header-actions">
           <a routerLink="/admin/posts" class="btn-create">
@@ -77,16 +77,16 @@
           </div>
         </div>
 
-        <div class="stat-card" style="--accent: #f59e0b; --accent-light: #fffbeb;">
+        <a routerLink="/admin/contacts" class="stat-card" style="--accent: #f59e0b; --accent-light: #fffbeb; text-decoration: none;">
           <div class="stat-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
           </div>
           <div class="stat-body">
-            <div class="stat-value">{{ userCount }}</div>
-            <div class="stat-label">Người Dùng</div>
+            <div class="stat-value">{{ contactCount }}</div>
+            <div class="stat-label">Yêu Cầu Liên Hệ</div>
           </div>
           <div class="stat-chart">
             <div class="mini-bar" style="height:100%"></div>
@@ -95,7 +95,7 @@
             <div class="mini-bar" style="height:100%"></div>
             <div class="mini-bar" style="height:100%"></div>
           </div>
-        </div>
+        </a>
       </div>
 
       <!-- Bottom Grid -->
@@ -193,9 +193,9 @@
                 <span class="action-icon">📂</span>
                 <span class="action-label">Thêm danh mục</span>
               </a>
-              <a routerLink="/admin/organization" class="action-btn">
-                <span class="action-icon">👥</span>
-                <span class="action-label">Thêm nhân sự</span>
+              <a routerLink="/admin/contacts" class="action-btn">
+                <span class="action-icon">📬</span>
+                <span class="action-label">Xem liên hệ</span>
               </a>
             </div>
           </div>

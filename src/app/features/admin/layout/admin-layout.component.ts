@@ -56,11 +56,12 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   }
 
   loadCounts(): void {
+    const isAdmin = this.authService.isAdmin();
     forkJoin({
       posts: this.postService.getPosts({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
       categories: this.categoryService.getCategories({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
       docs: this.docService.getDocuments({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
-      users: this.userService.getUsers({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
+      users: isAdmin ? this.userService.getUsers({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))) : of({ totalElements: 0 }),
       orgs: this.orgService.getNodes().pipe(catchError(() => of([]))),
       contacts: this.http.get<any>(`${environment.apiHost}/api/contact?page=0&size=1`).pipe(catchError(() => of({ totalElements: 0 })))
     }).subscribe({

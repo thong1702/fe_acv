@@ -31,16 +31,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error) => {
       console.warn('[AuthInterceptor] Caught HTTP error:', error.status, req.url);
       
-      // Intercept 401 Unauthorized or 403 Forbidden errors (unauthenticated/expired token)
+      // Intercept 401 Unauthorized (expired token)
       // Do not retry if this is already a retry or a request to login/refresh
       if (
         error instanceof HttpErrorResponse &&
-        (error.status === 401 || error.status === 403) &&
+        error.status === 401 &&
         !isRetry &&
         !req.url.includes('/auth/login') &&
         !req.url.includes('/auth/refresh')
       ) {
-        console.log('[AuthInterceptor] 401/403 intercepted. Attempting token refresh...');
+        console.log('[AuthInterceptor] 401 Unauthorized intercepted. Attempting token refresh...');
         
         // Resolve AuthService dynamically to break circular dependency
         const authService = injector.get(AuthService);
