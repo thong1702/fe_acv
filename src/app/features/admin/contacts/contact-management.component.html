@@ -1,0 +1,234 @@
+<div class="organization-page animate-fade">
+  
+  <!-- Page Header -->
+  <div class="cms-page-header">
+    <div class="page-header-left">
+      <div class="page-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+      </div>
+      <div>
+        <h2>Quản Lý Yêu Cầu Liên Hệ & Tư Vấn</h2>
+        <p class="text-muted">Tiếp nhận và quản lý trạng thái phản hồi yêu cầu tư vấn từ khách hàng.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters horizontal bar -->
+  <div class="filter-bar">
+    <div class="filter-left">
+      <!-- Search box -->
+      <div class="search-wrap">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input 
+          type="text" 
+          class="search-input"
+          placeholder="Tìm theo họ tên, SĐT, Email..." 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="onSearch()"
+        >
+      </div>
+
+      <!-- Status filter select -->
+      <div class="filter-select-wrap">
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="onStatusFilterChange()">
+          <option value="">-- Tất cả trạng thái --</option>
+          <option [value]="0">🟡 Chưa phản hồi</option>
+          <option [value]="1">🟢 Đã phản hồi</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-filter-primary" (click)="onSearch()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Tìm kiếm
+    </button>
+  </div>
+
+  <!-- Main Data Table -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải danh sách yêu cầu liên hệ...</p>
+    </div>
+  } @else {
+    <div class="data-table-wrap mt-4">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 60px; text-align: center">STT</th>
+            <th style="width: 170px">Khách Hàng</th>
+            <th style="width: 140px">Số Điện Thoại</th>
+            <th style="width: 190px">Email</th>
+            <th style="width: 190px">Dịch Vụ Quan Tâm</th>
+            <th>Nội Dung Yêu Cầu</th>
+            <th style="width: 130px">Ngày Gửi</th>
+            <th style="width: 140px">Trạng Thái</th>
+            <th style="width: 100px; text-align: center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of requests; track item.id; let idx = $index) {
+            <tr>
+              <td style="text-align: center" class="id-cell">{{ (page * size) + idx + 1 }}</td>
+              <td>
+                <span class="member-name">{{ item.fullName }}</span>
+              </td>
+              <td>
+                <span class="contact-item">
+                  📞 <a [href]="'tel:' + item.phone" class="phone-link">{{ item.phone }}</a>
+                </span>
+              </td>
+              <td>
+                @if (item.email) {
+                  <span class="contact-item" [title]="item.email">
+                    ✉️ <span class="contact-text">{{ item.email }}</span>
+                  </span>
+                } @else {
+                  <span class="text-muted">-</span>
+                }
+              </td>
+              <td>
+                <span class="badge-role">{{ item.serviceType || 'Tư vấn chung' }}</span>
+              </td>
+              <td class="content-col">
+                <div class="content-text-cell" [title]="item.content || ''">
+                  {{ item.content || '-' }}
+                </div>
+              </td>
+              <td class="text-muted">{{ item.createdAt | date:'HH:mm dd/MM/yyyy' }}</td>
+              <td>
+                <button 
+                  class="status-toggle-btn"
+                  [class.pending]="item.status === 0"
+                  [class.resolved]="item.status === 1"
+                  (click)="toggleStatus(item)"
+                  [title]="item.status === 0 ? 'Click để đánh dấu Đã phản hồi' : 'Click để chuyển về Chưa phản hồi'"
+                >
+                  @if (item.status === 0) {
+                    <span>🟡 Chưa phản hồi</span>
+                  } @else {
+                    <span>🟢 Đã phản hồi</span>
+                  }
+                </button>
+              </td>
+              <td class="actions-cell">
+                <div class="actions-wrap">
+                  <button class="act-btn edit" (click)="openDetail(item)" title="Xem chi tiết nội dung">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 2 2h14a2 2 0 0 2 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button class="act-btn delete" (click)="deleteRequest(item)" title="Xóa yêu cầu">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                      <line x1="10" y1="11" x2="10" y2="17"></line>
+                      <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="8" class="empty-state">
+                <p class="text-muted">Không tìm thấy yêu cầu liên hệ nào</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination Component -->
+      <app-pagination 
+        [currentPage]="page" 
+        [totalPages]="totalPages" 
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+    </div>
+  }
+
+  <!-- Detail & Edit Modal -->
+  @if (showDetailModal && selectedItem) {
+    <div class="modal-backdrop" (click)="closeDetail()">
+      <div class="modal-card modal-medium" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Chi Tiết Yêu Cầu Liên Hệ & Tư Vấn</h3>
+          <button class="close-btn" (click)="closeDetail()">×</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Full Name & Phone -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Họ và Tên Khách Hàng</label>
+              <input type="text" class="form-control" [value]="selectedItem.fullName" readonly>
+            </div>
+            <div class="form-group flex-1">
+              <label>Số Điện Thoại</label>
+              <input type="text" class="form-control" [value]="selectedItem.phone" readonly>
+            </div>
+          </div>
+
+          <!-- Email & Service Type -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Email</label>
+              <input type="text" class="form-control" [value]="selectedItem.email || 'Không cung cấp'" readonly>
+            </div>
+            <div class="form-group flex-1">
+              <label>Dịch Vụ Quan Tâm</label>
+              <input type="text" class="form-control" [value]="selectedItem.serviceType || 'Tư vấn chung'" readonly>
+            </div>
+          </div>
+
+          <!-- Created At & Status -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Thời Gian Gửi</label>
+              <input type="text" class="form-control" [value]="selectedItem.createdAt | date:'HH:mm:ss dd/MM/yyyy'" readonly>
+            </div>
+            <div class="form-group flex-1">
+              <label>Trạng Thái Phản Hồi</label>
+              <select class="form-control" [(ngModel)]="selectedItem.status" (change)="toggleStatus(selectedItem)">
+                <option [value]="0">🟡 Chưa phản hồi</option>
+                <option [value]="1">🟢 Đã phản hồi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Message Content -->
+          <div class="form-group">
+            <label>Nội Dung Lời Nhắn Từ Khách Hàng</label>
+            <textarea 
+              class="form-control" 
+              rows="4" 
+              readonly 
+              [value]="selectedItem.content || 'Khách hàng không nhập mô tả thêm.'"></textarea>
+          </div>
+
+          <div class="modal-footer mt-4">
+            <button type="button" class="btn-cancel-modal" (click)="closeDetail()">Đóng</button>
+            <button 
+              type="button" 
+              class="btn-save-modal" 
+              [style.background]="selectedItem.status === 0 ? '#10b981' : '#f59e0b'" 
+              (click)="toggleStatus(selectedItem)">
+              {{ selectedItem.status === 0 ? 'Đánh Dấu Đã Phản Hồi' : 'Đổi Về Chưa Phản Hồi' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

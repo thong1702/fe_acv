@@ -33,6 +33,139 @@
       margin-left: 8px;
     }
 
+    /* ── Thư Ngỏ Section ── */
+    .open-letter-section {
+      background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+      padding: 36px 0;
+    }
+
+    .open-letter-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 36px 40px;
+      box-shadow: 0 10px 30px rgba(43, 95, 151, 0.06);
+      border: 1px solid rgba(43, 95, 151, 0.12);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 5px; height: 100%;
+        background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      }
+    }
+
+    .open-letter-header {
+      text-align: center;
+      margin-bottom: 28px;
+
+      .letter-subtitle {
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .letter-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        margin: 0 0 12px 0;
+        letter-spacing: 0.5px;
+      }
+
+      .letter-line-divider {
+        width: 70px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), #3677ba);
+        margin: 0 auto;
+        border-radius: 2px;
+      }
+    }
+
+    .open-letter-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #334155;
+
+      .salutation {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 16px;
+      }
+
+      p {
+        margin-bottom: 16px;
+        text-align: justify;
+        text-indent: 1.5em;
+      }
+
+      strong {
+        color: var(--secondary-color);
+        font-weight: 700;
+      }
+    }
+
+    .open-letter-footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(43, 95, 151, 0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      .letter-closing {
+        font-style: italic;
+        font-size: 0.92rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .signature-block {
+        text-align: center;
+        padding-right: 10px;
+
+        .sign-title {
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: var(--text-muted);
+          letter-spacing: 1px;
+          margin-bottom: 6px;
+        }
+
+        .company-name {
+          font-size: 0.95rem;
+          font-weight: 800;
+          color: var(--secondary-color);
+          margin: 0;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .open-letter-card {
+        padding: 30px 24px;
+      }
+      .open-letter-header .letter-title {
+        font-size: 1.8rem;
+      }
+      .open-letter-footer {
+        align-items: center;
+        .signature-block {
+          padding-right: 0;
+        }
+      }
+    }
+
     .container-narrow { max-width: 800px; }
     .bg-white { background-color: white; }
     .bg-light { background-color: var(--bg-main); }

@@ -27,6 +27,10 @@ export const routes: Routes = [
       {
         path: 'documents',
         loadComponent: () => import('./features/public/documents/document-list.component').then(m => m.DocumentListComponent)
+      },
+      {
+        path: 'contact',
+        loadComponent: () => import('./features/public/contact/contact.component').then(m => m.ContactComponent)
       }
     ]
   },
@@ -76,6 +80,10 @@ export const routes: Routes = [
       {
         path: 'organization',
         loadComponent: () => import('./features/admin/organization/organization-management.component').then(m => m.OrganizationManagementComponent)
+      },
+      {
+        path: 'contacts',
+        loadComponent: () => import('./features/admin/contacts/contact-management.component').then(m => m.ContactManagementComponent)
       }
     ]
   },

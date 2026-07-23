@@ -1,0 +1,166 @@
+.data-table {
+  tbody td, thead th {
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+  }
+}
+
+.member-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  white-space: nowrap;
+}
+
+.phone-link {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.contact-text {
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-col {
+  max-width: 0;
+  width: 100%;
+}
+
+.content-text-cell {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  cursor: pointer;
+  display: block;
+}
+
+.badge-role {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background-color: var(--primary-light);
+  border: 1px solid rgba(43, 95, 151, 0.12);
+  white-space: nowrap !important;
+}
+
+/* Status toggle button */
+.status-toggle-btn {
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.pending {
+    background: #fef3c7;
+    color: #d97706;
+
+    &:hover {
+      background: #fde68a;
+    }
+  }
+
+  &.resolved {
+    background: #d1fae5;
+    color: #059669;
+
+    &:hover {
+      background: #a7f3d0;
+    }
+  }
+}
+
+.badge-pending {
+  background: #fef3c7;
+  color: #d97706;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-resolved {
+  background: #d1fae5;
+  color: #059669;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Modal Detail Custom */
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e2e8f0;
+
+  .detail-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+  }
+
+  .detail-val {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+
+    &.highlight {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+  }
+}
+
+.content-box-wrap {
+  margin-top: 16px;
+
+  .detail-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+  }
+
+  .content-text-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}

@@ -188,12 +188,42 @@
     }
 
     .contact-html {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85rem;
+      line-height: 1.6;
 
       ::ng-deep {
+        *, p, span, div, pre, code, strong, a {
+          font-family: var(--font-primary) !important;
+          background: transparent !important;
+          background-color: transparent !important;
+          color: inherit;
+        }
+
+        pre, code {
+          white-space: normal !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          border: none !important;
+          font-family: var(--font-primary) !important;
+          font-size: 0.85rem !important;
+        }
+
         p {
           margin-bottom: 8px;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.85rem;
+          line-height: 1.6;
+        }
+
+        strong {
+          color: rgba(255, 255, 255, 0.95);
+          font-weight: 700;
+        }
+
+        svg {
+          vertical-align: -2px;
+          margin-right: 6px;
         }
       }
     }
@@ -206,24 +236,57 @@
     }
 
     .fstat {
+      position: relative;
       background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
       padding: 14px 12px;
       text-align: center;
-      transition: all 0.2s;
+      overflow: hidden;
+      transition: all 0.25s ease;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -40px;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #38bdf8, #60a5fa, transparent);
+        box-shadow: 0 0 8px #38bdf8;
+        border-radius: 2px;
+        animation: fstatLineLoop 2.8s infinite linear;
+      }
 
       &:hover {
-        background: var(--primary-light);
-        border-color: rgba(43, 95, 151, 0.2);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(56, 189, 248, 0.4);
+        transform: translateY(-2px);
 
         .fstat-num {
-          color: var(--secondary-color);
+          color: #ffffff;
         }
 
         .fstat-label {
-          color: rgba(15, 63, 117, 0.7);
+          color: rgba(255, 255, 255, 0.95);
         }
+      }
+    }
+
+    @keyframes fstatLineLoop {
+      0% {
+        left: -40px;
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        left: 100%;
+        opacity: 0;
       }
     }
 

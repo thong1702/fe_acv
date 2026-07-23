@@ -28,12 +28,15 @@ export class DocumentManagementComponent implements OnInit {
   documents: DocumentInfo[] = [];
 
   previewUrl: SafeResourceUrl | null = null;
+  previewRawUrl: string | null = null;
   previewDocTitle = '';
   previewDocType = '';
   previewDocId: number | null = null;
   previewIsImage = false;
   docxLoading = false;
   docxRenderError = false;
+  pdfLoading = false;
+  pdfPages: string[] = [];
   showPreviewModal = false;
 
   // Filters & Page settings
@@ -266,17 +269,12 @@ export class DocumentManagementComponent implements OnInit {
 
     this.previewIsImage = false;
     if (isDirectUrl) {
-      // File trên Cloudinary/external → dùng URL trực tiếp, không gọi backend
       if (this.previewDocType === 'PDF') {
-        if (filePath.includes('res.cloudinary.com')) {
-          // Cloudinary PDF bị 401, chuyển sang .jpg để xem
-          const jpgUrl = filePath.replace(/\.pdf$/i, '.jpg');
-          this.previewIsImage = true;
-          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(jpgUrl);
-        } else {
-          const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(filePath)}&embedded=true`;
-          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(googleDocsUrl);
-        }
+        this.pdfLoading = true;
+        this.previewUrl = null;
+        // Dùng trực tiếp Cloudinary URL (đã public) → không cần proxy qua BE
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+        this.pdfLoading = false;
       } else if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
         this.docxLoading = true;
         this.docxRenderError = false;
@@ -343,15 +341,37 @@ export class DocumentManagementComponent implements OnInit {
     }
   }
 
+  private fallbackPdfFetch(id: number, filePath: string): void {
+    const downloadApi = `${environment.apiHost}/api/documents/download/${id}?inline=true`;
+    fetch(downloadApi)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.blob();
+      })
+      .then(blob => {
+        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+        this.pdfLoading = false;
+      })
+      .catch(() => {
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+        this.pdfLoading = false;
+      });
+  }
+
   closePreview(): void {
     this.showPreviewModal = false;
     this.previewUrl = null;
+    this.previewRawUrl = null;
     this.previewDocTitle = '';
     this.previewDocType = '';
     this.previewDocId = null;
     this.previewIsImage = false;
     this.docxLoading = false;
     this.docxRenderError = false;
+    this.pdfLoading = false;
+    this.pdfPages = [];
   }
 
   getDownloadUrl(id: number): string {

@@ -39,17 +39,25 @@
 }
 
 /* Base resets */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  font-size: 17px;
+}
+
+body, input, button, select, textarea, table, th, td, label, option, optgroup {
+  font-family: var(--font-primary) !important;
+}
+
 body {
-  font-family: var(--font-primary);
   background-color: var(--bg-main);
   color: var(--text-main);
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -124,7 +132,7 @@ a {
 }
 
 .section-padding {
-  padding: 80px 0;
+  padding: 36px 0;
 }
 
 .text-center { text-align: center; }
@@ -132,7 +140,7 @@ a {
 /* Grid Layout */
 .grid {
   display: grid;
-  gap: 24px;
+  gap: 20px;
 }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -145,7 +153,7 @@ a {
 
 @media (max-width: 640px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-  .section-padding { padding: 48px 0; }
+  .section-padding { padding: 24px 0; }
 }
 
 /* Premium Buttons */

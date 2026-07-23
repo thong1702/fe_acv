@@ -73,39 +73,65 @@
     </section>
     }
 
-    <!-- Business Sectors -->
-    <section class="section-padding sectors-section">
+    <!-- Specialized Fields Section (Chuyển sang trang chủ thay thế Ngành nghề kinh doanh) -->
+    <section class="section-padding bg-light expertise-section">
       <div class="container">
         <div class="text-center section-header">
-          <span class="sub-title">LĨNH VỰC HOẠT ĐỘNG</span>
-          <h2>Ngành Nghề Kinh Doanh</h2>
-          <p class="section-desc">Các dịch vụ chuyên ngành của ACV đem lại giải pháp toàn diện và tối ưu cho doanh
-            nghiệp</p>
+          <span class="sub-title-orange">LĨNH VỰC CHUYÊN MÔN</span>
+          <h2 class="section-main-title">Dịch Vụ Thẩm Định Giá</h2>
+          <div class="title-underline"></div>
         </div>
 
-        <div class="special-services-list">
-          @for (service of specializedServices; track service.title; let idx = $index) {
-          <div class="service-row-card" [style.--animation-delay]="idx * 120 + 'ms'">
-            <!-- Left: Circular Badge -->
-            <div class="service-circle-badge" [style.background]="service.gradient">
-              <div class="badge-ring"></div>
-              <span class="badge-icon">{{ service.icon }}</span>
-              <h3 class="badge-title">{{ service.title }}</h3>
+        <div class="expertise-grid">
+          <div class="expertise-card">
+            <div class="expertise-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                <path d="M9 22v-4h6v4"></path>
+                <path d="M8 6h.01"></path>
+                <path d="M16 6h.01"></path>
+                <path d="M12 6h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M16 10h.01"></path>
+                <path d="M16 14h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M8 14h.01"></path>
+              </svg>
             </div>
-
-            <!-- Right: Sub-services List -->
-            <div class="service-items-wrapper">
-              <ul class="service-items-list">
-                @for (item of service.items; track item) {
-                <li class="service-item">
-                  <span class="item-bullet">›</span>
-                  <span class="item-text">{{ item }}</span>
-                </li>
-                }
-              </ul>
-            </div>
+            <h3>Bất Động Sản</h3>
+            <p>Thẩm định giá trị đất đai, nhà ở, công trình xây dựng, trung tâm thương mại, khu công nghiệp phục vụ vay
+              vốn, mua bán, đền bù giải tỏa.</p>
           </div>
-          }
+
+          <div class="expertise-card">
+            <div class="expertise-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z">
+                </path>
+              </svg>
+            </div>
+            <h3>Máy Móc Thiết Bị</h3>
+            <p>Xác định giá trị dây chuyền công nghệ, phương tiện vận tải, thiết bị chuyên dụng y tế, máy móc xây dựng
+              và nông nghiệp.</p>
+          </div>
+
+          <div class="expertise-card">
+            <div class="expertise-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+              </svg>
+            </div>
+            <h3>Giá Trị Doanh Nghiệp</h3>
+            <p>Thẩm định giá trị doanh nghiệp phục vụ cổ phần hóa, mua bán sáp nhập (M&A), liên doanh liên kết, thoái
+              vốn và kêu gọi đầu tư.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -235,14 +261,14 @@
     </div>
     <div class="modal-body">
       <ng-container *ngIf="previewDocType === 'PDF'; else docxPreview">
-        <ng-container *ngIf="previewIsImage; else iframePreview">
-          <div style="width: 100%; flex: 1; overflow: auto; display: flex; justify-content: center; padding: 20px; background: #f1f5f9; box-sizing: border-box;">
-            <img [src]="previewUrl" style="width: 100%; max-width: 850px; height: auto; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: block; align-self: flex-start;" alt="PDF Preview" />
+        <div *ngIf="pdfLoading"
+          style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; flex: 1;">
+          <div class="spinner"
+            style="width: 40px; height: 40px; border: 4px solid rgba(43, 95, 151, 0.1); border-left-color: #2b5f97; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;">
           </div>
-        </ng-container>
-        <ng-template #iframePreview>
-          <iframe [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
-        </ng-template>
+          <p style="color: #64748b; font-size: 0.9rem;">Đang tải và hiển thị tài liệu PDF...</p>
+        </div>
+        <iframe *ngIf="!pdfLoading && previewUrl" [src]="previewUrl" (contextmenu)="$event.preventDefault()"></iframe>
       </ng-container>
       <ng-template #docxPreview>
         <ng-container
@@ -275,17 +301,8 @@
           </p>
           } @else {
           <h4>Không hỗ trợ xem trực tuyến tệp {{ previewDocType }}</h4>
-          <p>Trình duyệt không thể hiển thị trực tiếp định dạng này. Vui lòng tải về máy tính để xem nội dung.</p>
+          <p>Trình duyệt không thể hiển thị trực tiếp định dạng này.</p>
           }
-
-          <a [href]="getDownloadUrl(previewDocId!)" class="btn-download-file">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              style="display:inline-block; vertical-align:-2px; margin-right:4px;">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg> Tải xuống tài liệu ({{ previewDocType }})
-          </a>
         </div>
       </ng-template>
     </div>

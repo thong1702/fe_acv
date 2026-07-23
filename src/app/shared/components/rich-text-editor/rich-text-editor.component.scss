@@ -56,10 +56,25 @@
       padding: 16px;
       outline: none;
       min-height: 200px;
-      font-family: var(--font-primary);
+      font-family: var(--font-primary) !important;
       font-size: 0.95rem;
       color: var(--text-main);
       overflow-y: auto;
+
+      *, p, span, div, pre, code, strong, a {
+        font-family: var(--font-primary) !important;
+      }
+
+      pre, code {
+        font-family: var(--font-primary) !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        white-space: normal !important;
+        font-size: 0.95rem !important;
+        color: inherit !important;
+      }
 
       &:empty:before {
         content: attr(placeholder);

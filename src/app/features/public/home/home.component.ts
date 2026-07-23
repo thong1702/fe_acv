@@ -93,6 +93,8 @@ export class HomeComponent implements OnInit {
   previewIsImage = false;
   docxLoading = false;
   docxRenderError = false;
+  pdfLoading = false;
+  pdfPages: string[] = [];
   showPreviewModal = false;
 
   ngOnInit(): void {
@@ -137,14 +139,11 @@ export class HomeComponent implements OnInit {
     this.previewIsImage = false;
     if (isDirectUrl) {
       if (this.previewDocType === 'PDF') {
-        if (filePath.includes('res.cloudinary.com')) {
-          const jpgUrl = filePath.replace(/\.pdf$/i, '.jpg');
-          this.previewIsImage = true;
-          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(jpgUrl);
-        } else {
-          const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(filePath)}&embedded=true`;
-          this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(googleDocsUrl);
-        }
+        this.pdfLoading = true;
+        this.previewUrl = null;
+        const pdfPath = filePath.includes('#') ? filePath : `${filePath}#toolbar=0&navpanes=0`;
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfPath);
+        this.pdfLoading = false;
       } else if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
         this.docxLoading = true;
         this.docxRenderError = false;
@@ -166,12 +165,13 @@ export class HomeComponent implements OnInit {
           })
           .catch(() => { this.docxLoading = false; this.docxRenderError = true; });
       } else {
-        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+        const pdfPath = filePath.includes('#') ? filePath : `${filePath}#toolbar=0&navpanes=0`;
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfPath);
       }
       return;
     }
 
-    const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0`;
+    const rawUrl = `${environment.apiHost}/api/documents/download/${doc.id}?inline=true#toolbar=0&navpanes=0`;
     this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
 
     if (this.previewDocType === 'DOCX' || this.previewDocType === 'DOC') {
@@ -197,6 +197,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  private fallbackPdfFetch(id: number, filePath: string): void {
+    const downloadApi = `${environment.apiHost}/api/documents/download/${id}?inline=true`;
+    fetch(downloadApi)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.blob();
+      })
+      .then(blob => {
+        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+        this.pdfLoading = false;
+      })
+      .catch(() => {
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+        this.pdfLoading = false;
+      });
+  }
+
   closePreview(): void {
     this.showPreviewModal = false;
     this.previewUrl = null;
@@ -206,6 +225,8 @@ export class HomeComponent implements OnInit {
     this.previewIsImage = false;
     this.docxLoading = false;
     this.docxRenderError = false;
+    this.pdfLoading = false;
+    this.pdfPages = [];
   }
 
   getDownloadUrl(id: number): string {

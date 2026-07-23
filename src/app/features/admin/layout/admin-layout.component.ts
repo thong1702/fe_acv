@@ -1,6 +1,7 @@
 import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterModule} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../core/services/auth.service';
 import {PostService} from '../../../core/services/post.service';
 import {CategoryService} from '../../../core/services/category.service';
@@ -8,6 +9,7 @@ import {DocumentService} from '../../../core/services/document.service';
 import {UserService} from '../../../core/services/user.service';
 import {OrganizationService} from '../../../core/services/organization.service';
 import {AdminCountService} from '../../../core/services/admin-count.service';
+import {environment} from '../../../../environments/environment';
 import {forkJoin, of, Subscription} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -26,6 +28,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private orgService = inject(OrganizationService);
   private countService = inject(AdminCountService);
+  private http = inject(HttpClient);
   private router = inject(Router);
 
   sidebarCollapsed = signal(false);
@@ -35,6 +38,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   documentCount = signal(0);
   userCount = signal(0);
   organizationCount = signal(0);
+  contactCount = signal(0);
 
   private countSub?: Subscription;
 
@@ -57,7 +61,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       categories: this.categoryService.getCategories({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
       docs: this.docService.getDocuments({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
       users: this.userService.getUsers({ page: 0, size: 1 }).pipe(catchError(() => of({ totalElements: 0 }))),
-      orgs: this.orgService.getNodes().pipe(catchError(() => of([])))
+      orgs: this.orgService.getNodes().pipe(catchError(() => of([]))),
+      contacts: this.http.get<any>(`${environment.apiHost}/api/contact?page=0&size=1`).pipe(catchError(() => of({ totalElements: 0 })))
     }).subscribe({
       next: (res) => {
         this.postCount.set(res.posts?.totalElements || 0);
@@ -65,6 +70,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
         this.documentCount.set(res.docs?.totalElements || 0);
         this.userCount.set(res.users?.totalElements || 0);
         this.organizationCount.set(res.orgs?.length || 0);
+        this.contactCount.set(res.contacts?.totalElements || 0);
       }
     });
   }
