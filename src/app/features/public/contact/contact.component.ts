@@ -21,6 +21,8 @@ export class ContactComponent implements OnInit {
   private companyInfoService = inject(CompanyInfoService);
 
   companyInfo: CompanyInfo | null = null;
+  phone = '024.3688.7979';
+  email = 'Acvvaluation@gmail.com';
   submitting = false;
   submitSuccess = false;
 

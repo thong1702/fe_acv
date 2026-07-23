@@ -173,10 +173,11 @@
 
     .section-title {
       font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--secondary-color);
       position: relative;
       padding-bottom: 12px;
       margin-bottom: 8px;
-      color: var(--secondary-color);
     }
 
     .section-title::after {
