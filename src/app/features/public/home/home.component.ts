@@ -33,59 +33,6 @@ export class HomeComponent implements OnInit {
   latestPosts: Post[] = [];
   latestDocuments: DocumentInfo[] = [];
 
-  specializedServices = [
-    {
-      title: 'Dịch vụ Thẩm định giá',
-      icon: '⚖️',
-      gradient: 'radial-gradient(circle at 30% 30%, #4a90e2 0%, #2b5f97 100%)',
-      items: [
-        'Thẩm định giá bất động sản',
-        'Thẩm định giá máy móc thiết bị',
-        'Thẩm định giá phương tiện vận tải',
-        'Thẩm định giá là giá trị sở hữu trí tuệ về công nghệ, quy trình kinh doanh hoặc bằng sáng chế',
-        'Xác định giá trị doanh nghiệp'
-      ]
-    },
-    {
-      title: 'Dịch vụ tư vấn',
-      icon: '💡',
-      gradient: 'radial-gradient(circle at 30% 30%, #3677ba 0%, #0f3f75 100%)',
-      items: [
-        'Tư vấn xử lý vướng mắc về các loại thuế, tiết kiệm chi phí thuế',
-        'Tư vấn miễn, giảm, ưu đãi thuế, tư vấn hoàn thuế',
-        'Tư vấn lập Báo cáo, quyết toán thuế',
-        'Thuế thu nhập cá nhân và các dịch vụ thuế quốc tế',
-        'Tư vấn thiết lập hệ thống kiểm soát nội bộ; xây dựng các quy chế kiểm soát nội bộ phù hợp với mô hình doanh nghiệp',
-        'Tư vấn cho doanh nghiệp tham gia thị trường chứng khoán'
-      ]
-    },
-    {
-      title: 'Dịch vụ kế toán',
-      icon: '📊',
-      gradient: 'radial-gradient(circle at 30% 30%, #50e3c2 0%, #2b5f97 100%)',
-      items: [
-        'Ghi chép và giữ sổ sách kế toán cho doanh nghiệp',
-        'Tư vấn lựa chọn hình thức sổ và tổ chức bộ máy kế toán',
-        'Tư vấn xử lý các vướng mắc trong nghiệp vụ kế toán',
-        'Tuyển chọn nhân viên kế toán và kế toán trưởng',
-        'Tư vấn lập Báo cáo tài chính theo yêu cầu của Công ty mẹ',
-        'Tư vấn cho doanh nghiệp chuyển đổi Báo cáo tài chính',
-        'Tư vấn xây dựng hệ thống kế toán phù hợp với yêu cầu quản lý (bao gồm cả lựa chọn phần mềm kế toán phù hợp)'
-      ]
-    },
-    {
-      title: 'Dịch vụ Đào tạo',
-      icon: '🎓',
-      gradient: 'radial-gradient(circle at 30% 30%, #3a7bd5 0%, #3a6073 100%)',
-      items: [
-        'Tổ chức các khóa học về kế toán, kiểm toán, quản trị tài chính cho doanh nghiệp',
-        'Đào tạo cấp chứng chỉ Kiểm toán thực hành',
-        'Đào tạo về quản trị Doanh nghiệp',
-        'Đào tạo kiểm toán nội bộ, quản lý rủi ro doanh nghiệp'
-      ]
-    }
-  ];
-
   previewUrl: SafeResourceUrl | null = null;
   previewDocTitle = '';
   previewDocType = '';
