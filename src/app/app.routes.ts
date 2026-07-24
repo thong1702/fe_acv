@@ -14,7 +14,29 @@ export const routes: Routes = [
       },
       {
         path: 'about',
-        loadComponent: () => import('./features/public/about/about.component').then(m => m.AboutComponent)
+        children: [
+          { path: '', redirectTo: 'gioi-thieu', pathMatch: 'full' },
+          {
+            path: 'gioi-thieu',
+            loadComponent: () => import('./features/public/about/about-overview.component').then(m => m.AboutOverviewComponent)
+          },
+          {
+            path: 'to-chuc-nhan-su',
+            loadComponent: () => import('./features/public/about/about-organization.component').then(m => m.AboutOrganizationComponent)
+          },
+          {
+            path: 'mang-luoi',
+            loadComponent: () => import('./features/public/about/about-network.component').then(m => m.AboutNetworkComponent)
+          },
+          {
+            path: 'chi-nhanh',
+            loadComponent: () => import('./features/public/about/about-branches.component').then(m => m.AboutBranchesComponent)
+          },
+          {
+            path: 'van-phong-dai-dien',
+            loadComponent: () => import('./features/public/about/about-offices.component').then(m => m.AboutOfficesComponent)
+          }
+        ]
       },
       {
         path: 'posts',

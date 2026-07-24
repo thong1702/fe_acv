@@ -70,6 +70,14 @@ export interface OrganizationNode {
   id?: number;
   name: string;
   position: string;
+  degree?: string;
+  experienceYears?: number;
+  gender?: string;
+  birthYear?: number;
+  certificateNo?: string;
+  personnelGroup?: 'BAN_LANH_DAO' | 'THAM_DINH_VIEN' | 'CHUYEN_VIEN';
+  workHistory?: string;
+  keyExperience?: string;
   description?: string;
   avatarUrl?: string;
   email?: string;

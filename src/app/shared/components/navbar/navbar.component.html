@@ -16,7 +16,34 @@
         <div class="navbar-links" [class.active]="isMenuOpen">
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Trang
             Chủ</a>
-          <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">Giới Thiệu</a>
+
+          <!-- Dropdown Menu Giới Thiệu -->
+          <div class="nav-dropdown-item" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()">
+            <a routerLink="/about/gioi-thieu" routerLinkActive="active" class="dropdown-toggle-btn" (click)="toggleDropdown($event)">
+              Giới Thiệu
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" class="dropdown-chevron" [class.rotated]="isDropdownOpen">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div class="dropdown-menu-box" [class.show]="isDropdownOpen">
+              <a routerLink="/about/gioi-thieu" routerLinkActive="active" (click)="closeMenu()">
+                Giới thiệu ACV
+              </a>
+              <a routerLink="/about/to-chuc-nhan-su" routerLinkActive="active" (click)="closeMenu()">
+                Tổ chức nhân sự
+              </a>
+              <a routerLink="/about/mang-luoi" routerLinkActive="active" (click)="closeMenu()">
+                Mạng lưới hoạt động
+              </a>
+              <a routerLink="/about/chi-nhanh" routerLinkActive="active" (click)="closeMenu()">
+                Hệ thống chi nhánh
+              </a>
+              <a routerLink="/about/van-phong-dai-dien" routerLinkActive="active" (click)="closeMenu()">
+                Hệ thống văn phòng đại diện
+              </a>
+            </div>
+          </div>
+
           <a routerLink="/posts" routerLinkActive="active" (click)="closeMenu()">Hoạt Động</a>
           <a routerLink="/documents" routerLinkActive="active" (click)="closeMenu()">Văn Bản Pháp Luật</a>
           <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Liên Hệ</a>
@@ -48,4 +75,4 @@
         </div>
       </div>
     </nav>
-  
+
