@@ -223,6 +223,179 @@
       color: var(--secondary-color);
     }
 
+    /* ── Subtitles & Sections ── */
+    .intro-motto-lead {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      letter-spacing: -0.01em;
+    }
+
+    .closing-summary-box {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 22px 28px;
+      border-left: 4px solid #0284c7;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+      margin-top: 32px;
+      margin-bottom: 50px;
+
+      p {
+        font-size: 0.95rem;
+        color: #334155;
+        line-height: 1.7;
+        margin: 0;
+        text-indent: 0 !important;
+      }
+    }
+
+    .subsection-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .subsection-desc {
+      font-size: 0.92rem;
+      color: #64748b;
+      margin: 0;
+    }
+
+    /* ── 4 Core Values Grid ── */
+    .values-4-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+
+      .value-card-item {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 24px 20px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          border-color: #3b82f6;
+          box-shadow: 0 10px 24px rgba(30, 58, 138, 0.08);
+        }
+
+        .vci-icon-box {
+          font-size: 2.2rem;
+          margin-bottom: 12px;
+        }
+
+        h4 {
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #1e3a8a;
+          margin-bottom: 8px;
+        }
+
+        p {
+          font-size: 0.86rem;
+          color: #475569;
+          line-height: 1.55;
+          margin: 0;
+          text-indent: 0 !important;
+        }
+      }
+    }
+
+    /* ── Network Grid Layout ── */
+    .branches-highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .branch-highlight-card {
+        background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
+        color: #ffffff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(30, 58, 138, 0.15);
+
+        .bhc-badge {
+          display: inline-block;
+          font-size: 0.72rem;
+          font-weight: 800;
+          background: rgba(255, 255, 255, 0.18);
+          padding: 3px 12px;
+          border-radius: 10px;
+          letter-spacing: 0.08em;
+          margin-bottom: 10px;
+        }
+
+        .bhc-city {
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: #ffffff;
+          margin-bottom: 8px;
+        }
+
+        .bhc-address {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.55;
+          margin: 0;
+          text-indent: 0 !important;
+        }
+      }
+    }
+
+    .vpdd-list-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+
+      .vpdd-card {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 18px 20px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #ffffff;
+          border-color: #0284c7;
+          box-shadow: 0 6px 18px rgba(2, 132, 199, 0.1);
+        }
+
+        .vpdd-tag {
+          display: inline-block;
+          font-size: 0.74rem;
+          font-weight: 800;
+          color: #0284c7;
+          background: #e0f2fe;
+          padding: 2px 10px;
+          border-radius: 8px;
+          margin-bottom: 8px;
+        }
+
+        p {
+          font-size: 0.86rem;
+          color: #334155;
+          line-height: 1.5;
+          margin: 0;
+          text-indent: 0 !important;
+        }
+      }
+    }
+
+    @media (max-width: 991px) {
+      .values-4-grid { grid-template-columns: repeat(2, 1fr); }
+      .branches-highlight-grid { grid-template-columns: 1fr; }
+      .vpdd-list-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 576px) {
+      .values-4-grid { grid-template-columns: 1fr; }
+      .vpdd-list-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── Org section ── */
     .org-section {
       background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);

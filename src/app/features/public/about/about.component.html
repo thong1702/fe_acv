@@ -45,15 +45,83 @@
       </div>
     </section>
 
-    @if (companyInfo) {
-      <!-- Introduction -->
-      <section class="section-padding intro-section bg-white">
-        <div class="container">
-          <h2 class="section-title">Tổng Quan Doanh Nghiệp</h2>
-          <div class="rich-content mt-4" [innerHTML]="companyInfo.introduction"></div>
+    <!-- Overview & History Section -->
+    <section class="section-padding intro-section bg-white">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="text-center section-header mb-5">
+          <span class="sub-title-orange" data-icon="🏢">GIỚI THIỆU DOANH NGHIỆP</span>
+          <h2 class="section-main-title">Công ty TNHH Tư vấn và Định giá ACV</h2>
+          <div class="title-underline"></div>
         </div>
-      </section>
-    }
+
+        <!-- 1. Overview Text & Core Highlights -->
+        <div class="static-intro-content mb-4">
+          <p class="lead-intro">
+            <strong>Công ty TNHH Tư vấn và Định giá ACV (ACV Consulting and Valuation Company Limited)</strong>
+            là doanh nghiệp hoạt động độc lập, chuyên nghiệp và hợp pháp trong lĩnh vực thẩm định giá,
+            được thành lập với sứ mệnh cung cấp các giải pháp xác định giá trị tài sản chính xác,
+            khách quan và phù hợp với quy định của pháp luật.
+          </p>
+          <p>
+            Với hơn 15 năm hình thành và phát triển (từ năm 2011), ACV đã không ngừng nâng cao năng lực chuyên môn,
+            mở rộng quy mô hoạt động và khẳng định uy tín trên thị trường. Chúng tôi quy tụ đội ngũ thẩm định viên về giá,
+            chuyên gia và nhân sự giàu kinh nghiệm, được đào tạo bài bản, luôn làm việc với tinh thần trách nhiệm cao và tuân thủ nghiêm ngặt các chuẩn mực nghề nghiệp.
+            Xuyên suốt quá trình hoạt động, ACV luôn kiên định với phương châm:
+          </p>
+        </div>
+
+        <!-- 2. Slogan Banner -->
+        <div class="slogan-quote-box full-width-slogan mb-5">
+          <p class="quote-text">Uy tín và chất lượng là tiêu chí khẳng định thương hiệu ACV.</p>
+        </div>
+
+        <!-- 3. Core Values Grid (4 Thẻ Giá Trị Cốt Lõi) -->
+        <div class="core-values-full-section mb-5">
+          <div class="text-center mb-4">
+            <h3 class="subsection-title">Nền Tảng Giá Trị Cốt Lõi</h3>
+            <p class="subsection-desc">Đồng thời, mọi hoạt động nghiệp vụ đều được thực hiện trên nền tảng các giá trị cốt lõi:</p>
+          </div>
+          <div class="values-4-grid">
+            <div class="value-card-item">
+              <div class="vci-icon-box">⚖️</div>
+              <h4>Độc Lập</h4>
+              <p>Thực hiện công việc thẩm định hoàn toàn độc lập, khách quan không chịu chi phối bởi bất kỳ yếu tố bên ngoài.</p>
+            </div>
+            <div class="value-card-item">
+              <div class="vci-icon-box">🎯</div>
+              <h4>Khách Quan</h4>
+              <p>Tuân thủ nghiêm ngặt các Tiêu chuẩn Thẩm định giá Việt Nam và Quốc tế trong mọi quy trình đánh giá.</p>
+            </div>
+            <div class="value-card-item">
+              <div class="vci-icon-box">🔍</div>
+              <h4>Minh Bạch</h4>
+              <p>Số liệu khảo sát trung thực, phương pháp thẩm định rõ ràng, kết quả thẩm định được kiểm duyệt 2 cấp.</p>
+            </div>
+            <div class="value-card-item">
+              <div class="vci-icon-box">🔒</div>
+              <h4>Bảo Mật Thông Tin</h4>
+              <p>Cam kết bảo mật tuyệt đối 100% hồ sơ, tài liệu và dữ liệu tài sản của Quý khách hàng & Đối tác.</p>
+            </div>
+          </div>
+
+          <!-- Lời kết khẳng định uy tín -->
+          <div class="closing-summary-box mt-4">
+            <p>
+              Nhờ đó, ACV đã trở thành đối tác tin cậy của nhiều cơ quan nhà nước, tổ chức tín dụng,
+              doanh nghiệp và nhà đầu tư trên toàn quốc, mang đến các dịch vụ thẩm định giá chất lượng cao,
+              đáp ứng yêu cầu về tiến độ, tính chính xác và hiệu quả.
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. Lịch Sử Hình Thành & Phát Triển (Shared Component) -->
+        <app-company-history></app-company-history>
+      </div>
+    </section>
+
+    <!-- 5. Mạng Lưới Hoạt Động Công Ty (Shared Component - Giống hệt Trang Chủ) -->
+    <app-company-network></app-company-network>
 
     <!-- Specialized Fields Section -->
     <section class="section-padding bg-light expertise-section">
@@ -118,7 +186,7 @@
 
         <div class="org-tree-container">
             <div class="org-structure-root">
-              
+
               <!-- LEVEL 0: Hội đồng thành viên -->
               @if (getRootNode(); as root) {
                 <div class="struct-level level-0">
@@ -145,7 +213,7 @@
               <!-- LEVEL 1: Ban kiểm soát, Ban giám đốc, Ban cố vấn -->
               <div class="struct-level level-1">
                 <div class="level-1-row">
-                  
+
                   <!-- Left: Ban kiểm soát chất lượng -->
                   @for (node of getSideNodesLeft(); track node.id) {
                     <div class="struct-card side-card left-side">
@@ -211,7 +279,7 @@
               <!-- LEVEL 2: Departments -->
               <div class="struct-level level-2">
                 <div class="level-2-row">
-                  
+
                   @for (node of getDeptNodes(); track node.id) {
                     <div class="child-column">
                       <div class="struct-card dept-card">
@@ -287,7 +355,7 @@
 
             <div class="legend-row values-row">
               <div class="legend-col values-legend">
-                
+
                 <div class="val-item">
                   <div class="val-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

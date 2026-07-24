@@ -44,15 +44,26 @@
         <div class="intro-grid">
           <div class="intro-text">
             <span class="sub-title" data-icon="🏢">GIỚI THIỆU CHUNG</span>
-            <div class="rich-content" [innerHTML]="companyInfo.introduction"></div>
-            <a routerLink="/about" class="read-more-link">Xem thêm về chúng tôi →</a>
+            <h2>Công ty TNHH Tư vấn và Định giá ACV</h2>
+            <div class="rich-content static-intro-content">
+              <p class="lead-intro">
+                <strong>Công ty TNHH Tư vấn và Định giá ACV (ACV Consulting and Valuation Company Limited)</strong>
+                là doanh nghiệp hoạt động độc lập, chuyên nghiệp và hợp pháp trong lĩnh vực thẩm định giá,
+                được thành lập với sứ mệnh cung cấp các giải pháp xác định giá trị tài sản chính xác,
+                khách quan và phù hợp với quy định của pháp luật.
+              </p>
+              <p>
+                Với hơn 15 năm hình thành và phát triển (từ năm 2011), ACV đã không ngừng nâng cao năng lực chuyên môn,
+                mở rộng quy mô hoạt động và khẳng định uy tín trên thị trường. Chúng tôi quy tụ đội ngũ thẩm định viên về giá,
+                chuyên gia và nhân sự giàu kinh nghiệm, được đào tạo bài bản, luôn làm việc với tinh thần trách nhiệm cao và tuân thủ nghiêm ngặt các chuẩn mực nghề nghiệp...
+                <a routerLink="/about" class="inline-read-more-link">xem thêm</a>
+              </p>
+            </div>
           </div>
+
           <div class="intro-image-container">
-            <!-- Khối Thành Tựu Nổi Bật đồng bộ thiết kế -->
+            <!-- Khối Thành Tựu Nổi Bật -->
             <div class="core-values-side-card mt-0">
-              <div class="cvc-header">
-                <h3 class="cvc-title">Thành tựu nổi bật</h3>
-              </div>
               <div class="intro-stats-card">
                 <div class="isc-item">
                   <span class="isc-num" [appCountUp]="15" suffix="+">15+</span>
@@ -73,83 +84,34 @@
               </div>
             </div>
 
-            <!-- Khối Giá Trị Cốt Lõi & Cam Kết lấp đầy khoảng trống bên phải -->
+            <!-- Tạm comment Khối Cam Kết Chất Lượng theo yêu cầu -->
+            <!--
             <div class="core-values-side-card">
-              <div class="cvc-header">
-                <h3 class="cvc-title">Cam kết chất lượng</h3>
-              </div>
-              <div class="cvc-grid">
-                <div class="cvc-item">
-                  <div class="cvc-icon-badge">🛡️</div>
-                  <div class="cvc-info">
-                    <h4>Chuyên Nghiệp</h4>
-                    <p>Đội ngũ chuyên gia được cấp chứng chỉ Thẩm định giá Bộ Tài Chính.</p>
-                  </div>
-                </div>
-                <div class="cvc-item">
-                  <div class="cvc-icon-badge">⚖️</div>
-                  <div class="cvc-info">
-                    <h4>Độc Lập & Khách Quan</h4>
-                    <p>Tuân thủ Tiêu chuẩn Thẩm định giá Việt Nam & Quốc tế.</p>
-                  </div>
-                </div>
-                <div class="cvc-item">
-                  <div class="cvc-icon-badge">🔍</div>
-                  <div class="cvc-info">
-                    <h4>Minh Bạch & Chính Xác</h4>
-                    <p>Số liệu trung thực, quy trình thẩm định thẩm định 2 cấp.</p>
-                  </div>
-                </div>
-                <div class="cvc-item">
-                  <div class="cvc-icon-badge">🔒</div>
-                  <div class="cvc-info">
-                    <h4>Bảo Mật Tuyệt Đối</h4>
-                    <p>Cam kết bảo mật 100% hồ sơ & dữ liệu tài sản của khách hàng.</p>
-                  </div>
-                </div>
-              </div>
+              ...
             </div>
+            -->
 
-            <!-- Phương án 3: Quy Trình Thẩm Định 4 Bước -->
+            <!-- Tạm comment Quy Trình Làm Việc Nhanh Chóng theo yêu cầu -->
+            <!--
             <div class="process-side-card">
-              <div class="psc-header">
-                <h3 class="psc-title">Quy Trình Làm Việc Nhanh Chóng</h3>
-              </div>
-              <div class="psc-timeline">
-                <div class="psc-step">
-                  <div class="psc-step-num">01</div>
-                  <div class="psc-step-info">
-                    <h4>Tiếp Nhận & Tư Vấn</h4>
-                    <p>Tiếp nhận hồ sơ, tư vấn sơ bộ và ký kết hợp đồng dịch vụ.</p>
-                  </div>
-                </div>
-                <div class="psc-step">
-                  <div class="psc-step-num">02</div>
-                  <div class="psc-step-info">
-                    <h4>Khảo Sát Thực Địa</h4>
-                    <p>Chuyên viên khảo sát hiện trường tài sản trong vòng 24 giờ.</p>
-                  </div>
-                </div>
-                <div class="psc-step">
-                  <div class="psc-step-num">03</div>
-                  <div class="psc-step-info">
-                    <h4>Phân Tích & Lập Báo Cáo</h4>
-                    <p>Phân tích thị trường, thu thập dữ liệu và thẩm định 2 cấp.</p>
-                  </div>
-                </div>
-                <div class="psc-step">
-                  <div class="psc-step-num">04</div>
-                  <div class="psc-step-info">
-                    <h4>Phát Hành Chứng Thư</h4>
-                    <p>Bàn giao báo cáo & chứng thư thẩm định giá chính thức.</p>
-                  </div>
-                </div>
-              </div>
+              ...
             </div>
+            -->
           </div>
         </div>
+
+        <!-- Full-Width Slogan Quote Banner (Chính giữa 100%) -->
+        <div class="slogan-quote-box full-width-slogan mt-4 mb-4">
+          <p class="quote-text">Uy tín và chất lượng là tiêu chí khẳng định thương hiệu ACV.</p>
+        </div>
+
+        <!-- Full-Width LỊCH SỬ HÌNH THÀNH VÀ PHÁT TRIỂN (Reusable Component) -->
+        <app-company-history></app-company-history>
       </div>
     </section>
+
+    <!-- Khối Mạng Lưới Hoạt Động Công Ty (Reusable Component) -->
+    <app-company-network></app-company-network>
     }
 
     <!-- area of expertise -->

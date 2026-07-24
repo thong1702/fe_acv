@@ -16,11 +16,14 @@ interface OrgTreeNode extends OrganizationNode {
 const DEFAULT_AVATAR =
   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%23cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background-color:%23f1f5f9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
+import { CompanyHistoryComponent } from '../../../shared/components/company-history/company-history.component';
+import { CompanyNetworkComponent } from '../../../shared/components/company-network/company-network.component';
+
 /* ─────────── Fallback company info ─────────── */
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CompanyHistoryComponent, CompanyNetworkComponent],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
 })

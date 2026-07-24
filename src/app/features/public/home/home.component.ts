@@ -11,11 +11,13 @@ import { Category, CompanyInfo, DocumentInfo, Post } from '../../../core/models/
 import { Title, Meta, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../core/constants/environment';
 import { CountUpDirective } from '../../../shared/directives/count-up.directive';
+import { CompanyHistoryComponent } from '../../../shared/components/company-history/company-history.component';
+import { CompanyNetworkComponent } from '../../../shared/components/company-network/company-network.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, CountUpDirective],
+  imports: [CommonModule, RouterModule, CountUpDirective, CompanyHistoryComponent, CompanyNetworkComponent],
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {

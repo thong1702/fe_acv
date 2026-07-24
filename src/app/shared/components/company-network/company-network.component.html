@@ -1,0 +1,110 @@
+<!-- Khối Mạng Lưới Hoạt Động Công Ty (Thiết kế chuẩn theo mẫu ảnh) -->
+<section class="section-padding network-map-section">
+  <div class="network-bg-patterns"></div>
+  <div class="container relative-z">
+    <!-- Section Header đồng bộ với các mục khác trên website -->
+    <div class="text-center section-header mb-5">
+      <span class="sub-title-orange" data-icon="🌐">MẠNG LƯỚI HOẠT ĐỘNG</span>
+      <h2 class="section-main-title">Mạng Lưới Công Ty</h2>
+      <div class="title-underline"></div>
+    </div>
+
+    <div class="network-grid">
+      <!-- Left: Vietnam Map Visual Graphic -->
+      <div class="network-map-visual">
+        <div class="map-graphic-container">
+          <img src="/vietnam-map.png" alt="Bản đồ mạng lưới ACV toàn quốc" class="vietnam-map-img">
+          
+          <!-- Interactive Animated Location Pins Overlay -->
+          <div class="map-pins-overlay">
+            <!-- Hà Nội (Trụ sở chính & VPĐD Bắc) -->
+            <div class="pin-marker node-hanoi" [class.active]="selectedNetworkIndex === 0 || selectedNetworkIndex === 3 || selectedNetworkIndex === 4 || selectedNetworkIndex === 6" (click)="selectLocation(0)" title="Văn phòng Hà Nội">
+              <div class="pin-pulse"></div>
+              <div class="pin-dot"></div>
+              <span class="pin-tooltip">Hà Nội & Miền Bắc</span>
+            </div>
+
+            <!-- Nghệ An (Chi nhánh Miền Trung) -->
+            <div class="pin-marker node-nghean" [class.active]="selectedNetworkIndex === 2" (click)="selectLocation(2)" title="Chi nhánh Nghệ An">
+              <div class="pin-pulse"></div>
+              <div class="pin-dot"></div>
+              <span class="pin-tooltip">Nghệ An</span>
+            </div>
+
+            <!-- Quảng Ngãi (VPĐD Miền Trung) -->
+            <div class="pin-marker node-quangngai" [class.active]="selectedNetworkIndex === 5" (click)="selectLocation(5)" title="VPĐD Quảng Ngãi">
+              <div class="pin-pulse"></div>
+              <div class="pin-dot"></div>
+              <span class="pin-tooltip">Quảng Ngãi</span>
+            </div>
+
+            <!-- TP. Hồ Chí Minh (Chi nhánh Miền Nam) -->
+            <div class="pin-marker node-hcm" [class.active]="selectedNetworkIndex === 1" (click)="selectLocation(1)" title="Chi nhánh TP.HCM">
+              <div class="pin-pulse"></div>
+              <div class="pin-dot"></div>
+              <span class="pin-tooltip">TP. Hồ Chí Minh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Content & Office Slider -->
+      <div class="network-content">
+        <p class="network-desc">
+          Công ty TNHH Tư vấn và Định giá ACV với hệ thống rộng khắp cả nước sẽ 
+          đáp ứng kịp thời nhu cầu thẩm định giá tài sản của quý khách hàng, quý đối tác.
+        </p>
+
+        <!-- Location Search Dropdown -->
+        <div class="location-select-wrapper">
+          <select class="location-select" [value]="selectedNetworkIndex" (change)="selectLocation($any($event.target).value)">
+            @for (loc of networkLocations; track loc.id; let i = $index) {
+              <option [value]="i">
+                📍 {{ loc.city }} - {{ loc.name }}
+              </option>
+            }
+          </select>
+          <span class="select-arrow">∨</span>
+        </div>
+
+        <!-- Active Office Card Slider Box -->
+        <div class="office-slider-container">
+          <button class="slider-arrow prev-btn" (click)="prevLocation()" title="Văn phòng trước">
+            ←
+          </button>
+
+          <div class="office-active-card">
+            <div class="oac-icon-header">
+              <span class="oac-badge-icon">🏢</span>
+              <span class="oac-city-name">{{ networkLocations[selectedNetworkIndex].city }}</span>
+            </div>
+            <h3 class="oac-title">{{ networkLocations[selectedNetworkIndex].name }}</h3>
+            <p class="oac-address">{{ networkLocations[selectedNetworkIndex].address }}</p>
+            <div class="oac-contact">
+              <span class="oac-phone-label">Hotline:</span>
+              <a [href]="'tel:' + networkLocations[selectedNetworkIndex].phone" class="oac-phone-num">
+                {{ networkLocations[selectedNetworkIndex].phone }}
+              </a>
+            </div>
+          </div>
+
+          <button class="slider-arrow next-btn" (click)="nextLocation()" title="Văn phòng tiếp">
+            →
+          </button>
+        </div>
+
+        <!-- Pagination Dots -->
+        <div class="slider-pagination-dots">
+          @for (loc of networkLocations; track loc.id; let i = $index) {
+            <button 
+              class="dot-item" 
+              [class.active]="i === selectedNetworkIndex"
+              (click)="selectLocation(i)"
+              [title]="loc.name">
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

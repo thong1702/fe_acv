@@ -18,6 +18,8 @@
           <!-- Tabs to switch sections -->
           <div class="tabs-container">
             <div class="tabs-header">
+              <!-- Tạm ẩn Tab Giới thiệu chung và Lịch sử hình thành theo yêu cầu -->
+              <!--
               <button
                 type="button"
                 class="tab-btn"
@@ -32,6 +34,7 @@
                 (click)="activeTab = 'history'">
                 📜 Lịch Sử Hình Thành
               </button>
+              -->
 
               <button
                 type="button"
@@ -43,7 +46,8 @@
             </div>
 
             <div class="tabs-body card">
-              <!-- Introduction Tab -->
+              <!-- Tạm ẩn Nội dung Tab Giới Thiệu & Lịch Sử theo yêu cầu -->
+              <!--
               <div *ngIf="activeTab === 'intro'" class="tab-pane animate-fade">
                 <h3>Tổng Quan Giới Thiệu</h3>
                 <p class="tab-desc">Nội dung hiển thị tại phần giới thiệu trang chủ và trang chi tiết.</p>
@@ -52,7 +56,6 @@
                 </div>
               </div>
 
-              <!-- History Tab -->
               <div *ngIf="activeTab === 'history'" class="tab-pane animate-fade">
                 <h3>Lịch Sử Phát Triển</h3>
                 <p class="tab-desc">Mô tả lịch sử các cột mốc quan trọng của công ty.</p>
@@ -60,6 +63,7 @@
                   <app-rich-text-editor formControlName="history"></app-rich-text-editor>
                 </div>
               </div>
+              -->
 
 
 

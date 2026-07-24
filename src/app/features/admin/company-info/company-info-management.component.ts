@@ -22,13 +22,13 @@ export class CompanyInfoManagementComponent implements OnInit {
   saving = false;
   successMessage = '';
   errorMessage = '';
-  activeTab = 'intro';
+  activeTab = 'contact';
 
   companyInfoId?: number;
 
   infoForm = this.fb.group({
-    introduction: ['', Validators.required],
-    history: ['', Validators.required],
+    introduction: [''],
+    history: [''],
     contactInfo: ['', Validators.required]
   });
 
