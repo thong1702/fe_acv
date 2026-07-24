@@ -4,9 +4,9 @@
           <div class="container">
             <ul class="breadcrumbs">
               <li><a href="/">Trang Chủ</a></li>
-              <li>Tin Tức & Hoạt Động</li>
+              <li>Hoạt Động</li>
             </ul>
-            <h1>Tin Tức & Hoạt Động</h1>
+            <h1>Hoạt Động</h1>
           </div>
         </div>
         <div class="container section-padding">
@@ -27,7 +27,7 @@
                 <h3>Danh Mục</h3>
                 <ul class="category-list">
                   <li [class.active]="!selectedCategoryId">
-                    <a (click)="filterByCategory(undefined)">Tất Cả Tin Tức</a>
+                    <a (click)="filterByCategory(undefined)">Tất Cả</a>
                   </li>
                   @for (cat of categories; track cat.id) {
                     <li [class.active]="selectedCategoryId === cat.id">
