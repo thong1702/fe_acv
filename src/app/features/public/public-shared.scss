@@ -736,20 +736,29 @@
 }
 
 /* History Timeline Preview */
-/* Inline xem thêm link */
 .inline-read-more-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #2563eb;
+  color: #0284c7;
   text-decoration: none;
   transition: all 0.2s ease;
+  vertical-align: middle;
+  margin-left: 4px;
+
+  .arrow-icon {
+    transition: transform 0.25s ease;
+  }
 
   &:hover {
     color: #1e3a8a;
-    text-decoration: underline;
+    text-decoration: none;
+
+    .arrow-icon {
+      transform: translateX(4px);
+    }
   }
 }
 

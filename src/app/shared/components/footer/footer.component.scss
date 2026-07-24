@@ -76,13 +76,13 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
 
-      &.linkedin {
+      &.phone {
         color: #ffffff;
-        background: #0a66c2;
-        box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
+        background: #0284c7;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
         &:hover {
           transform: translateY(-3px) scale(1.05);
-          box-shadow: 0 8px 20px rgba(10, 102, 194, 0.6);
+          box-shadow: 0 8px 20px rgba(2, 132, 199, 0.6);
         }
       }
 

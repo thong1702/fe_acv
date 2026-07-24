@@ -24,7 +24,7 @@ export class CompanyNetworkComponent {
       city: 'Hà Nội',
       name: 'Văn Phòng Đại Diện Hà Nội',
       address: 'Nhà số 5, ngách 172/1 đường Nguyễn Tuân, phường Thanh Xuân, Thành phố Hà Nội.',
-      phone: '0985 103 666'
+      phone: '0986 882 868'
     },
     {
       id: 2,

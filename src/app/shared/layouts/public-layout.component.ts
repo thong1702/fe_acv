@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NavbarComponent} from '../components/navbar/navbar.component';
@@ -12,4 +12,14 @@ import {FooterComponent} from '../components/footer/footer.component';
   styleUrl: './public-layout.component.scss'
 })
 export class PublicLayoutComponent {
+  showScrollTop = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.showScrollTop = window.scrollY > 250;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
