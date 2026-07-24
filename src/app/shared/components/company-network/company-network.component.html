@@ -15,35 +15,23 @@
         <div class="map-graphic-container">
           <img src="/vietnam-map.png" alt="Bản đồ mạng lưới ACV toàn quốc" class="vietnam-map-img">
           
-          <!-- Interactive Animated Location Pins Overlay -->
+          <!-- Interactive Animated Location Pins Overlay (Hiển thị đầy đủ 7 địa điểm bằng SVG Pin Icon) -->
           <div class="map-pins-overlay">
-            <!-- Hà Nội (Trụ sở chính & VPĐD Bắc) -->
-            <div class="pin-marker node-hanoi" [class.active]="selectedNetworkIndex === 0 || selectedNetworkIndex === 3 || selectedNetworkIndex === 4 || selectedNetworkIndex === 6" (click)="selectLocation(0)" title="Văn phòng Hà Nội">
-              <div class="pin-pulse"></div>
-              <div class="pin-dot"></div>
-              <span class="pin-tooltip">Hà Nội & Miền Bắc</span>
-            </div>
-
-            <!-- Nghệ An (Chi nhánh Miền Trung) -->
-            <div class="pin-marker node-nghean" [class.active]="selectedNetworkIndex === 2" (click)="selectLocation(2)" title="Chi nhánh Nghệ An">
-              <div class="pin-pulse"></div>
-              <div class="pin-dot"></div>
-              <span class="pin-tooltip">Nghệ An</span>
-            </div>
-
-            <!-- Quảng Ngãi (VPĐD Miền Trung) -->
-            <div class="pin-marker node-quangngai" [class.active]="selectedNetworkIndex === 5" (click)="selectLocation(5)" title="VPĐD Quảng Ngãi">
-              <div class="pin-pulse"></div>
-              <div class="pin-dot"></div>
-              <span class="pin-tooltip">Quảng Ngãi</span>
-            </div>
-
-            <!-- TP. Hồ Chí Minh (Chi nhánh Miền Nam) -->
-            <div class="pin-marker node-hcm" [class.active]="selectedNetworkIndex === 1" (click)="selectLocation(1)" title="Chi nhánh TP.HCM">
-              <div class="pin-pulse"></div>
-              <div class="pin-dot"></div>
-              <span class="pin-tooltip">TP. Hồ Chí Minh</span>
-            </div>
+            @for (loc of networkLocations; track loc.id; let i = $index) {
+              <div 
+                class="pin-marker node-pin-{{ i }}" 
+                [class.active]="selectedNetworkIndex === i" 
+                (click)="selectLocation(i)" 
+                [title]="loc.name">
+                <div class="pin-pulse"></div>
+                <div class="pin-icon-wrap">
+                  <svg width="14" height="17" viewBox="0 0 24 28" class="pin-svg">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 16 12 16s12-7 12-16c0-6.63-5.37-12-12-12zm0 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" class="pin-path" stroke="#ffffff" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="pin-tooltip">{{ loc.city }} - {{ loc.name }}</span>
+              </div>
+            }
           </div>
         </div>
       </div>

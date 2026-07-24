@@ -1,12 +1,12 @@
 <div class="contact-page animate-fade">
   <div class="home-sections-wrapper">
-    
+
     <!-- Page Header đồng bộ màu xanh chữ trắng -->
     <div class="page-header">
       <div class="container">
         <ul class="breadcrumbs">
           <li><a href="/">Trang Chủ</a></li>
-          <li>Liên Hệ Vẫn Xanh ACV</li>
+          <li>Liên Hệ</li>
         </ul>
         <h1>Liên Hệ Với Chúng Tôi</h1>
       </div>
@@ -15,10 +15,10 @@
     <!-- Section Thông tin & Form Liên hệ -->
     <section class="section-padding contact-main-section">
       <div class="container">
-        
+
         <!-- Contact Cards Grid -->
         <div class="contact-cards-grid">
-          
+
           <div class="contact-card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -35,7 +35,9 @@
           <div class="contact-card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
               </svg>
             </div>
             <div class="card-content">
@@ -77,29 +79,34 @@
 
         <!-- Form & Info Section Grid -->
         <div class="contact-grid">
-          
+
           <!-- Left Column: Form Yêu cầu tư vấn -->
           <div class="contact-form-card">
             <div class="form-header">
               <h2>Đăng Ký Nhận Tư Vấn Trực Tuyến</h2>
-              <p>Quý khách vui lòng điền đầy đủ thông tin bên dưới, chuyên viên tư vấn của ACV sẽ liên hệ hỗ trợ trong thời gian sớm nhất!</p>
+              <p>Quý khách vui lòng điền đầy đủ thông tin bên dưới, chuyên viên tư vấn của ACV sẽ liên hệ hỗ trợ trong
+                thời gian sớm nhất!</p>
             </div>
 
             <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-              
+
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label for="fullName">Họ và Tên Quý Khách <span class="required">*</span></label>
-                  <input type="text" id="fullName" formControlName="fullName" class="form-control" placeholder="Nhập họ tên...">
-                  <small *ngIf="contactForm.get('fullName')?.touched && contactForm.get('fullName')?.invalid" class="error-text">
+                  <input type="text" id="fullName" formControlName="fullName" class="form-control"
+                    placeholder="Nhập họ tên...">
+                  <small *ngIf="contactForm.get('fullName')?.touched && contactForm.get('fullName')?.invalid"
+                    class="error-text">
                     Vui lòng nhập họ và tên
                   </small>
                 </div>
 
                 <div class="form-group flex-1">
                   <label for="phone">Số Điện Thoại Liên Hệ <span class="required">*</span></label>
-                  <input type="tel" id="phone" formControlName="phone" class="form-control" placeholder="Nhập số điện thoại...">
-                  <small *ngIf="contactForm.get('phone')?.touched && contactForm.get('phone')?.invalid" class="error-text">
+                  <input type="tel" id="phone" formControlName="phone" class="form-control"
+                    placeholder="Nhập số điện thoại...">
+                  <small *ngIf="contactForm.get('phone')?.touched && contactForm.get('phone')?.invalid"
+                    class="error-text">
                     Số điện thoại không hợp lệ
                   </small>
                 </div>
@@ -108,8 +115,10 @@
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label for="email">Địa Chỉ Email</label>
-                  <input type="email" id="email" formControlName="email" class="form-control" placeholder="example@domain.com">
-                  <small *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid" class="error-text">
+                  <input type="email" id="email" formControlName="email" class="form-control"
+                    placeholder="example@domain.com">
+                  <small *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid"
+                    class="error-text">
                     Email không đúng định dạng
                   </small>
                 </div>
@@ -118,7 +127,7 @@
                   <label for="serviceType">Dịch Vụ Hợp Tác / Tư Vấn <span class="required">*</span></label>
                   <select id="serviceType" formControlName="serviceType" class="form-control">
                     @for (s of servicesList; track s) {
-                      <option [value]="s">{{ s }}</option>
+                    <option [value]="s">{{ s }}</option>
                     }
                   </select>
                 </div>
@@ -126,7 +135,8 @@
 
               <div class="form-group">
                 <label for="content">Nội Dung Yêu Cầu / Chi Tiết Tài Sản Cần Thẩm Định</label>
-                <textarea id="content" formControlName="content" class="form-control" rows="4" placeholder="Mô tả sơ bộ về tài sản, quy mô hoặc câu hỏi cần giải đáp..."></textarea>
+                <textarea id="content" formControlName="content" class="form-control" rows="4"
+                  placeholder="Mô tả sơ bộ về tài sản, quy mô hoặc câu hỏi cần giải đáp..."></textarea>
               </div>
 
               <div class="form-actions">
@@ -184,16 +194,13 @@
         <!-- Google Maps Section -->
         <div class="map-section mt-5">
           <div class="map-header text-center mb-3">
-            <p class="map-address-single-line">📍 Văn phòng GD: Tầng 7, Tòa nhà Hoa Đăng, 290 Nguyễn Trãi, Phường Đại Mỗ, TP. Hà Nội</p>
+            <p class="map-address-single-line">📍 Văn phòng GD: Tầng 7, Tòa nhà Hoa Đăng, 290 Nguyễn Trãi, Phường Đại
+              Mỗ, TP. Hà Nội</p>
           </div>
           <div class="map-container">
             <iframe
               src="https://maps.google.com/maps?q=290+Nguy%E1%BB%85n+Tr%C3%A3i%2C+Hoa+%C4%90%C4%83ng%2C+H%C3%A0+N%E1%BB%99i&t=&z=17&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="450"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
+              width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
           </div>
