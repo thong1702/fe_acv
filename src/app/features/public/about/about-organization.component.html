@@ -254,7 +254,9 @@
 
         @if (getBoardOfDirectors().length > visibleCards) {
         <div class="slider-progress-bar-container">
+          @if (progressState) {
           <div class="slider-progress-bar" [class.paused]="isPaused"></div>
+          }
         </div>
         }
 
@@ -270,7 +272,7 @@
           }
 
           <div class="leadership-slider-viewport">
-            <div class="leadership-slider-mover" [style.transform]="getSliderTransform()" [style.transition]="getSliderTransition()">
+            <div class="leadership-slider-mover" [class.no-transition]="!isTransitioning" [style.transform]="getSliderTransform()" [style.transition]="getSliderTransition()">
               <div class="leadership-slider-track" [class.justify-center]="getBoardOfDirectors().length <= visibleCards">
                 @for (leader of displayLeaders; track $index) {
                 <div class="leader-card-slide" [class.active-center-slide]="isCenterSlide($index)">
@@ -292,7 +294,7 @@
 
                     <div class="leader-avatar-wrapper square-frame">
                       @if (leader.avatarUrl) {
-                      <img [src]="leader.avatarUrl" (error)="onAvatarError($event)" class="leader-avatar-square" [alt]="leader.name">
+                      <img [src]="leader.avatarUrl" (error)="onAvatarError($event, leader)" class="leader-avatar-square" [alt]="leader.name">
                       } @else {
                       <div class="avatar-monogram-placeholder" [class.gold-mono]="getBadgeTier(leader.position) === 'gold'">
                         <span class="monogram-text">{{ getInitials(leader.name) }}</span>

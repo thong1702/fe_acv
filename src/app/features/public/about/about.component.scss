@@ -1096,6 +1096,13 @@
           width: 100%;
           transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
           will-change: transform;
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+
+          &.no-transition,
+          &.no-transition * {
+            transition: none !important;
+          }
         }
 
         .leadership-slider-track {
@@ -1116,16 +1123,11 @@
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-          transform: scale(0.94);
-          opacity: 0.85;
 
           @media (max-width: 992px) {
             flex: 0 0 calc((100% - 24px) / 2);
             width: calc((100% - 24px) / 2);
             max-width: calc((100% - 24px) / 2);
-            transform: scale(1);
-            opacity: 1;
           }
 
           @media (max-width: 576px) {
@@ -1134,12 +1136,21 @@
             max-width: 100%;
           }
 
+          .leader-card {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+            transform: scale(0.93);
+            opacity: 0.82;
+            will-change: transform, opacity;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+          }
+
           &.active-center-slide {
-            transform: scale(1.04);
-            opacity: 1;
             z-index: 5;
 
             .leader-card {
+              transform: scale(1.04);
+              opacity: 1;
               border-color: #2b5f97;
               box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
 

@@ -37,6 +37,14 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
   private autoSlideTimer: any = null;
   private resetTimeout: any = null;
   isPaused = false;
+  progressState = true;
+
+  resetProgressBar(): void {
+    this.progressState = false;
+    setTimeout(() => {
+      this.progressState = true;
+    }, 20);
+  }
 
   private touchStartX = 0;
   private touchEndX = 0;
@@ -123,6 +131,7 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
 
     this.isTransitioning = true;
     this.currentTrackIndex++;
+    this.resetProgressBar();
 
     if (this.currentTrackIndex >= rawLen + this.cloneOffset) {
       this.scheduleLoopReset(this.cloneOffset);
@@ -135,6 +144,7 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
 
     this.isTransitioning = true;
     this.currentTrackIndex--;
+    this.resetProgressBar();
 
     if (this.currentTrackIndex < this.cloneOffset) {
       this.scheduleLoopReset(rawLen + this.cloneOffset - 1);
@@ -147,9 +157,11 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
       this.isTransitioning = false;
       this.currentTrackIndex = targetIndex;
 
-      setTimeout(() => {
-        this.isTransitioning = true;
-      }, 30);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.isTransitioning = true;
+        });
+      });
     }, 500);
   }
 
@@ -158,6 +170,7 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
     if (rawLen <= this.visibleCards) return;
     this.isTransitioning = true;
     this.currentTrackIndex = realIndex + this.cloneOffset;
+    this.resetProgressBar();
   }
 
   getRealActiveIndex(): number {
@@ -331,8 +344,13 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  onAvatarError(event: any): void {
-    event.target.src = this.defaultAvatar;
+  onAvatarError(event: any, leader?: OrganizationNode): void {
+    if (leader) {
+      leader.avatarUrl = '';
+    }
+    if (event && event.target) {
+      event.target.src = this.defaultAvatar;
+    }
   }
 }
 
