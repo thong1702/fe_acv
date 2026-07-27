@@ -157,3 +157,38 @@
       max-width: 680px !important;
     }
 
+    .group-toggle-wrapper {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .btn-group-toggle {
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748b;
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+
+      &:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        background: #f0f9ff;
+      }
+
+      &.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+        box-shadow: 0 2px 8px rgba(43, 95, 151, 0.25);
+      }
+    }
+

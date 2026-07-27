@@ -6,6 +6,7 @@ import { OrganizationNode } from '../../../core/models/models';
 import { AdminCountService } from '../../../core/services/admin-count.service';
 import { ORG_STRUCTURE_NODES } from '../../../core/constants/organization.constants';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmDialogService } from '../../../core/services/confirm-dialog.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
@@ -40,11 +41,12 @@ export class OrganizationManagementComponent implements OnInit {
 
   searchQuery = '';
   filterPersonnelGroup = '';
+  selectedGroups: string[] = ['BAN_LANH_DAO'];
 
   nodeForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(255)]],
     position: ['', [Validators.required, Validators.maxLength(255)]],
-    personnelGroup: ['BAN_LANH_DAO', [Validators.required]],
+    personnelGroup: ['BAN_LANH_DAO'],
     degree: [''],
     experienceYears: [null as number | null],
     gender: ['Nam'],
@@ -92,7 +94,7 @@ export class OrganizationManagementComponent implements OnInit {
 
     // Apply Personnel Group Filter
     if (this.filterPersonnelGroup) {
-      result = result.filter(n => n.personnelGroup === this.filterPersonnelGroup);
+      result = result.filter(n => n.personnelGroup && n.personnelGroup.includes(this.filterPersonnelGroup));
     }
 
     this.filteredNodes = result;
@@ -101,6 +103,25 @@ export class OrganizationManagementComponent implements OnInit {
       this.page = 0;
     }
     this.updatePaginatedNodes();
+  }
+
+  hasGroup(personnelGroupStr: string | undefined, groupKey: string): boolean {
+    return !!personnelGroupStr && personnelGroupStr.includes(groupKey);
+  }
+
+  isGroupSelected(groupKey: string): boolean {
+    return this.selectedGroups.includes(groupKey);
+  }
+
+  toggleGroup(groupKey: string): void {
+    if (this.isGroupSelected(groupKey)) {
+      if (this.selectedGroups.length > 1) {
+        this.selectedGroups = this.selectedGroups.filter(g => g !== groupKey);
+      }
+    } else {
+      this.selectedGroups.push(groupKey);
+    }
+    this.nodeForm.patchValue({ personnelGroup: this.selectedGroups.join(',') });
   }
 
   updatePaginatedNodes(): void {
@@ -152,6 +173,7 @@ export class OrganizationManagementComponent implements OnInit {
     this.isEditMode = false;
     this.editNodeId = undefined;
     this.avatarPreview = '';
+    this.selectedGroups = ['BAN_LANH_DAO'];
     this.nodeForm.reset({
       name: '',
       position: '',
@@ -176,10 +198,16 @@ export class OrganizationManagementComponent implements OnInit {
     this.isEditMode = true;
     this.editNodeId = node.id;
     this.avatarPreview = node.avatarUrl || '';
+    if (node.personnelGroup) {
+      this.selectedGroups = node.personnelGroup.split(',').map(s => s.trim()).filter(Boolean);
+    } else {
+      this.selectedGroups = ['BAN_LANH_DAO'];
+    }
+
     this.nodeForm.patchValue({
       name: node.name,
       position: node.position,
-      personnelGroup: node.personnelGroup || 'BAN_LANH_DAO',
+      personnelGroup: this.selectedGroups.join(','),
       degree: node.degree || '',
       experienceYears: node.experienceYears || null,
       gender: node.gender || 'Nam',
@@ -202,14 +230,19 @@ export class OrganizationManagementComponent implements OnInit {
 
   onSubmit(): void {
     if (this.nodeForm.invalid) return;
+    if (this.selectedGroups.length === 0) {
+      this.toastService.warning('Vui lòng chọn ít nhất 1 phân nhóm nhân sự.');
+      return;
+    }
 
     this.saving = true;
     const formVal = this.nodeForm.value;
+    const groupStr = this.selectedGroups.join(',');
 
     const payload: Partial<OrganizationNode> = {
       name: formVal.name!,
       position: formVal.position!,
-      personnelGroup: (formVal.personnelGroup as any) || 'BAN_LANH_DAO',
+      personnelGroup: groupStr,
       degree: formVal.degree || '',
       experienceYears: formVal.experienceYears ? Number(formVal.experienceYears) : undefined,
       gender: formVal.gender || 'Nam',
@@ -255,10 +288,12 @@ export class OrganizationManagementComponent implements OnInit {
     }
   }
 
+  private confirmService = inject(ConfirmDialogService);
+
   deleteNode(node: OrganizationNode): void {
     if (!node.id) return;
-    if (confirm(`Bạn có chắc chắn muốn xóa nhân sự "${node.name}" khỏi cơ cấu tổ chức không?`)) {
-      this.orgService.deleteNode(node.id).subscribe({
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa nhân sự "${node.name}" khỏi cơ cấu tổ chức không?`, () => {
+      this.orgService.deleteNode(node.id!).subscribe({
         next: () => {
           this.toastService.success('Xóa nhân sự thành công.');
           this.loadNodes();
@@ -269,6 +304,6 @@ export class OrganizationManagementComponent implements OnInit {
           this.toastService.error('Không thể xóa nhân sự này.');
         }
       });
-    }
+    });
   }
 }

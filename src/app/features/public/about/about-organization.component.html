@@ -165,7 +165,7 @@
         </div>
 
         <!-- LEGEND SECTION OUTSIDE THE SCROLLBAR CONTAINER -->
-        <div class="org-legend-box">
+        <!--<div class="org-legend-box">
           <div class="legend-row lines-row">
             <div class="legend-col lines-legend">
               <span class="legend-title">GHI CHÚ:</span>
@@ -239,7 +239,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </section>
 
@@ -262,11 +262,37 @@
             </div>
             <h3 class="leader-name">{{ leader.name }}</h3>
             <p class="leader-deg">{{ leader.degree || 'Cử nhân Kinh tế / Thẩm định viên' }}</p>
-            @if (leader.experienceYears) {
-            <p class="leader-exp">⏱️ {{ leader.experienceYears }}+ năm kinh nghiệm trong ngành</p>
-            }
-            @if (leader.certificateNo) {
-            <p class="leader-cert">📜 Thẻ TĐV / Chứng chỉ: <strong>{{ leader.certificateNo }}</strong></p>
+            @if (leader.experienceYears || leader.certificateNo) {
+            <div class="leader-credentials-box">
+              @if (leader.experienceYears) {
+              <div class="cred-item">
+                <span class="cred-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </span>
+                <span class="cred-text">kinh nghiệm chuyên môn: <strong>{{ leader.experienceYears }}+
+                    năm</strong></span>
+              </div>
+              }
+              @if (leader.certificateNo) {
+              <div class="cred-item">
+                <span class="cred-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+                    <circle cx="9" cy="10" r="2.5"></circle>
+                    <path d="M15 8h2"></path>
+                    <path d="M15 12h2"></path>
+                    <path d="M7 16h10"></path>
+                  </svg>
+                </span>
+                <span class="cred-text">Thẻ TĐV / Chứng chỉ: <strong>{{ leader.certificateNo }}</strong></span>
+              </div>
+              }
+            </div>
             }
             <button class="btn-profile-detail mt-3" (click)="openProfileModal(leader)">
               📄 Xem Lý lịch trích ngang
@@ -294,7 +320,7 @@
                 <th>Họ và Tên Thẩm Định Viên</th>
                 <th style="width: 120px; text-align: center">Giới tính</th>
                 <th>Mã Số Thẻ Thẩm Định Viên</th>
-                <th style="width: 140px; text-align: center">Thao tác</th>
+                <th style="width: 140px; text-align: center">Xem</th>
               </tr>
             </thead>
             <tbody>
@@ -307,7 +333,12 @@
                 <td style="text-align: center">{{ valuer.gender || 'Nam' }}</td>
                 <td><span class="cert-tag">{{ valuer.certificateNo || 'Đang cập nhật' }}</span></td>
                 <td style="text-align: center">
-                  <button class="btn-table-view" (click)="openProfileModal(valuer)">Lý lịch</button>
+                  <button (click)="openProfileModal(valuer)" class="act-btn view" title="Xem trực tuyến">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
                 </td>
               </tr>
               }
@@ -333,18 +364,21 @@
             <img [src]="selectedEmployee.avatarUrl || defaultAvatar" (error)="onAvatarError($event)" class="pmb-avatar"
               [alt]="selectedEmployee.name">
             <div class="pmb-meta">
+              <p><strong>Học vấn, chứng chỉ nghề:</strong></p>
               @if (selectedEmployee.degree) {
-              <p><strong>🎓 Trình độ / Bằng cấp:</strong> {{ selectedEmployee.degree }}</p>
+              <p style="padding-left: 12px; margin-bottom: 4px;">➢ {{ selectedEmployee.degree }}</p>
               }
               @if (selectedEmployee.certificateNo) {
-              <p><strong>📜 Thẻ TĐV / Chứng chỉ:</strong> {{ selectedEmployee.certificateNo }}</p>
+              <p style="padding-left: 12px; margin-bottom: 4px;">➢ Thẻ Thẩm định viên số: {{
+                selectedEmployee.certificateNo }}</p>
               }
               @if (selectedEmployee.experienceYears) {
-              <p><strong>⏱️ Kinh nghiệm:</strong> {{ selectedEmployee.experienceYears }} năm</p>
+              <p style="padding-left: 12px; margin-bottom: 4px;">➢ {{ selectedEmployee.experienceYears }} năm kinh
+                nghiệm</p>
               }
               @if (selectedEmployee.email) {
-              <p><strong>✉️ Email:</strong> <a [href]="'mailto:' + selectedEmployee.email">{{ selectedEmployee.email
-                  }}</a></p>
+              <p style="margin-top: 8px;"><strong>✉️ Email:</strong> <a [href]="'mailto:' + selectedEmployee.email">{{
+                  selectedEmployee.email }}</a></p>
               }
               @if (selectedEmployee.phone) {
               <p><strong>📞 Điện thoại:</strong> <a [href]="'tel:' + selectedEmployee.phone">{{ selectedEmployee.phone
@@ -355,21 +389,21 @@
 
           @if (selectedEmployee.workHistory) {
           <div class="pmb-section mt-4">
-            <h4>💼 Quá Trình Công Tác & Vị Trí Đảm Nhiệm</h4>
+            <h4>Quá trình công tác:</h4>
             <div class="pmb-text-box">{{ selectedEmployee.workHistory }}</div>
           </div>
           }
 
           @if (selectedEmployee.keyExperience) {
           <div class="pmb-section mt-4">
-            <h4>🎖️ Kinh Nghiệm Chuyên Môn & Quản Lý Dự Án</h4>
+            <h4>Kinh nghiệm nghề nghiệp và quản lý:</h4>
             <div class="pmb-text-box">{{ selectedEmployee.keyExperience }}</div>
           </div>
           }
 
           @if (selectedEmployee.description) {
           <div class="pmb-section mt-4">
-            <h4>📝 Ghi Chú & Tóm Tắt Năng Lực</h4>
+            <h4>Tóm tắt năng lực:</h4>
             <div class="pmb-text-box">{{ selectedEmployee.description }}</div>
           </div>
           }

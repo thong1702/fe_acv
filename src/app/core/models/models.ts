@@ -75,7 +75,7 @@ export interface OrganizationNode {
   gender?: string;
   birthYear?: number;
   certificateNo?: string;
-  personnelGroup?: 'BAN_LANH_DAO' | 'THAM_DINH_VIEN' | 'CHUYEN_VIEN';
+  personnelGroup?: string;
   workHistory?: string;
   keyExperience?: string;
   description?: string;

@@ -8,6 +8,7 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import {AdminCountService} from '../../../core/services/admin-count.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {ConfirmDialogService} from '../../../core/services/confirm-dialog.service';
 import {environment} from '../../../core/constants/environment';
 
 @Component({
@@ -99,10 +100,12 @@ export class DocumentManagementComponent implements OnInit {
     this.loadDocuments();
   }
 
+  private confirmService = inject(ConfirmDialogService);
+
   deleteDocument(doc: DocumentInfo): void {
     if (!doc.id) return;
-    if (confirm(`Bạn có chắc chắn muốn xóa văn bản "${doc.docNumber}" không?`)) {
-      this.docService.deleteDocument(doc.id).subscribe({
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa văn bản "${doc.docNumber}" không?`, () => {
+      this.docService.deleteDocument(doc.id!).subscribe({
         next: () => {
           this.toastService.success('Xóa văn bản thành công.');
           this.loadDocuments();
@@ -114,7 +117,7 @@ export class DocumentManagementComponent implements OnInit {
           this.countService.triggerRefresh();
         }
       });
-    }
+    });
   }
 
   openModal(): void {

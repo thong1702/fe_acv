@@ -9,6 +9,7 @@ import {PaginationComponent} from '../../../shared/components/pagination/paginat
 import {catchError, map, of} from 'rxjs';
 import {AdminCountService} from '../../../core/services/admin-count.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {ConfirmDialogService} from '../../../core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-post-management',
@@ -22,6 +23,7 @@ export class PostManagementComponent implements OnInit {
   private countService = inject(AdminCountService);
   private fb = inject(FormBuilder);
   private toastService = inject(ToastService);
+  private confirmService = inject(ConfirmDialogService);
 
   posts: Post[] = [];
   categories: Category[] = [];
@@ -91,8 +93,8 @@ export class PostManagementComponent implements OnInit {
 
   deletePost(post: Post): void {
     if (!post.id) return;
-    if (confirm(`Bạn có chắc chắn muốn xóa bài viết "${post.title}" không?`)) {
-      this.postService.deletePost(post.id).subscribe({
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa bài viết "${post.title}" không?`, () => {
+      this.postService.deletePost(post.id!).subscribe({
         next: () => {
           this.toastService.success('Xóa bài viết thành công.');
           this.loadPosts();
@@ -104,7 +106,7 @@ export class PostManagementComponent implements OnInit {
           this.countService.triggerRefresh();
         }
       });
-    }
+    });
   }
 
   openForm(post?: Post): void {

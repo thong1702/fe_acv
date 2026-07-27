@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmDialogService } from '../../../core/services/confirm-dialog.service';
 import { environment } from '../../../core/constants/environment';
 
 export interface ContactRequestItem {
@@ -27,6 +28,7 @@ export interface ContactRequestItem {
 export class ContactManagementComponent implements OnInit {
   private http = inject(HttpClient);
   private toastService = inject(ToastService);
+  private confirmService = inject(ConfirmDialogService);
 
   requests: ContactRequestItem[] = [];
   loading = false;
@@ -121,7 +123,7 @@ export class ContactManagementComponent implements OnInit {
   }
 
   deleteRequest(item: ContactRequestItem): void {
-    if (confirm(`Bạn có chắc chắn muốn xóa yêu cầu tư vấn của "${item.fullName}" không?`)) {
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa yêu cầu tư vấn của "${item.fullName}" không?`, () => {
       const deleteUrl = `${environment.apiHost}/api/contact/${item.id}`;
       this.http.delete(deleteUrl).subscribe({
         next: () => {
@@ -133,9 +135,9 @@ export class ContactManagementComponent implements OnInit {
         },
         error: (err) => {
           console.error('Lỗi khi xóa:', err);
-          this.toastService.error('Xóa yêu cầu thất bại');
+          this.toastService.error('Xóa yêu cầu tư vấn thất bại.');
         }
       });
-    }
+    });
   }
 }

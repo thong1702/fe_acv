@@ -6,6 +6,7 @@ import {Category} from '../../../core/models/models';
 import {catchError, map, of} from 'rxjs';
 import {AdminCountService} from '../../../core/services/admin-count.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {ConfirmDialogService} from '../../../core/services/confirm-dialog.service';
 
 const TYPE_CONFIG: Record<string, { label: string; color: string; bg: string; icon: string }> = {
   'POST': {label: 'Tin Tức', color: '#6366f1', bg: '#eef2ff', icon: '📰'},
@@ -23,6 +24,7 @@ export class CategoryManagementComponent implements OnInit {
   private countService = inject(AdminCountService);
   private fb = inject(FormBuilder);
   private toastService = inject(ToastService);
+  private confirmService = inject(ConfirmDialogService);
 
   categories: Category[] = [];
   filteredCategories: Category[] = [];
@@ -93,8 +95,8 @@ export class CategoryManagementComponent implements OnInit {
 
   deleteCategory(cat: Category): void {
     if (!cat.id) return;
-    if (confirm(`Bạn có chắc chắn muốn xóa danh mục "${cat.name}" không?`)) {
-      this.categoryService.deleteCategory(cat.id).subscribe({
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa danh mục "${cat.name}" không?`, () => {
+      this.categoryService.deleteCategory(cat.id!).subscribe({
         next: () => {
           this.toastService.success('Xóa danh mục thành công.');
           this.loadCategories();
@@ -107,7 +109,7 @@ export class CategoryManagementComponent implements OnInit {
           this.countService.triggerRefresh();
         }
       });
-    }
+    });
   }
 
   openModal(cat?: Category): void {

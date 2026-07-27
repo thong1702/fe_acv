@@ -6,6 +6,7 @@ import {User} from '../../../core/models/models';
 import {catchError, map, of} from 'rxjs';
 import {AdminCountService} from '../../../core/services/admin-count.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {ConfirmDialogService} from '../../../core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-user-management',
@@ -19,6 +20,7 @@ export class UserManagementComponent implements OnInit {
   private countService = inject(AdminCountService);
   private fb = inject(FormBuilder);
   private toastService = inject(ToastService);
+  private confirmService = inject(ConfirmDialogService);
 
   users: User[] = [];
   filteredUsers: User[] = [];
@@ -88,8 +90,8 @@ export class UserManagementComponent implements OnInit {
 
   deleteUser(user: User): void {
     if (!user.id) return;
-    if (confirm(`Bạn có chắc chắn muốn xóa người dùng "${user.username}" không?`)) {
-      this.userService.deleteUser(user.id).subscribe({
+    this.confirmService.confirm(`Bạn có chắc chắn muốn xóa người dùng "${user.username}" không?`, () => {
+      this.userService.deleteUser(user.id!).subscribe({
         next: () => {
           this.toastService.success('Xóa người dùng thành công.');
           this.loadUsers();
@@ -102,7 +104,7 @@ export class UserManagementComponent implements OnInit {
           this.countService.triggerRefresh();
         }
       });
-    }
+    });
   }
 
   openModal(user?: User): void {

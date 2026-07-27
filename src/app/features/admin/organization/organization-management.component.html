@@ -73,10 +73,10 @@
             <thead>
               <tr>
                 <th style="width: 70px; text-align: center">STT</th>
-                <th style="width: 270px">Họ và Tên</th>
+                <th style="width: 280px">Họ và Tên</th>
                 <th style="width: 230px">Chức vụ cụ thể</th>
                 <th>Mô tả</th>
-                <th style="width: 180px">Phân nhóm nhân sự</th>
+                <th style="width: 220px">Phân nhóm nhân sự</th>
                 <th style="width: 220px">Liên hệ</th>
                 <th style="width: 120px; text-align: center">Thao tác</th>
               </tr>
@@ -107,14 +107,17 @@
                     </div>
                   </td>
                   <td>
-                    <div class="parent-reference">
-                      @if (node.personnelGroup === 'BAN_LANH_DAO') {
+                    <div class="parent-reference" style="display: flex; gap: 4px; flex-wrap: wrap;">
+                      @if (hasGroup(node.personnelGroup, 'BAN_LANH_DAO')) {
                         <span class="badge-group badge-leader">👑 Ban Lãnh Đạo</span>
-                      } @else if (node.personnelGroup === 'THAM_DINH_VIEN') {
+                      }
+                      @if (hasGroup(node.personnelGroup, 'THAM_DINH_VIEN')) {
                         <span class="badge-group badge-valuer">🎓 Thẩm Định Viên</span>
-                      } @else if (node.personnelGroup === 'CHUYEN_VIEN') {
+                      }
+                      @if (hasGroup(node.personnelGroup, 'CHUYEN_VIEN')) {
                         <span class="badge-group badge-spec">💼 Chuyên Viên</span>
-                      } @else {
+                      }
+                      @if (!node.personnelGroup) {
                         <span class="badge-group badge-default">Chưa phân nhóm</span>
                       }
                     </div>
@@ -184,25 +187,40 @@
             </div>
 
             <form [formGroup]="nodeForm" (ngSubmit)="onSubmit()" class="modal-body">
-              <!-- Row 1: Name alone -->
-              <div class="form-group">
-                <label for="name">Họ và Tên <span class="required">*</span></label>
-                <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ví dụ: Trần Quốc Huy">
-              </div>
-
-              <!-- Row 2: Position & Personnel Group (50% - 50%) -->
+              <!-- Row 1: Name & Position (50% - 50%) -->
               <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="name">Họ và Tên <span class="required">*</span></label>
+                  <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ví dụ: Trần Quốc Huy">
+                </div>
                 <div class="form-group flex-1">
                   <label for="position">Chức vụ / Phòng ban <span class="required">*</span></label>
                   <input type="text" id="position" formControlName="position" class="form-control" placeholder="Ví dụ: Tổng Giám Đốc">
                 </div>
-                <div class="form-group flex-1">
-                  <label for="personnelGroup">Phân nhóm nhân sự <span class="required">*</span></label>
-                  <select id="personnelGroup" formControlName="personnelGroup" class="form-control">
-                    <option value="BAN_LANH_DAO">👑 Ban Lãnh Đạo</option>
-                    <option value="THAM_DINH_VIEN">🎓 Thẩm Định Viên</option>
-                    <option value="CHUYEN_VIEN">💼 Chuyên Viên Nghiệp Vụ</option>
-                  </select>
+              </div>
+
+              <!-- Row 2: Personnel Group (Full Row) -->
+              <div class="form-group">
+                <label>Phân nhóm nhân sự (Có thể chọn nhiều) <span class="required">*</span></label>
+                <div class="group-toggle-wrapper">
+                  <button type="button"
+                          class="btn-group-toggle"
+                          [class.active]="isGroupSelected('BAN_LANH_DAO')"
+                          (click)="toggleGroup('BAN_LANH_DAO')">
+                    👑 Ban Lãnh Đạo
+                  </button>
+                  <button type="button"
+                          class="btn-group-toggle"
+                          [class.active]="isGroupSelected('THAM_DINH_VIEN')"
+                          (click)="toggleGroup('THAM_DINH_VIEN')">
+                    🎓 Thẩm Định Viên
+                  </button>
+                  <button type="button"
+                          class="btn-group-toggle"
+                          [class.active]="isGroupSelected('CHUYEN_VIEN')"
+                          (click)="toggleGroup('CHUYEN_VIEN')">
+                    💼 Chuyên Viên
+                  </button>
                 </div>
               </div>
 

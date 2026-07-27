@@ -48,15 +48,15 @@ export class AboutOrganizationComponent implements OnInit {
   }
 
   getBoardOfDirectors(): OrganizationNode[] {
-    return this.employees.filter(emp => emp.personnelGroup === 'BAN_LANH_DAO' || (!emp.personnelGroup && emp.position.includes('Giám Đốc')));
+    return this.employees.filter(emp => emp.personnelGroup?.includes('BAN_LANH_DAO'));
   }
 
   getValuers(): OrganizationNode[] {
-    return this.employees.filter(emp => emp.personnelGroup === 'THAM_DINH_VIEN' || (emp.certificateNo && emp.certificateNo.trim().length > 0));
+    return this.employees.filter(emp => emp.personnelGroup?.includes('THAM_DINH_VIEN'));
   }
 
   getSpecialists(): OrganizationNode[] {
-    return this.employees.filter(emp => emp.personnelGroup === 'CHUYEN_VIEN' || (!emp.certificateNo && emp.personnelGroup !== 'BAN_LANH_DAO'));
+    return this.employees.filter(emp => emp.personnelGroup?.includes('CHUYEN_VIEN'));
   }
 
   openProfileModal(emp: OrganizationNode): void {
