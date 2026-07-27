@@ -8,6 +8,8 @@
   flex: 1;
   background-color: var(--bg-main);
   padding-top: 76px;
+  position: relative;
+  z-index: 2;
 }
 
 /* ── Floating Contact Action Stack (Bong bóng Hotline, Zalo, Messenger & Nút lên đầu trang) ── */
