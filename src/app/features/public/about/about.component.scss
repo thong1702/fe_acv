@@ -1504,12 +1504,13 @@
           gap: 20px;
 
           .pmb-avatar {
-            width: 90px;
-            height: 90px;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            border: 4px solid #e2e8f0;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
           }
 
           .pmb-meta {
