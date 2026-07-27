@@ -243,14 +243,20 @@
       </div>
     </section>
 
-    <!-- Key Leadership Section (Data from DB & PDF) -->
+    <!-- Key Leadership Section (Editorial & Corporate Grade) -->
     <section class="section-padding bg-light leadership-section">
       <div class="container">
-        <div class="text-center section-header mb-5">
+        <div class="text-center section-header mb-4">
           <span class="sub-title-orange">ĐỘI NGŨ CHUYÊN GIA</span>
-          <h2 class="section-main-title">Ban Lãnh Đạo</h2>
-          <div class="title-underline"></div>
+          <h2 class="section-main-title editorial-title">Ban Lãnh Đạo</h2>
+          <div class="title-underline gold-underline"></div>
         </div>
+
+        @if (getBoardOfDirectors().length > visibleCards) {
+        <div class="slider-progress-bar-container">
+          <div class="slider-progress-bar" [class.paused]="isPaused"></div>
+        </div>
+        }
 
         <div class="leadership-slider-wrapper" (mouseenter)="pauseAutoSlide()" (mouseleave)="resumeAutoSlide()"
           (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
@@ -267,15 +273,47 @@
             <div class="leadership-slider-mover" [style.transform]="getSliderTransform()" [style.transition]="getSliderTransition()">
               <div class="leadership-slider-track" [class.justify-center]="getBoardOfDirectors().length <= visibleCards">
                 @for (leader of displayLeaders; track $index) {
-                <div class="leader-card-slide">
-                  <div class="leader-card highlighted-leader">
-                    <div class="leader-badge primary-badge">{{ leader.position }}</div>
-                    <div class="leader-avatar-wrapper">
-                      <img [src]="leader.avatarUrl || defaultAvatar" (error)="onAvatarError($event)" class="leader-avatar"
-                        [alt]="leader.name">
+                <div class="leader-card-slide" [class.active-center-slide]="isCenterSlide($index)">
+                  <div class="leader-card highlighted-leader" [class.tier-gold-card]="getBadgeTier(leader.position) === 'gold'">
+                    <div class="leader-badge" [class.tier-gold]="getBadgeTier(leader.position) === 'gold'"
+                      [class.tier-silver]="getBadgeTier(leader.position) === 'silver'"
+                      [class.tier-primary]="getBadgeTier(leader.position) === 'primary'">
+                      <span class="badge-icon">
+                        @if (getBadgeTier(leader.position) === 'gold') {
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                        } @else if (getBadgeTier(leader.position) === 'silver') {
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        } @else {
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                        }
+                      </span>
+                      <span class="badge-text">{{ leader.position }}</span>
                     </div>
+
+                    <div class="leader-avatar-wrapper square-frame">
+                      @if (leader.avatarUrl) {
+                      <img [src]="leader.avatarUrl" (error)="onAvatarError($event)" class="leader-avatar-square" [alt]="leader.name">
+                      } @else {
+                      <div class="avatar-monogram-placeholder" [class.gold-mono]="getBadgeTier(leader.position) === 'gold'">
+                        <span class="monogram-text">{{ getInitials(leader.name) }}</span>
+                        <span class="monogram-sub">ACV</span>
+                      </div>
+                      }
+                    </div>
+
                     <h3 class="leader-name">{{ leader.name }}</h3>
-                    <p class="leader-deg">{{ leader.degree || 'Cử nhân Kinh tế / Thẩm định viên' }}</p>
+
+                    <div class="degree-container">
+                      <p class="leader-deg" [class.expanded]="isDegreeExpanded(leader.id)">
+                        {{ leader.degree || 'Cử nhân Kinh tế / Thẩm định viên' }}
+                      </p>
+                      @if (leader.degree && leader.degree.length > 55) {
+                      <button class="btn-degree-toggle" (click)="toggleDegree(leader.id, $event)">
+                        {{ isDegreeExpanded(leader.id) ? 'Thu gọn ▲' : 'Xem thêm ▼' }}
+                      </button>
+                      }
+                    </div>
+
                     @if (leader.experienceYears || leader.certificateNo) {
                     <div class="leader-credentials-box">
                       @if (leader.experienceYears) {
@@ -287,8 +325,7 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                           </svg>
                         </span>
-                        <span class="cred-text">kinh nghiệm chuyên môn: <strong>{{ leader.experienceYears }}+
-                            năm</strong></span>
+                        <span class="cred-text">Kinh nghiệm: <strong>{{ leader.experienceYears }}+ năm</strong></span>
                       </div>
                       }
                       @if (leader.certificateNo) {
@@ -303,12 +340,13 @@
                             <path d="M7 16h10"></path>
                           </svg>
                         </span>
-                        <span class="cred-text">Thẻ TĐV / Chứng chỉ: <strong>{{ leader.certificateNo }}</strong></span>
+                        <span class="cred-text">Thẻ TĐV: <strong>{{ leader.certificateNo }}</strong></span>
                       </div>
                       }
                     </div>
                     }
-                    <button class="btn-profile-detail mt-3" (click)="openProfileModal(leader)">
+
+                    <button class="btn-profile-detail mt-auto" (click)="openProfileModal(leader)">
                       📄 Xem Lý lịch trích ngang
                     </button>
                   </div>

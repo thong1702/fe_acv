@@ -150,7 +150,7 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.isTransitioning = true;
       }, 30);
-    }, 350);
+    }, 500);
   }
 
   goToLeader(realIndex: number): void {
@@ -180,7 +180,7 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
   }
 
   getSliderTransition(): string {
-    return this.isTransitioning ? 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+    return this.isTransitioning ? 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
   }
 
   startAutoSlide(): void {
@@ -216,6 +216,47 @@ export class AboutOrganizationComponent implements OnInit, OnDestroy {
     this.touchEndX = event.changedTouches[0].screenX;
     this.handleSwipe();
     this.resumeAutoSlide();
+  }
+
+  // Expanded Degree Toggle State
+  expandedDegreeMap: { [key: number]: boolean } = {};
+
+  toggleDegree(leaderId: number | undefined, event: Event): void {
+    event.stopPropagation();
+    if (leaderId === undefined) return;
+    this.expandedDegreeMap[leaderId] = !this.expandedDegreeMap[leaderId];
+  }
+
+  isDegreeExpanded(leaderId: number | undefined): boolean {
+    if (leaderId === undefined) return false;
+    return !!this.expandedDegreeMap[leaderId];
+  }
+
+  getBadgeTier(position: string | undefined): 'gold' | 'silver' | 'primary' {
+    if (!position) return 'primary';
+    const posUpper = position.toUpperCase();
+    if (posUpper.includes('CHỦ TỊCH') || (posUpper.includes('TỔNG GIÁM ĐỐC') && !posUpper.includes('PHÓ'))) {
+      return 'gold';
+    }
+    if (posUpper.includes('PHÓ TỔNG GIÁM ĐỐC') || posUpper.includes('PHÓ GIÁM ĐỐC')) {
+      return 'silver';
+    }
+    return 'primary';
+  }
+
+  getInitials(name: string | undefined): string {
+    if (!name || !name.trim()) return 'ACV';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    if (parts.length === 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 2][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+
+  isCenterSlide(index: number): boolean {
+    if (this.visibleCards === 3) {
+      return index === this.currentTrackIndex + 1;
+    }
+    return index === this.currentTrackIndex;
   }
 
   private handleSwipe(): void {
