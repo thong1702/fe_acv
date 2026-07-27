@@ -63,6 +63,15 @@ export class AboutOrganizationComponent implements OnInit {
     this.selectedEmployee = emp;
   }
 
+  getDegreesList(degree: string | undefined): string[] {
+    if (!degree || !degree.trim()) return [];
+    return degree
+      .split(/[\n–—]/)
+      .flatMap(part => part.split(' - '))
+      .map(item => item.trim())
+      .filter(item => item.length > 0);
+  }
+
   closeProfileModal(): void {
     this.selectedEmployee = null;
   }

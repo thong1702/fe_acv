@@ -366,7 +366,9 @@
             <div class="pmb-meta">
               <p><strong>Học vấn, chứng chỉ nghề:</strong></p>
               @if (selectedEmployee.degree) {
-              <p style="padding-left: 12px; margin-bottom: 4px;">➢ {{ selectedEmployee.degree }}</p>
+                @for (degItem of getDegreesList(selectedEmployee.degree); track $index) {
+                <p style="padding-left: 12px; margin-bottom: 4px;">➢ {{ degItem }}</p>
+                }
               }
               @if (selectedEmployee.certificateNo) {
               <p style="padding-left: 12px; margin-bottom: 4px;">➢ Thẻ Thẩm định viên số: {{
