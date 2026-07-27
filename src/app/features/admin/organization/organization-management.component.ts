@@ -27,9 +27,6 @@ export class OrganizationManagementComponent implements OnInit {
   page = 0;
   size = 10;
   totalPages = 1;
-  parentFilterList: OrganizationNode[] = [];
-  eligibleParents: OrganizationNode[] = [];
-  departments = ORG_STRUCTURE_NODES;
 
   loading = true;
   saving = false;
@@ -42,12 +39,12 @@ export class OrganizationManagementComponent implements OnInit {
   defaultAvatar = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%23cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background-color:%23f1f5f9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
   searchQuery = '';
-  filterParentId = '';
+  filterPersonnelGroup = '';
 
   nodeForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(255)]],
     position: ['', [Validators.required, Validators.maxLength(255)]],
-    personnelGroup: ['BAN_LANH_DAO'],
+    personnelGroup: ['BAN_LANH_DAO', [Validators.required]],
     degree: [''],
     experienceYears: [null as number | null],
     gender: ['Nam'],
@@ -59,7 +56,6 @@ export class OrganizationManagementComponent implements OnInit {
     email: ['', [Validators.maxLength(100)]],
     phone: ['', [Validators.maxLength(20)]],
     orderIndex: [1],
-    parentId: ['', [Validators.required]],
     avatarUrl: ['']
   });
 
@@ -72,7 +68,6 @@ export class OrganizationManagementComponent implements OnInit {
     this.orgService.getNodes().subscribe({
       next: (data) => {
         this.nodes = data;
-        this.parentFilterList = data.filter(n => this.isManager(n.id));
         this.filterNodes();
         this.loading = false;
       },
@@ -95,10 +90,9 @@ export class OrganizationManagementComponent implements OnInit {
       );
     }
 
-    // Apply Parent ID Filter
-    if (this.filterParentId) {
-      const pId = parseInt(this.filterParentId);
-      result = result.filter(n => n.parentId === pId);
+    // Apply Personnel Group Filter
+    if (this.filterPersonnelGroup) {
+      result = result.filter(n => n.personnelGroup === this.filterPersonnelGroup);
     }
 
     this.filteredNodes = result;
@@ -119,9 +113,10 @@ export class OrganizationManagementComponent implements OnInit {
     this.updatePaginatedNodes();
   }
 
-  isManager(id?: number): boolean {
-    if (!id) return false;
-    return this.nodes.some(n => n.parentId === id);
+  onPageSizeChange(newSize: number): void {
+    this.size = newSize;
+    this.page = 0;
+    this.filterNodes();
   }
 
   onAvatarError(event: any): void {
@@ -172,10 +167,8 @@ export class OrganizationManagementComponent implements OnInit {
       email: '',
       phone: '',
       orderIndex: 1,
-      parentId: '',
       avatarUrl: ''
     });
-    this.eligibleParents = [...this.nodes];
     this.showModal = true;
   }
 
@@ -198,25 +191,9 @@ export class OrganizationManagementComponent implements OnInit {
       email: node.email || '',
       phone: node.phone || '',
       orderIndex: node.orderIndex || 0,
-      parentId: node.parentId ? node.parentId.toString() : '',
       avatarUrl: node.avatarUrl || ''
     });
-
-    // Exclude current node and all its transitive descendants to prevent cyclic parent reference!
-    this.eligibleParents = this.nodes.filter(n => n.id !== node.id && !this.isDescendant(n.id, node.id));
     this.showModal = true;
-  }
-
-  isDescendant(nodeId?: number, potentialAncestorId?: number): boolean {
-    if (!nodeId || !potentialAncestorId) return false;
-    let current = this.nodes.find(n => n.id === nodeId);
-    while (current && current.parentId) {
-      if (current.parentId === potentialAncestorId) {
-        return true;
-      }
-      current = this.nodes.find(n => n.id === current?.parentId);
-    }
-    return false;
   }
 
   closeModal(): void {
@@ -228,7 +205,6 @@ export class OrganizationManagementComponent implements OnInit {
 
     this.saving = true;
     const formVal = this.nodeForm.value;
-    const parentIdVal = formVal.parentId ? parseInt(formVal.parentId) : null;
 
     const payload: Partial<OrganizationNode> = {
       name: formVal.name!,
@@ -245,7 +221,6 @@ export class OrganizationManagementComponent implements OnInit {
       email: formVal.email || '',
       phone: formVal.phone || '',
       orderIndex: formVal.orderIndex || 0,
-      parentId: parentIdVal as any,
       avatarUrl: formVal.avatarUrl || ''
     };
 
@@ -295,11 +270,5 @@ export class OrganizationManagementComponent implements OnInit {
         }
       });
     }
-  }
-
-  getDepartmentName(deptId?: number): string {
-    if (!deptId) return 'Chưa phân bộ phận';
-    const dept = this.departments.find(d => d.deptId === deptId);
-    return dept ? dept.name : 'Chưa phân bộ phận';
   }
 }

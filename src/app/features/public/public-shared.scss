@@ -20,9 +20,9 @@
   background-position: center;
   background-size: contain;
   opacity: 0.05;
-  /* Subtle watermark on top of sections */
+  /* Subtle watermark behind text */
   pointer-events: none;
-  z-index: 9999;
+  z-index: 0;
 }
 
 /* ===== HOME SECTIONS WRAPPER (REPEATING WATERMARK) ===== */
@@ -52,8 +52,8 @@
   opacity: 0.03;
   /* very soft subtle watermark */
   pointer-events: none;
-  z-index: 9999;
-  /* overlay on top of section backgrounds so it's always visible */
+  z-index: 0;
+  /* overlay behind section content so it's always visible */
 }
 
 .home-sections-wrapper>*:not(.preview-modal-overlay) {
@@ -2254,7 +2254,8 @@
 
 /* ===== MODAL & PREVIEW MODAL (MATCH ADMIN UI) ===== */
 .modal-backdrop,
-.preview-modal-overlay {
+.preview-modal-overlay,
+.profile-modal-backdrop {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -2268,7 +2269,7 @@
   align-items: flex-start !important;
   justify-content: center !important;
   z-index: 999999 !important;
-  padding: 40px 16px !important;
+  padding: 75px 16px 40px 16px !important;
   box-sizing: border-box !important;
   margin: 0 !important;
   overflow-y: auto !important;
@@ -2276,7 +2277,8 @@
 }
 
 .modal-card,
-.preview-modal-container {
+.preview-modal-container,
+.profile-modal-card {
   width: 100%;
   max-width: 550px;
   max-height: calc(100vh - 80px) !important;
@@ -2439,11 +2441,7 @@
   }
 }
 
-/* Fix z-index stacking context issue when document preview modal is open */
-.public-shell:has(.preview-modal-overlay) .public-main-content {
-  position: relative;
-  z-index: 10001 !important;
-}
+/* Clean modal stacking context */
 
 /* Hide background watermarks completely when the document preview is open */
 .public-shell:has(.preview-modal-overlay) .home-sections-wrapper::before,

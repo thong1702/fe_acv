@@ -88,8 +88,14 @@ export class DocumentManagementComponent implements OnInit {
     });
   }
 
-  onPageChange(page: number): void {
-    this.page = page;
+  onPageChange(newPage: number): void {
+    this.page = newPage;
+    this.loadDocuments();
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.size = newSize;
+    this.page = 0;
     this.loadDocuments();
   }
 

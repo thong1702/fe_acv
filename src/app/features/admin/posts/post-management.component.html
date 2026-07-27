@@ -157,10 +157,14 @@
           </div>
 
           <app-pagination
-            [currentPage]="page"
-            [totalPages]="totalPages"
-            (pageChange)="onPageChange($event)">
-          </app-pagination>
+          [currentPage]="page"
+          [totalPages]="totalPages"
+          [totalElements]="totalElements"
+          [pageSize]="size"
+          [pageSizeOptions]="[10, 20, 50]"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-pagination>
         }
       } @else {
         <!-- ===== FORM VIEW ===== -->
@@ -185,21 +189,21 @@
               <div class="form-card">
                 <div class="form-card-title">Thông tin cơ bản</div>
                 <div class="form-group">
-                  <label for="title">Tiêu Đề Bài Viết *</label>
+                  <label for="title">Tiêu Đề Bài Viết <span class="required">*</span></label>
                   <input type="text" id="title" formControlName="title" class="form-control"
                          placeholder="Nhập tiêu đề bài viết..." (input)="onTitleChange()">
                 </div>
                 <div class="form-group">
-                  <label for="slug">SEO Slug * <span class="label-hint">Tự động sinh từ tiêu đề</span></label>
+                  <label for="slug">SEO Slug <span class="required">*</span> <span class="label-hint">Tự động sinh từ tiêu đề</span></label>
                   <input type="text" id="slug" formControlName="slug" class="form-control">
                 </div>
                 <div class="form-group">
-                  <label for="summary">Tóm Tắt Ngắn *</label>
+                  <label for="summary">Tóm Tắt Ngắn <span class="required">*</span></label>
                   <textarea id="summary" formControlName="summary" class="form-control"
                             placeholder="Mô tả ngắn hiển thị trên trang danh sách tin tức..." rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                  <label>Nội Dung Bài Viết *</label>
+                  <label>Nội Dung Bài Viết <span class="required">*</span></label>
                   <app-rich-text-editor formControlName="content"></app-rich-text-editor>
                 </div>
               </div>
@@ -216,7 +220,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="categoryId">Danh Mục *</label>
+                  <label for="categoryId">Danh Mục <span class="required">*</span></label>
                   <select id="categoryId" formControlName="categoryId" class="form-control">
                     <option value="">-- Chọn danh mục --</option>
                     @for (cat of categories; track cat.id) {

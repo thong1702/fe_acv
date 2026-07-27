@@ -87,6 +87,12 @@ export class ContactManagementComponent implements OnInit {
     this.loadRequests();
   }
 
+  onPageSizeChange(newSize: number): void {
+    this.size = newSize;
+    this.page = 0;
+    this.loadRequests();
+  }
+
   openDetail(item: ContactRequestItem): void {
     this.selectedItem = item;
     this.showDetailModal = true;

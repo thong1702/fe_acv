@@ -137,7 +137,11 @@
         <app-pagination
           [currentPage]="page"
           [totalPages]="totalPages"
-          (pageChange)="onPageChange($event)">
+          [totalElements]="totalElements"
+          [pageSize]="size"
+          [pageSizeOptions]="[10, 20, 50]"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
         </app-pagination>
 
         <!-- Document Preview Modal Overlay -->

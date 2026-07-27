@@ -83,7 +83,5 @@ export interface OrganizationNode {
   email?: string;
   phone?: string;
   orderIndex?: number;
-  parentId?: number;
-  parentName?: string;
   updatedAt?: string;
 }

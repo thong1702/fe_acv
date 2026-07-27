@@ -48,7 +48,7 @@ export class AboutOrganizationComponent implements OnInit {
   }
 
   getBoardOfDirectors(): OrganizationNode[] {
-    return this.employees.filter(emp => emp.personnelGroup === 'BAN_LANH_DAO' || (!emp.personnelGroup && (emp.parentId === 1 || emp.parentId === 2 || emp.position.includes('Giám Đốc'))));
+    return this.employees.filter(emp => emp.personnelGroup === 'BAN_LANH_DAO' || (!emp.personnelGroup && emp.position.includes('Giám Đốc')));
   }
 
   getValuers(): OrganizationNode[] {
@@ -102,9 +102,7 @@ export class AboutOrganizationComponent implements OnInit {
   }
 
   getEmployeesByDept(deptId: number): OrganizationNode[] {
-    return this.employees
-      .filter(emp => emp.parentId === deptId)
-      .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
+    return [];
   }
 
   onAvatarError(event: any): void {

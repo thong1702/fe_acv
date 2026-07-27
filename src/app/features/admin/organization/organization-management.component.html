@@ -41,13 +41,13 @@
               (keyup.enter)="filterNodes()">
           </div>
 
-          <!-- Department filter -->
+          <!-- Personnel Group filter -->
           <div class="filter-select-wrap">
-            <select class="filter-select" [(ngModel)]="filterParentId" (change)="filterNodes()">
-              <option value="">-- Tất cả bộ phận / phòng ban --</option>
-              @for (dept of departments; track dept.id) {
-                <option [value]="dept.deptId">{{ dept.name }}</option>
-              }
+            <select class="filter-select" [(ngModel)]="filterPersonnelGroup" (change)="filterNodes()">
+              <option value="">-- Tất cả nhóm nhân sự --</option>
+              <option value="BAN_LANH_DAO">👑 Ban Lãnh Đạo</option>
+              <option value="THAM_DINH_VIEN">🎓 Thẩm Định Viên</option>
+              <option value="CHUYEN_VIEN">💼 Chuyên Viên Nghiệp Vụ</option>
             </select>
           </div>
         </div>
@@ -73,10 +73,10 @@
             <thead>
               <tr>
                 <th style="width: 70px; text-align: center">STT</th>
-                <th>Họ và Tên</th>
-                <th style="width: 180px">Chức vụ cụ thể</th>
-                <th style="width: 200px">Mô tả</th>
-                <th style="width: 180px">Bộ phận / Phòng ban</th>
+                <th style="width: 270px">Họ và Tên</th>
+                <th style="width: 230px">Chức vụ cụ thể</th>
+                <th>Mô tả</th>
+                <th style="width: 180px">Phân nhóm nhân sự</th>
                 <th style="width: 220px">Liên hệ</th>
                 <th style="width: 120px; text-align: center">Thao tác</th>
               </tr>
@@ -87,10 +87,10 @@
                   <td style="text-align: center" class="id-cell">{{ page * size + idx + 1 }}</td>
                   <td>
                     <div class="member-profile">
-                      <img 
-                        [src]="node.avatarUrl || defaultAvatar" 
+                      <img
+                        [src]="node.avatarUrl || defaultAvatar"
                         (error)="onAvatarError($event)"
-                        class="member-avatar" 
+                        class="member-avatar"
                         alt="Avatar">
                       <div class="member-meta">
                         <span class="member-name">{{ node.name }}</span>
@@ -101,14 +101,22 @@
                   <td>
                     <span class="badge-role">{{ node.position }}</span>
                   </td>
-                  <td>
+                  <td style="max-width: 0">
                     <div class="contact-text" [title]="node.description || ''">
                       {{ node.description || '-' }}
                     </div>
                   </td>
                   <td>
                     <div class="parent-reference">
-                      <span class="parent-name">{{ getDepartmentName(node.parentId) }}</span>
+                      @if (node.personnelGroup === 'BAN_LANH_DAO') {
+                        <span class="badge-group badge-leader">👑 Ban Lãnh Đạo</span>
+                      } @else if (node.personnelGroup === 'THAM_DINH_VIEN') {
+                        <span class="badge-group badge-valuer">🎓 Thẩm Định Viên</span>
+                      } @else if (node.personnelGroup === 'CHUYEN_VIEN') {
+                        <span class="badge-group badge-spec">💼 Chuyên Viên</span>
+                      } @else {
+                        <span class="badge-group badge-default">Chưa phân nhóm</span>
+                      }
                     </div>
                   </td>
                   <td>
@@ -158,7 +166,11 @@
         <app-pagination
           [currentPage]="page"
           [totalPages]="totalPages"
-          (pageChange)="onPageChange($event)">
+          [totalElements]="filteredNodes.length"
+          [pageSize]="size"
+          [pageSizeOptions]="[10, 20, 50]"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
         </app-pagination>
       }
 
@@ -172,81 +184,70 @@
             </div>
 
             <form [formGroup]="nodeForm" (ngSubmit)="onSubmit()" class="modal-body">
-              <!-- Name & Position -->
+              <!-- Row 1: Name alone -->
+              <div class="form-group">
+                <label for="name">Họ và Tên <span class="required">*</span></label>
+                <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ví dụ: Trần Quốc Huy">
+              </div>
+
+              <!-- Row 2: Position & Personnel Group (50% - 50%) -->
               <div class="form-row">
-                <div class="form-group flex-1">
-                  <label for="name">Họ và Tên <span class="required">*</span></label>
-                  <input type="text" id="name" formControlName="name" class="form-control" placeholder="Ví dụ: Trần Quốc Huy">
-                </div>
                 <div class="form-group flex-1">
                   <label for="position">Chức vụ / Phòng ban <span class="required">*</span></label>
                   <input type="text" id="position" formControlName="position" class="form-control" placeholder="Ví dụ: Tổng Giám Đốc">
                 </div>
-              </div>
-
-              <!-- Personnel Group & Department -->
-              <div class="form-row">
                 <div class="form-group flex-1">
                   <label for="personnelGroup">Phân nhóm nhân sự <span class="required">*</span></label>
                   <select id="personnelGroup" formControlName="personnelGroup" class="form-control">
                     <option value="BAN_LANH_DAO">👑 Ban Lãnh Đạo</option>
-                    <option value="THAM_DINH_VIEN">🎓 Thẩm Định Viên Về Giá</option>
+                    <option value="THAM_DINH_VIEN">🎓 Thẩm Định Viên</option>
                     <option value="CHUYEN_VIEN">💼 Chuyên Viên Nghiệp Vụ</option>
-                  </select>
-                </div>
-                <div class="form-group flex-1">
-                  <label for="parentId">Bộ phận / Phòng ban <span class="required">*</span></label>
-                  <select id="parentId" formControlName="parentId" class="form-control">
-                    <option value="">-- Chọn Bộ Phận / Phòng Ban --</option>
-                    @for (dept of departments; track dept.id) {
-                      <option [value]="dept.deptId">{{ dept.name }}</option>
-                    }
                   </select>
                 </div>
               </div>
 
-              <!-- Degree & Experience Years -->
+              <!-- Row 3: Degree (7 parts) & Experience Years (3 parts) -->
               <div class="form-row">
-                <div class="form-group flex-1">
+                <div class="form-group flex-8">
                   <label for="degree">Bằng cấp chuyên ngành / Trình độ</label>
                   <input type="text" id="degree" formControlName="degree" class="form-control" placeholder="Ví dụ: Thạc sĩ Kinh tế, CPA Quốc gia">
                 </div>
-                <div class="form-group flex-1">
-                  <label for="experienceYears">Số năm kinh nghiệm</label>
+                <div class="form-group flex-2">
+                  <label for="experienceYears">Năm kinh nghiệm</label>
                   <input type="number" id="experienceYears" formControlName="experienceYears" class="form-control" placeholder="Ví dụ: 15">
                 </div>
               </div>
 
-              <!-- Gender, Birth Year & Certificate No -->
+              <!-- Row 4: Gender (2.5) + Birth Year (2.5) [5 parts] & Certificate No [5 parts] -->
               <div class="form-row">
-                <div class="form-group flex-1">
+                <div class="form-group flex-25">
                   <label for="gender">Giới tính</label>
                   <select id="gender" formControlName="gender" class="form-control">
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                   </select>
                 </div>
-                <div class="form-group flex-1">
+                <div class="form-group flex-25">
                   <label for="birthYear">Năm sinh</label>
                   <input type="number" id="birthYear" formControlName="birthYear" class="form-control" placeholder="Ví dụ: 1989">
                 </div>
-                <div class="form-group flex-1">
+                <div class="form-group flex-5">
                   <label for="certificateNo">Mã số Thẻ TĐV / Chứng chỉ</label>
                   <input type="text" id="certificateNo" formControlName="certificateNo" class="form-control" placeholder="Ví dụ: XII 17.1875">
                 </div>
               </div>
 
-              <!-- Order Index & Email/Phone -->
+              <!-- Row 5: Email (4) + Phone (4) [8 parts] & Order Index [2 parts] -->
               <div class="form-row">
-                <div class="form-group flex-1">
+                <div class="form-group flex-4">
                   <label for="email">Email</label>
                   <input type="email" id="email" formControlName="email" class="form-control" placeholder="example@acv.vn">
                 </div>
-                <div class="form-group flex-1">
+                <div class="form-group flex-4">
                   <label for="phone">Số điện thoại</label>
                   <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="Ví dụ: 0986.882.868">
                 </div>
-                <div class="form-group flex-1">
+                <div class="form-group flex-2">
                   <label for="orderIndex">Thứ tự ưu tiên</label>
                   <input type="number" id="orderIndex" formControlName="orderIndex" class="form-control" placeholder="1">
                 </div>
@@ -255,33 +256,33 @@
               <!-- Work History -->
               <div class="form-group">
                 <label for="workHistory">Quá trình công tác (Lý lịch trích ngang)</label>
-                <textarea 
-                  id="workHistory" 
-                  formControlName="workHistory" 
-                  class="form-control" 
-                  rows="2" 
+                <textarea
+                  id="workHistory"
+                  formControlName="workHistory"
+                  class="form-control"
+                  rows="2"
                   placeholder="Ví dụ: Phụ trách kiểm toán tại Deloitte Việt Nam; Phó TGĐ Công ty Kiểm toán Thăng Long..."></textarea>
               </div>
 
               <!-- Key Experience -->
               <div class="form-group">
                 <label for="keyExperience">Kinh nghiệm chuyên môn & Quản lý</label>
-                <textarea 
-                  id="keyExperience" 
-                  formControlName="keyExperience" 
-                  class="form-control" 
-                  rows="2" 
+                <textarea
+                  id="keyExperience"
+                  formControlName="keyExperience"
+                  class="form-control"
+                  rows="2"
                   placeholder="Ví dụ: Chủ trì hàng trăm hồ sơ cổ phần hóa, thẩm định giá BĐS, M&A doanh nghiệp..."></textarea>
               </div>
 
               <!-- Description -->
               <div class="form-group">
                 <label for="description">Ghi chú bổ sung</label>
-                <textarea 
-                  id="description" 
-                  formControlName="description" 
-                  class="form-control" 
-                  rows="2" 
+                <textarea
+                  id="description"
+                  formControlName="description"
+                  class="form-control"
+                  rows="2"
                   placeholder="Thông tin ghi chú thêm..."></textarea>
               </div>
 
@@ -289,17 +290,17 @@
               <div class="form-group">
                 <label>Ảnh đại diện</label>
                 <div class="avatar-uploader">
-                  <img 
-                    [src]="avatarPreview || defaultAvatar" 
+                  <img
+                    [src]="avatarPreview || defaultAvatar"
                     (error)="onAvatarError($event)"
-                    class="upload-preview" 
+                    class="upload-preview"
                     alt="Preview">
                   <div class="uploader-controls">
-                    <input 
-                      type="file" 
-                      id="avatarFile" 
-                      (change)="onAvatarSelect($event)" 
-                      accept="image/*" 
+                    <input
+                      type="file"
+                      id="avatarFile"
+                      (change)="onAvatarSelect($event)"
+                      accept="image/*"
                       class="form-control-file">
                     <span class="upload-hint">Chấp nhận JPG, PNG. Dung lượng tối đa 5MB.</span>
                     @if (uploadingAvatar) {
@@ -311,9 +312,9 @@
 
               <div class="modal-footer mt-4">
                 <button type="button" class="btn-cancel-modal" (click)="closeModal()">Hủy bỏ</button>
-                <button 
-                  type="submit" 
-                  class="btn-save-modal" 
+                <button
+                  type="submit"
+                  class="btn-save-modal"
                   [disabled]="nodeForm.invalid || saving || uploadingAvatar">
                   {{ saving ? 'Đang Lưu...' : (isEditMode ? 'Cập Nhật' : 'Tạo Mới') }}
                 </button>
@@ -323,4 +324,4 @@
         </div>
       }
     </div>
-  
+

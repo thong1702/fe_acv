@@ -100,10 +100,7 @@ export class AboutComponent implements OnInit {
   }
 
   getEmployeesByDept(deptId: number): OrganizationNode[] {
-    // Sort employees by orderIndex or id
-    return this.employees
-      .filter(emp => emp.parentId === deptId)
-      .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
+    return [];
   }
 
   onAvatarError(event: any): void {

@@ -592,6 +592,14 @@
   margin-bottom: 6px;
 }
 
+.required,
+label .required,
+span.required {
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+  margin-left: 2px;
+}
+
 .label-hint {
   font-size: 0.72rem;
   color: #94a3b8;

@@ -997,12 +997,35 @@
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 12px;
+          margin-bottom: 16px;
+          align-self: flex-start;
 
           &.primary-badge {
             background: #2b5f97;
             color: #ffffff;
           }
+        }
+
+        .leader-avatar-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 16px;
+
+          .leader-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            box-shadow: 0 6px 18px rgba(43, 95, 151, 0.18);
+            background-color: #f1f5f9;
+            transition: transform 0.3s ease;
+          }
+        }
+
+        &:hover .leader-avatar {
+          transform: scale(1.06);
         }
 
         .leader-name {
@@ -1086,9 +1109,40 @@
               margin-bottom: 0;
             }
 
-            .info-icon {
-              font-size: 1.25rem;
-              line-height: 1.2;
+            .info-icon, .oii-icon {
+              width: 32px;
+              height: 32px;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 2px;
+
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+
+              &.icon-location {
+                background: #ffedd5;
+                color: #ea580c;
+              }
+
+              &.icon-code {
+                background: #dcfce7;
+                color: #15803d;
+              }
+
+              &.icon-user {
+                background: #e0f2fe;
+                color: #0369a1;
+              }
+
+              &.icon-phone {
+                background: #fee2e2;
+                color: #dc2626;
+              }
             }
 
             .info-content {
@@ -1174,8 +1228,39 @@
             }
 
             .oii-icon {
-              font-size: 1.1rem;
-              line-height: 1.2;
+              width: 30px;
+              height: 30px;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 2px;
+
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+
+              &.icon-location {
+                background: #ffedd5;
+                color: #ea580c;
+              }
+
+              &.icon-code {
+                background: #dcfce7;
+                color: #15803d;
+              }
+
+              &.icon-user {
+                background: #e0f2fe;
+                color: #0369a1;
+              }
+
+              &.icon-phone {
+                background: #fee2e2;
+                color: #dc2626;
+              }
             }
 
             .oii-text {
@@ -1235,12 +1320,15 @@
       background: #ffffff;
 
       th {
-        background: #1e3a8a;
-        color: #ffffff;
-        font-size: 0.88rem;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 0.8rem;
         font-weight: 700;
         padding: 14px 18px;
         text-align: left;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
       }
 
       td {
@@ -1302,12 +1390,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
+      z-index: 99999;
       padding: 20px;
       animation: fadeIn 0.25s ease;
     }

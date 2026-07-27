@@ -33,6 +33,7 @@ export class PostManagementComponent implements OnInit {
   page = 0;
   size = 10;
   totalPages = 1;
+  totalElements = 0;
   loading = false;
   showForm = false;
   uploadingImage = false;
@@ -71,6 +72,7 @@ export class PostManagementComponent implements OnInit {
       next: (res) => {
         this.posts = res.content || [];
         this.totalPages = res.totalPages || 1;
+        this.totalElements = res.totalElements || 0;
         this.loading = false;
       }
     });
@@ -78,6 +80,12 @@ export class PostManagementComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.page = page;
+    this.loadPosts();
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.size = newSize;
+    this.page = 0;
     this.loadPosts();
   }
 
