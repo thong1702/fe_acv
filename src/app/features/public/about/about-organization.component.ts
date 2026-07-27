@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -16,17 +16,35 @@ const DEFAULT_AVATAR =
   templateUrl: './about-organization.component.html',
   styleUrl: './about.component.scss'
 })
-export class AboutOrganizationComponent implements OnInit {
+export class AboutOrganizationComponent implements OnInit, OnDestroy {
   private orgService = inject(OrganizationService);
   private titleService = inject(Title);
   private metaService = inject(Meta);
 
   orgNodes = ORG_STRUCTURE_NODES;
   employees: OrganizationNode[] = [];
+  displayLeaders: OrganizationNode[] = [];
   loadingOrg = true;
   defaultAvatar = DEFAULT_AVATAR;
 
   selectedEmployee: OrganizationNode | null = null;
+
+  // Infinite Slider controls for Ban Lãnh Đạo
+  currentTrackIndex = 0;
+  visibleCards = 3;
+  cloneOffset = 3;
+  isTransitioning = true;
+  private autoSlideTimer: any = null;
+  private resetTimeout: any = null;
+  isPaused = false;
+
+  private touchStartX = 0;
+  private touchEndX = 0;
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.updateVisibleCards();
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('Tổ chức nhân sự | ACV Thẩm định giá');
@@ -35,20 +53,178 @@ export class AboutOrganizationComponent implements OnInit {
       content: 'Sơ đồ cơ cấu tổ chức bộ máy quản lý & điều hành và danh sách nhân sự chủ chốt, Thẩm định viên của Công ty TNHH Tư vấn và Định giá ACV.'
     });
 
+    this.updateVisibleCards();
+
     this.orgService.getNodes().subscribe({
       next: (nodes) => {
         this.employees = nodes as OrganizationNode[];
         this.loadingOrg = false;
         this.autoCenterTree();
+        this.setupInfiniteLeaders();
+        this.startAutoSlide();
       },
       error: () => {
         this.loadingOrg = false;
+        this.setupInfiniteLeaders();
+        this.startAutoSlide();
       }
     });
   }
 
+  ngOnDestroy(): void {
+    this.stopAutoSlide();
+    if (this.resetTimeout) {
+      clearTimeout(this.resetTimeout);
+    }
+  }
+
   getBoardOfDirectors(): OrganizationNode[] {
     return this.employees.filter(emp => emp.personnelGroup?.includes('BAN_LANH_DAO'));
+  }
+
+  setupInfiniteLeaders(): void {
+    const raw = this.getBoardOfDirectors();
+    if (raw.length === 0) {
+      this.displayLeaders = [];
+      return;
+    }
+
+    if (raw.length <= this.visibleCards) {
+      this.displayLeaders = [...raw];
+      this.currentTrackIndex = 0;
+      return;
+    }
+
+    this.cloneOffset = this.visibleCards;
+    const prepended = raw.slice(-this.cloneOffset);
+    const appended = raw.slice(0, this.cloneOffset);
+
+    this.displayLeaders = [...prepended, ...raw, ...appended];
+    this.currentTrackIndex = this.cloneOffset;
+  }
+
+  updateVisibleCards(): void {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width <= 576) {
+        this.visibleCards = 1;
+      } else if (width <= 992) {
+        this.visibleCards = 2;
+      } else {
+        this.visibleCards = 3;
+      }
+      this.setupInfiniteLeaders();
+    }
+  }
+
+  nextLeader(): void {
+    const rawLen = this.getBoardOfDirectors().length;
+    if (rawLen <= this.visibleCards) return;
+
+    this.isTransitioning = true;
+    this.currentTrackIndex++;
+
+    if (this.currentTrackIndex >= rawLen + this.cloneOffset) {
+      this.scheduleLoopReset(this.cloneOffset);
+    }
+  }
+
+  prevLeader(): void {
+    const rawLen = this.getBoardOfDirectors().length;
+    if (rawLen <= this.visibleCards) return;
+
+    this.isTransitioning = true;
+    this.currentTrackIndex--;
+
+    if (this.currentTrackIndex < this.cloneOffset) {
+      this.scheduleLoopReset(rawLen + this.cloneOffset - 1);
+    }
+  }
+
+  private scheduleLoopReset(targetIndex: number): void {
+    if (this.resetTimeout) clearTimeout(this.resetTimeout);
+    this.resetTimeout = setTimeout(() => {
+      this.isTransitioning = false;
+      this.currentTrackIndex = targetIndex;
+
+      setTimeout(() => {
+        this.isTransitioning = true;
+      }, 30);
+    }, 350);
+  }
+
+  goToLeader(realIndex: number): void {
+    const rawLen = this.getBoardOfDirectors().length;
+    if (rawLen <= this.visibleCards) return;
+    this.isTransitioning = true;
+    this.currentTrackIndex = realIndex + this.cloneOffset;
+  }
+
+  getRealActiveIndex(): number {
+    const rawLen = this.getBoardOfDirectors().length;
+    if (rawLen === 0) return 0;
+    const normalized = (this.currentTrackIndex - this.cloneOffset) % rawLen;
+    return normalized < 0 ? normalized + rawLen : normalized;
+  }
+
+  getDotIndices(): number[] {
+    const rawLen = this.getBoardOfDirectors().length;
+    if (rawLen <= this.visibleCards) return [];
+    return Array.from({ length: rawLen }, (_, i) => i);
+  }
+
+  getSliderTransform(): string {
+    const k = this.currentTrackIndex;
+    const v = this.visibleCards;
+    return `translateX(calc(-1 * ${k} * (100% + 24px) / ${v}))`;
+  }
+
+  getSliderTransition(): string {
+    return this.isTransitioning ? 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+  }
+
+  startAutoSlide(): void {
+    this.stopAutoSlide();
+    this.autoSlideTimer = setInterval(() => {
+      if (!this.isPaused && this.getBoardOfDirectors().length > this.visibleCards) {
+        this.nextLeader();
+      }
+    }, 2500);
+  }
+
+  stopAutoSlide(): void {
+    if (this.autoSlideTimer) {
+      clearInterval(this.autoSlideTimer);
+      this.autoSlideTimer = null;
+    }
+  }
+
+  pauseAutoSlide(): void {
+    this.isPaused = true;
+  }
+
+  resumeAutoSlide(): void {
+    this.isPaused = false;
+  }
+
+  onTouchStart(event: TouchEvent): void {
+    this.pauseAutoSlide();
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+
+  onTouchEnd(event: TouchEvent): void {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.handleSwipe();
+    this.resumeAutoSlide();
+  }
+
+  private handleSwipe(): void {
+    const swipeThreshold = 40;
+    if (this.touchStartX - this.touchEndX > swipeThreshold) {
+      this.nextLeader();
+    } else if (this.touchEndX - this.touchStartX > swipeThreshold) {
+      this.prevLeader();
+    }
   }
 
   getValuers(): OrganizationNode[] {
@@ -118,3 +294,5 @@ export class AboutOrganizationComponent implements OnInit {
     event.target.src = this.defaultAvatar;
   }
 }
+
+

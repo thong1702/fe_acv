@@ -252,54 +252,89 @@
           <div class="title-underline"></div>
         </div>
 
-        <div class="leadership-grid">
-          @for (leader of getBoardOfDirectors(); track leader.id) {
-          <div class="leader-card highlighted-leader">
-            <div class="leader-badge primary-badge">{{ leader.position }}</div>
-            <div class="leader-avatar-wrapper">
-              <img [src]="leader.avatarUrl || defaultAvatar" (error)="onAvatarError($event)" class="leader-avatar"
-                [alt]="leader.name">
-            </div>
-            <h3 class="leader-name">{{ leader.name }}</h3>
-            <p class="leader-deg">{{ leader.degree || 'Cử nhân Kinh tế / Thẩm định viên' }}</p>
-            @if (leader.experienceYears || leader.certificateNo) {
-            <div class="leader-credentials-box">
-              @if (leader.experienceYears) {
-              <div class="cred-item">
-                <span class="cred-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </span>
-                <span class="cred-text">kinh nghiệm chuyên môn: <strong>{{ leader.experienceYears }}+
-                    năm</strong></span>
+        <div class="leadership-slider-wrapper" (mouseenter)="pauseAutoSlide()" (mouseleave)="resumeAutoSlide()"
+          (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+
+          @if (getBoardOfDirectors().length > visibleCards) {
+          <button class="slider-arrow prev-btn" (click)="prevLeader()" aria-label="Trang trước">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          }
+
+          <div class="leadership-slider-viewport">
+            <div class="leadership-slider-mover" [style.transform]="getSliderTransform()" [style.transition]="getSliderTransition()">
+              <div class="leadership-slider-track" [class.justify-center]="getBoardOfDirectors().length <= visibleCards">
+                @for (leader of displayLeaders; track $index) {
+                <div class="leader-card-slide">
+                  <div class="leader-card highlighted-leader">
+                    <div class="leader-badge primary-badge">{{ leader.position }}</div>
+                    <div class="leader-avatar-wrapper">
+                      <img [src]="leader.avatarUrl || defaultAvatar" (error)="onAvatarError($event)" class="leader-avatar"
+                        [alt]="leader.name">
+                    </div>
+                    <h3 class="leader-name">{{ leader.name }}</h3>
+                    <p class="leader-deg">{{ leader.degree || 'Cử nhân Kinh tế / Thẩm định viên' }}</p>
+                    @if (leader.experienceYears || leader.certificateNo) {
+                    <div class="leader-credentials-box">
+                      @if (leader.experienceYears) {
+                      <div class="cred-item">
+                        <span class="cred-icon">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                        </span>
+                        <span class="cred-text">kinh nghiệm chuyên môn: <strong>{{ leader.experienceYears }}+
+                            năm</strong></span>
+                      </div>
+                      }
+                      @if (leader.certificateNo) {
+                      <div class="cred-item">
+                        <span class="cred-icon">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+                            <circle cx="9" cy="10" r="2.5"></circle>
+                            <path d="M15 8h2"></path>
+                            <path d="M15 12h2"></path>
+                            <path d="M7 16h10"></path>
+                          </svg>
+                        </span>
+                        <span class="cred-text">Thẻ TĐV / Chứng chỉ: <strong>{{ leader.certificateNo }}</strong></span>
+                      </div>
+                      }
+                    </div>
+                    }
+                    <button class="btn-profile-detail mt-3" (click)="openProfileModal(leader)">
+                      📄 Xem Lý lịch trích ngang
+                    </button>
+                  </div>
+                </div>
+                }
               </div>
-              }
-              @if (leader.certificateNo) {
-              <div class="cred-item">
-                <span class="cred-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="16" rx="3"></rect>
-                    <circle cx="9" cy="10" r="2.5"></circle>
-                    <path d="M15 8h2"></path>
-                    <path d="M15 12h2"></path>
-                    <path d="M7 16h10"></path>
-                  </svg>
-                </span>
-                <span class="cred-text">Thẻ TĐV / Chứng chỉ: <strong>{{ leader.certificateNo }}</strong></span>
-              </div>
-              }
             </div>
-            }
-            <button class="btn-profile-detail mt-3" (click)="openProfileModal(leader)">
-              📄 Xem Lý lịch trích ngang
-            </button>
           </div>
+
+          @if (getBoardOfDirectors().length > visibleCards) {
+          <button class="slider-arrow next-btn" (click)="nextLeader()" aria-label="Trang tiếp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
           }
         </div>
+
+        @if (getDotIndices().length > 1) {
+        <div class="slider-pagination-dots">
+          @for (dot of getDotIndices(); track dot) {
+          <button class="dot-btn" [class.active]="getRealActiveIndex() === dot" (click)="goToLeader(dot)"
+            [attr.aria-label]="'Trang ' + (dot + 1)"></button>
+          }
+        </div>
+        }
       </div>
     </section>
 
@@ -400,13 +435,6 @@
           <div class="pmb-section mt-4">
             <h4>Kinh nghiệm nghề nghiệp và quản lý:</h4>
             <div class="pmb-text-box">{{ selectedEmployee.keyExperience }}</div>
-          </div>
-          }
-
-          @if (selectedEmployee.description) {
-          <div class="pmb-section mt-4">
-            <h4>Chức vụ:</h4>
-            <div class="pmb-text-box">{{ selectedEmployee.description }}</div>
           </div>
           }
         </div>
